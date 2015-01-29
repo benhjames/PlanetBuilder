@@ -12,7 +12,7 @@ public class GlobalOptions {
         renderHigh = true;
     }
 
-    public GlobalOptions getInstance() {
+    public static GlobalOptions getInstance() {
         if (go == null) {
             go = new GlobalOptions();
         }
