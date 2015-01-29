@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
+import java.util.Random;
 
 public class WorldOptions {
     private double seed;
@@ -130,5 +131,10 @@ public class WorldOptions {
 
     public double getSeed() {
         return seed;
+    }
+
+    public void newSeed() {
+        Random r = new Random();
+        this.seed = r.nextDouble() * Double.MAX_VALUE;
     }
 }
