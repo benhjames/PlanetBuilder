@@ -8,16 +8,7 @@ import java.util.List;
 
 import xw302.IndexedMesh;
 
-//import com.googlecode.gwtgl.binding.WebGLBuffer;
 
-
-
-/* 
- * Based on sphere drawing code from 
- * 
- * http://www.webkinesia.com/online/graphics/notes/normals.php
- * 
- */
 
 public class Icosahedron extends IndexedMesh {
         
