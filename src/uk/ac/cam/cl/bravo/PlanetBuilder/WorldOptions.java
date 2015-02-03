@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 
 public class WorldOptions {
-    private double seed;
+    private long seed;
 
     private float terrainFactor;
     private float vegetationFactor;
@@ -129,12 +129,12 @@ public class WorldOptions {
         this.waterEnd = waterEnd;
     }
 
-    public double getSeed() {
+    public long getSeed() {
         return seed;
     }
 
     public void newSeed() {
         Random r = new Random();
-        this.seed = r.nextDouble() * Double.MAX_VALUE;
+        this.seed = r.nextLong();
     }
 }
