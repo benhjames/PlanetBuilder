@@ -1,9 +1,13 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Random;
 
-public class WorldOptions {
+public class WorldOptions implements Serializable {
     private long seed;
 
     private float terrainFactor;
@@ -136,5 +140,13 @@ public class WorldOptions {
     public void newSeed() {
         Random r = new Random();
         this.seed = r.nextLong();
+    }
+
+    public static void writeToFile(WorldOptions w, String pathname) throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(pathname);
+        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+        objectOut.writeObject(w);
+        objectOut.close();
+        fileOut.close();
     }
 }

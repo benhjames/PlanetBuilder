@@ -1,6 +1,11 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
-public class GlobalOptions {
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class GlobalOptions implements Serializable {
     private static GlobalOptions go = null;
 
     private float detailLevel;
@@ -37,6 +42,14 @@ public class GlobalOptions {
 
     public void setRenderHigh(boolean renderHigh) {
         this.renderHigh = renderHigh;
+    }
+
+    public static void writeToFile(GlobalOptions g, String pathname) throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(pathname);
+        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+        objectOut.writeObject(g);
+        objectOut.close();
+        fileOut.close();
     }
 
 }
