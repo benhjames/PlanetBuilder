@@ -39,6 +39,8 @@ public class WorldOptions implements Serializable {
         groundEnd = new Color(r.nextInt());
         waterStart = new Color(r.nextInt());
         waterEnd = new Color(r.nextInt());
+
+        this.newSeed();
     }
 
     public static WorldOptions readFromFile(String filename) throws IOException, ClassNotFoundException {
