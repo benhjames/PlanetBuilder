@@ -111,7 +111,7 @@ public class WorldOptionsTest {
     public void testSeed() {
         WorldOptions wo = new WorldOptions();
         wo.newSeed();
-        double d = wo.getSeed();
+        long d = wo.getSeed();
         wo.newSeed();
         assertNotEquals(d, wo.getSeed(), DELTA);
     }
