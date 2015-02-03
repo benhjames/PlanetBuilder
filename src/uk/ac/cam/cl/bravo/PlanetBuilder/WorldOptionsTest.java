@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -114,5 +117,20 @@ public class WorldOptionsTest {
         long d = wo.getSeed();
         wo.newSeed();
         assertNotEquals(d, wo.getSeed(), DELTA);
+    }
+
+    @Test
+    public void testIO() {
+        try {
+            WorldOptions.writeToFile(wo, "testWO.pbo");
+            WorldOptions wo2 = WorldOptions.readFromFile("testWO.pbo");
+            assertEquals(wo, wo2);
+            Files.deleteIfExists(FileSystems.getDefault().getPath("testWO.pbo"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }

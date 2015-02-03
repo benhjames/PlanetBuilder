@@ -1,9 +1,6 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 public class GlobalOptions implements Serializable {
     private static GlobalOptions go = null;
@@ -22,6 +19,12 @@ public class GlobalOptions implements Serializable {
             go = new GlobalOptions();
         }
         return go;
+    }
+
+    public static GlobalOptions readFromFile(String filename) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = new FileInputStream(filename);
+        ObjectInputStream objIn = new ObjectInputStream(fileIn);
+        return (GlobalOptions) objIn.readObject();
     }
 
     //Getters and setters only below

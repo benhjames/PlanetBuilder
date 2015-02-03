@@ -1,10 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Random;
 
 public class WorldOptions implements Serializable {
@@ -24,6 +21,31 @@ public class WorldOptions implements Serializable {
     private Color groundEnd;
     private Color waterStart;
     private Color waterEnd;
+
+    public WorldOptions() {
+        //Randomly generate all settings.
+        Random r = new Random();
+        terrainFactor = r.nextFloat() * 100.0f;
+        vegetationFactor = r.nextFloat() * 100.0f;
+        desertFactor = r.nextFloat() * 100.0f;
+        iceFactor = r.nextFloat() * 100.0f;
+        waterFactor = r.nextFloat() * 100.0f;
+        settlementLevel = r.nextFloat() * 100.0f;
+
+        planetRings = r.nextBoolean();
+        inhabitants = r.nextBoolean();
+
+        groundStart = new Color(r.nextInt());
+        groundEnd = new Color(r.nextInt());
+        waterStart = new Color(r.nextInt());
+        waterEnd = new Color(r.nextInt());
+    }
+
+    public static WorldOptions readFromFile(String filename) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = new FileInputStream(filename);
+        ObjectInputStream objIn = new ObjectInputStream(fileIn);
+        return (WorldOptions) objIn.readObject();
+    }
 
     public float getTerrainFactor() {
         return terrainFactor;

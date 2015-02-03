@@ -3,6 +3,9 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -50,5 +53,20 @@ public class GlobalOptionsTest {
 
         go.setDetailLevel(invalidIn);
         assertEquals(validIn, go.getDetailLevel(), DELTA);
+    }
+
+    @Test
+    public void testIO() {
+        try {
+            GlobalOptions.writeToFile(go, "testGO.pbo");
+            GlobalOptions go2 = GlobalOptions.readFromFile("testGO.pbo");
+            assertEquals(go, go2);
+            Files.deleteIfExists(FileSystems.getDefault().getPath("testGO.pbo"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
