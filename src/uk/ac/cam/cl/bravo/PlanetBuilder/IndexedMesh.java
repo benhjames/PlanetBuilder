@@ -1,4 +1,4 @@
-package xw302;
+package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 /**
  * Class that holds a mesh's data using indices

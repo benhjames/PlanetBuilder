@@ -1,12 +1,7 @@
-package xw302;
-
-import static xw302.ConversionUtils.floatListToFloatArray;
-import static xw302.ConversionUtils.integerListToIntegerArray;
+package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import xw302.IndexedMesh;
 
 
 
@@ -44,10 +39,10 @@ public class Icosahedron extends IndexedMesh {
                                           vdata[tindices[i][2]], 1);
                 }
 
-                verticesArray = floatListToFloatArray(vertexList);
-                texCoordsArray = floatListToFloatArray(texCoordsList);
-                vertexNormalsArray = floatListToFloatArray(vertexNormalsList);
-                indices = integerListToIntegerArray(indicesList);
+                verticesArray = ConversionUtils.floatListToFloatArray(vertexList);
+                texCoordsArray = ConversionUtils.floatListToFloatArray(texCoordsList);
+                vertexNormalsArray = ConversionUtils.floatListToFloatArray(vertexNormalsList);
+                indices = ConversionUtils.integerListToIntegerArray(indicesList);
                 vertexCount = vertexList.size() / 3;
         }
         
