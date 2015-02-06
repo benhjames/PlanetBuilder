@@ -1,5 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
+import java.lang.Thread;
+
 public class Noise {
 	public static long[] hash(final long[] key, final int seed) {
 		//hash function, based on murmur hash 3 implementation
@@ -131,5 +133,40 @@ public class Noise {
 			(t4 >= 0 ? t4 * t4 * t4 * t4 * ((((h4>>0)&2)-1) * x4 + (((h4>>1)&2)-1) * y4 + (((h4>>2)&2)-1) * z4 + (((h4>>3)&2)-1) * w4) : 0)
 		);
 	}
-}
+
+	public static double fractal_noise(double persistence, int iterations, double x, double y, double z, double w, int seed) {
+		double frequency = 1;
+		double amplitude = 1;
+		double output = 0;
+		double total = 0;
+		for (int i = 0;i < iterations;i++) {
+			output += amplitude * noise(frequency * x, frequency * y, frequency * z, frequency * w, seed);
+			total += amplitude;
+			frequency *= 2;
+			amplitude *= persistence;
+		}
+		return output / total;
+	}
+
+	public static void main(String[] args) {
+		int seed = 0xABCDEF01;
+		for (float z = 0;;z += 0.01) {
+			System.out.print("\u001b[2J\u001b[H");
+			System.out.flush();
+			for (float y = 0;y <= 0.5;y += 0.01) {
+				for (float x = 0;x <= 1;x += 0.01) {
+					if (fractal_noise(0.25, 4, x, y, z, 0, seed) < 0.5) {
+						System.out.printf("#");
+					} else {
+						System.out.printf(" ");
+					}
+				}
+				System.out.printf("\n");
+			}
+			try {
+			Thread.sleep(100);
+			} catch (InterruptedException e) {
+			}
+		}
+	}
 }
