@@ -20,15 +20,22 @@ public class MainWindow implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
 
+        Icosahedron icosahedron = new Icosahedron();
+        float[] vertices = icosahedron.getVertices();
+        int vertexCount = icosahedron.getVertexCount();
+
+        //Move camera
+        gl.glTranslatef(0.0f, 0.0f, 0.0f);
+
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
         gl.glBegin(GL.GL_TRIANGLES);
-        gl.glColor3f(1, 0, 0);
-        gl.glVertex2d(-1, -1);
-        gl.glColor3f(0, 1, 0);
-        gl.glVertex2d(1, -1);
-        gl.glColor3f(0, 0, 1);
-        gl.glVertex2d(0, 1);
+
+        for(int i = 0; i < vertexCount; i++) {
+            gl.glColor3f(0, (float)i/vertexCount, (float)(i%3)/3);
+            gl.glVertex3fv(vertices, i * 3);
+        }
+
         gl.glEnd();
     }
 
