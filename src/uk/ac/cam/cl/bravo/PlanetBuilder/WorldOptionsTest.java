@@ -122,9 +122,10 @@ public class WorldOptionsTest {
     @Test
     public void testIO() {
         try {
+            int hash1 = wo.hashCode();
             WorldOptions.writeToFile(wo, "testWO.pbo");
-            WorldOptions wo2 = WorldOptions.readFromFile("testWO.pbo");
-            assertEquals(wo, wo2);
+            wo.readFromFile("testWO.pbo");
+            assertEquals(hash1, wo.hashCode());
             Files.deleteIfExists(FileSystems.getDefault().getPath("testWO.pbo"));
         } catch (IOException e) {
             e.printStackTrace();

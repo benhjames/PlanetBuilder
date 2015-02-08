@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.Random;
 
 public class WorldOptions implements Serializable {
+
+    private static WorldOptions wo;
+
     private long seed;
 
     private float terrainFactor;
@@ -22,7 +25,7 @@ public class WorldOptions implements Serializable {
     private Color waterStart;
     private Color waterEnd;
 
-    public WorldOptions() {
+    protected WorldOptions() {
         //Randomly generate all settings.
         Random r = new Random();
         terrainFactor = r.nextFloat() * 100.0f;
@@ -43,10 +46,17 @@ public class WorldOptions implements Serializable {
         this.newSeed();
     }
 
-    public static WorldOptions readFromFile(String filename) throws IOException, ClassNotFoundException {
+    public WorldOptions getInstance() {
+        if (wo == null) {
+            wo = new WorldOptions();
+        }
+        return wo;
+    }
+
+    public static void readFromFile(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(filename);
         ObjectInputStream objIn = new ObjectInputStream(fileIn);
-        return (WorldOptions) objIn.readObject();
+        wo = (WorldOptions) objIn.readObject();
     }
 
     public float getTerrainFactor() {
