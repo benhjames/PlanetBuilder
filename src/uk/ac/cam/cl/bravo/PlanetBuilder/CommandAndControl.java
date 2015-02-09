@@ -4,6 +4,36 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CommandAndControl extends JFrame {
+
+    //Declare controls
+    private JLabel detailLabel;
+    private JSlider detailSlider;
+    private JLabel renderLabel;
+    private JCheckBox renderCheck;
+    private JSeparator globalSep;
+    private JLabel terrainLabel;
+    private JSlider terrainSlider;
+    private JLabel vegetationLabel;
+    private JSlider vegetationSlider;
+    private JLabel desertLabel;
+    private JSlider desertSlider;
+    private JLabel iceLabel;
+    private JSlider iceSlider;
+    private JLabel waterLabel;
+    private JSlider waterSlider;
+    private JLabel settlementLabel;
+    private JSlider settlementSlider;
+    private JLabel ringsLabel;
+    private JCheckBox ringsCheck;
+    private JLabel inhabitedLabel;
+    private JCheckBox inhabitedCheck;
+    private JButton groundColLabel;
+    private JButton waterColLabel;
+    private JSeparator ioSep;
+    private JButton newWorld;
+    private JButton saveWorld;
+    private JButton loadWorld;
+
     public CommandAndControl() {
         setTitle("Planet Builder - Controls");
         setSize(200, 768);
@@ -19,113 +49,115 @@ public class CommandAndControl extends JFrame {
         gl.setHorizontalGroup(horiz);
         gl.setVerticalGroup(vert);
 
-        JLabel detailLabel = new JLabel("Detail Level");
+        //In general, for each control, create it, add change listener, add to groups
+
+        detailLabel = new JLabel("Detail Level");
         horiz.addComponent(detailLabel);
         vert.addComponent(detailLabel);
 
-        JSlider detailSlider = new JSlider(0, 100);
+        detailSlider = new JSlider(0, 100);
         horiz.addComponent(detailSlider);
         vert.addComponent(detailSlider);
 
-        JLabel renderLabel = new JLabel("Render details?");
+        renderLabel = new JLabel("Render details?");
         horiz.addComponent(renderLabel);
         vert.addComponent(renderLabel);
 
-        JCheckBox renderCheck = new JCheckBox();
+        renderCheck = new JCheckBox();
         horiz.addComponent(renderCheck);
         vert.addComponent(renderCheck);
 
-        JSeparator globalSep = new JSeparator();
+        globalSep = new JSeparator();
         horiz.addComponent(globalSep);
         vert.addComponent(globalSep);
 
-        JLabel terrainLabel = new JLabel("Terrain");
+        terrainLabel = new JLabel("Terrain");
         horiz.addComponent(terrainLabel);
         vert.addComponent(terrainLabel);
 
-        JSlider terrainSlider = new JSlider(0, 100);
+        terrainSlider = new JSlider(0, 100);
         horiz.addComponent(terrainSlider);
         vert.addComponent(terrainSlider);
 
-        JLabel vegetationLabel = new JLabel("Vegetation");
+        vegetationLabel = new JLabel("Vegetation");
         horiz.addComponent(vegetationLabel);
         vert.addComponent(vegetationLabel);
 
-        JSlider vegetationSlider = new JSlider(0, 100);
+        vegetationSlider = new JSlider(0, 100);
         horiz.addComponent(vegetationSlider);
         vert.addComponent(vegetationSlider);
 
-        JLabel desertLabel = new JLabel("Desert");
+        desertLabel = new JLabel("Desert");
         horiz.addComponent(desertLabel);
         vert.addComponent(desertLabel);
 
-        JSlider desertSlider = new JSlider(0, 100);
+        desertSlider = new JSlider(0, 100);
         horiz.addComponent(desertSlider);
         vert.addComponent(desertSlider);
 
-        JLabel iceLabel = new JLabel("Ice");
+        iceLabel = new JLabel("Ice");
         horiz.addComponent(iceLabel);
         vert.addComponent(iceLabel);
 
-        JSlider iceSlider = new JSlider(0, 100);
+        iceSlider = new JSlider(0, 100);
         horiz.addComponent(iceSlider);
         vert.addComponent(iceSlider);
 
-        JLabel waterLabel = new JLabel("Water Level");
+        waterLabel = new JLabel("Water Level");
         horiz.addComponent(waterLabel);
         vert.addComponent(waterLabel);
 
-        JSlider waterSlider = new JSlider(0, 100);
+        waterSlider = new JSlider(0, 100);
         horiz.addComponent(waterSlider);
         vert.addComponent(waterSlider);
 
-        JLabel settlementLabel = new JLabel("Settlements");
+        settlementLabel = new JLabel("Settlements");
         horiz.addComponent(settlementLabel);
         vert.addComponent(settlementLabel);
 
-        JSlider settlementSlider = new JSlider(0, 100);
+        settlementSlider = new JSlider(0, 100);
         horiz.addComponent(settlementSlider);
         vert.addComponent(settlementSlider);
 
-        JLabel ringsLabel = new JLabel("Planet rings?");
+        ringsLabel = new JLabel("Planet rings?");
         horiz.addComponent(ringsLabel);
         vert.addComponent(ringsLabel);
 
-        JCheckBox ringsCheck = new JCheckBox();
+        ringsCheck = new JCheckBox();
         horiz.addComponent(ringsCheck);
         vert.addComponent(ringsCheck);
 
-        JLabel inhabitedLabel = new JLabel("Inhabited?");
+        inhabitedLabel = new JLabel("Inhabited?");
         horiz.addComponent(inhabitedLabel);
         vert.addComponent(inhabitedLabel);
 
-        JCheckBox inhabitedCheck = new JCheckBox();
+        inhabitedCheck = new JCheckBox();
         horiz.addComponent(inhabitedCheck);
         vert.addComponent(inhabitedCheck);
 
         //Will open colour chooser in popup
-        JButton groundColLabel = new JButton("Ground colours");
+        groundColLabel = new JButton("Ground colours");
         horiz.addComponent(groundColLabel);
         vert.addComponent(groundColLabel);
 
         //Will open colour chooser in popup
-        JButton waterColLabel = new JButton("Water colours");
+        waterColLabel = new JButton("Water colours");
         horiz.addComponent(waterColLabel);
         vert.addComponent(waterColLabel);
 
-        JSeparator ioSep = new JSeparator();
+        ioSep = new JSeparator();
         horiz.addComponent(ioSep);
         vert.addComponent(ioSep);
 
-        JButton newWorld = new JButton("New world");
+        newWorld = new JButton("New world");
         horiz.addComponent(newWorld);
         vert.addComponent(newWorld);
 
-        JButton saveWorld = new JButton("Save world");
+        saveWorld = new JButton("Save world");
         horiz.addComponent(saveWorld);
         vert.addComponent(saveWorld);
 
-        JButton loadWorld = new JButton("Load world");
+        loadWorld = new JButton("Load world");
         horiz.addComponent(loadWorld);
         vert.addComponent(loadWorld);
 
