@@ -46,7 +46,7 @@ public class WorldOptions implements Serializable {
         this.newSeed();
     }
 
-    public WorldOptions getInstance() {
+    public static WorldOptions getInstance() {
         if (wo == null) {
             wo = new WorldOptions();
         }
