@@ -1,6 +1,8 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class CommandAndControl extends JFrame {
@@ -56,6 +58,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(detailLabel);
 
         detailSlider = new JSlider(0, 100);
+        detailSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                GlobalOptions.getInstance().setDetailLevel(detailSlider.getValue());
+            }
+        });
         horiz.addComponent(detailSlider);
         vert.addComponent(detailSlider);
 
@@ -64,6 +72,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(renderLabel);
 
         renderCheck = new JCheckBox();
+        renderCheck.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                GlobalOptions.getInstance().setRenderHigh(renderCheck.isSelected());
+            }
+        });
         horiz.addComponent(renderCheck);
         vert.addComponent(renderCheck);
 
@@ -76,6 +90,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(terrainLabel);
 
         terrainSlider = new JSlider(0, 100);
+        terrainSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setTerrainFactor(terrainSlider.getValue());
+            }
+        });
         horiz.addComponent(terrainSlider);
         vert.addComponent(terrainSlider);
 
@@ -84,6 +104,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(vegetationLabel);
 
         vegetationSlider = new JSlider(0, 100);
+        vegetationSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setVegetationFactor(vegetationSlider.getValue());
+            }
+        });
         horiz.addComponent(vegetationSlider);
         vert.addComponent(vegetationSlider);
 
@@ -92,6 +118,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(desertLabel);
 
         desertSlider = new JSlider(0, 100);
+        desertSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setDesertFactor(desertSlider.getValue());
+            }
+        });
         horiz.addComponent(desertSlider);
         vert.addComponent(desertSlider);
 
@@ -100,6 +132,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(iceLabel);
 
         iceSlider = new JSlider(0, 100);
+        iceSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setIceFactor(iceSlider.getValue());
+            }
+        });
         horiz.addComponent(iceSlider);
         vert.addComponent(iceSlider);
 
@@ -108,6 +146,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(waterLabel);
 
         waterSlider = new JSlider(0, 100);
+        waterSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setWaterFactor(waterSlider.getValue());
+            }
+        });
         horiz.addComponent(waterSlider);
         vert.addComponent(waterSlider);
 
@@ -116,6 +160,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(settlementLabel);
 
         settlementSlider = new JSlider(0, 100);
+        settlementSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setSettlementLevel(settlementSlider.getValue());
+            }
+        });
         horiz.addComponent(settlementSlider);
         vert.addComponent(settlementSlider);
 
@@ -124,6 +174,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(ringsLabel);
 
         ringsCheck = new JCheckBox();
+        ringsCheck.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setPlanetRings(ringsCheck.isSelected());
+            }
+        });
         horiz.addComponent(ringsCheck);
         vert.addComponent(ringsCheck);
 
@@ -132,6 +188,12 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(inhabitedLabel);
 
         inhabitedCheck = new JCheckBox();
+        inhabitedCheck.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setInhabitants(inhabitedCheck.isSelected());
+            }
+        });
         horiz.addComponent(inhabitedCheck);
         vert.addComponent(inhabitedCheck);
 
