@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class CommandAndControl extends JFrame {
 
@@ -40,6 +43,20 @@ public class CommandAndControl extends JFrame {
         setTitle("Planet Builder - Controls");
         setSize(200, 768);
         drawInitialUI();
+        refreshValues();
+    }
+
+    public void refreshValues() {
+        detailSlider.setValue((int) GlobalOptions.getInstance().getDetailLevel());
+        renderCheck.setSelected(GlobalOptions.getInstance().isRenderHigh());
+        terrainSlider.setValue((int) WorldOptions.getInstance().getTerrainFactor());
+        vegetationSlider.setValue((int) WorldOptions.getInstance().getVegetationFactor());
+        desertSlider.setValue((int) WorldOptions.getInstance().getDesertFactor());
+        iceSlider.setValue((int) WorldOptions.getInstance().getIceFactor());
+        waterSlider.setValue((int) WorldOptions.getInstance().getWaterFactor());
+        settlementSlider.setValue((int) WorldOptions.getInstance().getSettlementLevel());
+        ringsCheck.setSelected(WorldOptions.getInstance().isPlanetRings());
+        inhabitedCheck.setSelected(WorldOptions.getInstance().isInhabitants());
     }
 
     private void drawInitialUI() {
@@ -212,14 +229,56 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(ioSep);
 
         newWorld = new JButton("New world");
+        newWorld.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                WorldOptions.replaceInstance();
+                refreshValues();
+            }
+        });
         horiz.addComponent(newWorld);
         vert.addComponent(newWorld);
 
         saveWorld = new JButton("Save world");
+        saveWorld.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JFileChooser saveFile = new JFileChooser();
+                int returnVal = saveFile.showSaveDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String path = saveFile.getSelectedFile().getAbsolutePath();
+                        WorldOptions.writeToFile(WorldOptions.getInstance(), path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
         horiz.addComponent(saveWorld);
         vert.addComponent(saveWorld);
 
         loadWorld = new JButton("Load world");
+        loadWorld.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JFileChooser loadFile = new JFileChooser();
+                int returnVal = loadFile.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String path = loadFile.getSelectedFile().getAbsolutePath();
+                        WorldOptions.readFromFile(path);
+                        refreshValues();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
         horiz.addComponent(loadWorld);
         vert.addComponent(loadWorld);
 
