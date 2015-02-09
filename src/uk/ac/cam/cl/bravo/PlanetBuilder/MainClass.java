@@ -3,6 +3,8 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 //Main class which launches the graphics environment
 
 
+import com.jogamp.opengl.util.*;
+
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
@@ -16,7 +18,7 @@ public class MainClass {
         System.out.println("Planet Builder launched");
         //Prevents Linux locking crashes
         GLProfile.initSingleton();
-        GLProfile glp = GLProfile.getDefault();
+        GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glc = new GLCapabilities(glp);
         GLCanvas canvas = new GLCanvas(glc);
 
@@ -33,6 +35,9 @@ public class MainClass {
         });
 
         canvas.addGLEventListener(new MainWindow());
+
+	    FPSAnimator animator = new FPSAnimator(canvas, 60);
+	    animator.start();
     }
 
 }
