@@ -32,8 +32,8 @@ public class CommandAndControl extends JFrame {
     private JCheckBox ringsCheck;
     private JLabel inhabitedLabel;
     private JCheckBox inhabitedCheck;
-    private JButton groundColLabel;
-    private JButton waterColLabel;
+    private JButton groundColButton;
+    private JButton waterColButton;
     private JSeparator ioSep;
     private JButton newWorld;
     private JButton saveWorld;
@@ -215,14 +215,28 @@ public class CommandAndControl extends JFrame {
         vert.addComponent(inhabitedCheck);
 
         //Will open colour chooser in popup
-        groundColLabel = new JButton("Ground colours");
-        horiz.addComponent(groundColLabel);
-        vert.addComponent(groundColLabel);
+        groundColButton = new JButton("Ground colours");
+        groundColButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ColourChooser c = new ColourChooser(CommandAndControl.this, "Ground Colours", ColourChooser.ColourableItems.GROUND);
+                c.setVisible(true);
+            }
+        });
+        horiz.addComponent(groundColButton);
+        vert.addComponent(groundColButton);
 
         //Will open colour chooser in popup
-        waterColLabel = new JButton("Water colours");
-        horiz.addComponent(waterColLabel);
-        vert.addComponent(waterColLabel);
+        waterColButton = new JButton("Water colours");
+        waterColButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ColourChooser c = new ColourChooser(CommandAndControl.this, "Water Colours", ColourChooser.ColourableItems.WATER);
+                c.setVisible(true);
+            }
+        });
+        horiz.addComponent(waterColButton);
+        vert.addComponent(waterColButton);
 
         ioSep = new JSeparator();
         horiz.addComponent(ioSep);
