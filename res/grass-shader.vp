@@ -14,6 +14,7 @@ attribute vec4 attribute_Position;
 attribute vec4 attribute_Normal;
 
 varying vec4 varying_Color;
+varying vec4 varying_Position;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);
@@ -22,6 +23,7 @@ float rand(vec2 co){
 void main(void)
 {
     float random = rand(attribute_Position.xy) / 2.0f;
-	varying_Color = vec4(0.035 + random, 0.619f + random, 0.055f + random, 1.0f);
+	varying_Color = vec4(0.035, 0.619f, 0.055f, 1.0f);
+	varying_Position = attribute_Position;
 	gl_Position = uniform_Projection * attribute_Position;
 }
