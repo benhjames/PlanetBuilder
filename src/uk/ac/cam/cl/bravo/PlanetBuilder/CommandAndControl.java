@@ -15,6 +15,8 @@ public class CommandAndControl extends JFrame {
     private JSlider detailSlider;
     private JLabel renderLabel;
     private JCheckBox renderCheck;
+    private JLabel panLabel;
+    private JCheckBox panCheck;
     private JSeparator globalSep;
     private JLabel terrainLabel;
     private JSlider terrainSlider;
@@ -41,7 +43,7 @@ public class CommandAndControl extends JFrame {
 
     public CommandAndControl() {
         setTitle("Planet Builder - Controls");
-        setSize(200, 768);
+        setSize(200, 850);
         drawInitialUI();
         refreshValues();
     }
@@ -49,6 +51,7 @@ public class CommandAndControl extends JFrame {
     public void refreshValues() {
         detailSlider.setValue((int) GlobalOptions.getInstance().getDetailLevel());
         renderCheck.setSelected(GlobalOptions.getInstance().isRenderHigh());
+        panCheck.setSelected(GlobalOptions.getInstance().isAutoPan());
         terrainSlider.setValue((int) WorldOptions.getInstance().getTerrainFactor());
         vegetationSlider.setValue((int) WorldOptions.getInstance().getVegetationFactor());
         desertSlider.setValue((int) WorldOptions.getInstance().getDesertFactor());
@@ -97,6 +100,20 @@ public class CommandAndControl extends JFrame {
         });
         horiz.addComponent(renderCheck);
         vert.addComponent(renderCheck);
+
+        panLabel = new JLabel("Auto-pan");
+        horiz.addComponent(panLabel);
+        vert.addComponent(panLabel);
+
+        panCheck = new JCheckBox();
+        panCheck.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                GlobalOptions.getInstance().setAutoPan(panCheck.isSelected());
+            }
+        });
+        horiz.addComponent(panCheck);
+        vert.addComponent(panCheck);
 
         globalSep = new JSeparator();
         horiz.addComponent(globalSep);

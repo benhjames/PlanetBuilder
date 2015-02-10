@@ -8,10 +8,21 @@ public class GlobalOptions implements Serializable {
     private float detailLevel;
     private boolean renderHigh;
 
+    public boolean isAutoPan() {
+        return autoPan;
+    }
+
+    public void setAutoPan(boolean autoPan) {
+        this.autoPan = autoPan;
+    }
+
+    private boolean autoPan;
+
     protected GlobalOptions() {
         //Initialise options with defaults
         detailLevel = 50.0f;
         renderHigh = true;
+        autoPan = true;
     }
 
     public static GlobalOptions getInstance() {
