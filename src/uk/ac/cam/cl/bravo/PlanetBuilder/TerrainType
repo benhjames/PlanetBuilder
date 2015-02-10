@@ -12,7 +12,7 @@ public class TerrainType {
         if(colour>0 && colour<=6.4){
             terrain = "water";
         }
-        else if(colour>6.4 && colour<=12.8){
+        else if(colour>7.0 && colour<=12.0){
             terrain = "land";
         }
         else if(colour>12.8 && colour<=19.2){
