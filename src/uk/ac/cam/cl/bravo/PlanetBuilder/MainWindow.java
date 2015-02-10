@@ -183,6 +183,9 @@ public class MainWindow implements GLEventListener {
 
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
+
+        int h = 1366;
+        gl.glViewport(0,0,h,h);
 	}
 
 	@Override
