@@ -140,14 +140,18 @@ public class MainWindow implements GLEventListener {
 			0.0f, 0.0f, 0.0f, 1.0f,
 		};
 
-		double currTime = System.currentTimeMillis();
-		theta += (currTime - prevTime) * 0.01f;
-		prevTime = currTime;
-		if(theta >= 360 || theta < 0) {
-			theta = theta % 360;
-		}
+        double currTime = System.currentTimeMillis();
 
-		modelViewProjection = translate(identityMatrix, 0.0f, 0.0f, 0.0f);
+        if(GlobalOptions.getInstance().isAutoPan()) {
+            theta += (currTime - prevTime) * 0.01f;
+            if (theta >= 360 || theta < 0) {
+                theta = theta % 360;
+            }
+        }
+
+        prevTime = currTime;
+
+        modelViewProjection = translate(identityMatrix, 0.0f, 0.0f, 0.0f);
 		modelViewProjection = rotate(modelViewProjection, (float)theta, 0.0f, 1.0f, 0.0f);
 
 		gl.glUniformMatrix4fv(modelViewProjectionMatrix, 1, false, modelViewProjection, 0);
