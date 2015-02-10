@@ -39,9 +39,10 @@ public class MainClass {
         controls.setVisible(true);
 
         Frame frame = new Frame("Planet Builder");
-        frame.setSize(1366, 768);
+        frame.setSize(768, 768);
         frame.add(canvas);
         frame.setVisible(true);
+        frame.setResizable(false);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -50,7 +51,7 @@ public class MainClass {
             }
         });
 
-        canvas.addGLEventListener(new MainWindow());
+        canvas.addGLEventListener(new MainWindow(frame.getSize().height, frame.getSize().width));
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();

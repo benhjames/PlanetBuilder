@@ -27,6 +27,19 @@ public class MainWindow implements GLEventListener {
 	static private final int VERTICES_IDX = 0;
 	static private final int NORMALS_IDX = 1;
 
+    private int height;
+    private int width;
+
+    public MainWindow() {
+        height = 768;
+        width = 768;
+    }
+
+    public MainWindow(int height, int width) {
+        this.height = height;
+        this.width = width;
+    }
+
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
@@ -184,8 +197,7 @@ public class MainWindow implements GLEventListener {
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
 
-        int h = 1366;
-        gl.glViewport(0,0,h,h);
+        gl.glViewport(height/2,width/2,height,width);
 	}
 
 	@Override
