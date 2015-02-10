@@ -34,9 +34,9 @@ public class MainWindow implements GLEventListener {
 		fragShader = gl.glCreateShader(GL3.GL_FRAGMENT_SHADER);
 
 		try {
-			byte[] encoded = Files.readAllBytes(Paths.get("res/vertexShader.shdr"));
+			byte[] encoded = Files.readAllBytes(Paths.get("res/grass-shader.vp"));
 			vertexShaderString = new String(encoded, StandardCharsets.UTF_8);
-			encoded = Files.readAllBytes(Paths.get("res/fragmentShader.shdr"));
+			encoded = Files.readAllBytes(Paths.get("res/grass-shader.fp"));
 			fragmentShaderString = new String(encoded, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			System.err.println("Error: vertex or fragment shader not found.");
