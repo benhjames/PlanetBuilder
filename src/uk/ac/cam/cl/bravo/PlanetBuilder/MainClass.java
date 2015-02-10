@@ -41,7 +41,6 @@ public class MainClass {
         frame.add(canvas);
         frame.setVisible(true);
 
-
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
