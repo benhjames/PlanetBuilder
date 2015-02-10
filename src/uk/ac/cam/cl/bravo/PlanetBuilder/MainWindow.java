@@ -37,7 +37,7 @@ public class MainWindow implements GLEventListener {
 
 	public MainWindow(int height, int width) {
 		this.height = height;
-		this.width = width;
+        this.width = width;
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class MainWindow implements GLEventListener {
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
 
-    	gl.glViewport(height/2,width/2,height,width);
+    	gl.glViewport(height / 4, height / 4, height / 2, width / 2);
 	}
 
 	@Override
