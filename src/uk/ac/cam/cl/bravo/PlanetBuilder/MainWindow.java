@@ -175,7 +175,7 @@ public class MainWindow implements GLEventListener {
 		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 0, 0);
 		gl.glEnableVertexAttribArray(1);
 
-		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, vertices.length);
+		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, vertices.length / 3);
 
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
