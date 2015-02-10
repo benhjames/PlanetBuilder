@@ -3,7 +3,10 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 class Triangle {
 
     //3 Verticies
-    public Vertex v1, v2, v3;
+    private Vertex v1, v2, v3;
+
+    private Color c1, c2, c3;
+
 
     //Filling
     private Filling f;

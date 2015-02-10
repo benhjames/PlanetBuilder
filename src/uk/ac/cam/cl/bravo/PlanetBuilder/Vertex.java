@@ -27,4 +27,9 @@ class Vertex {
     }
 
 
+    public void update(WorldOptions WO) {
+        double heightNoise = Noise.
+    }
+
+
 }
