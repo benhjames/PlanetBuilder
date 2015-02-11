@@ -45,6 +45,7 @@ public class MainClass {
         frame.setSize(canvasWidth, canvasHeight);
         frame.add(canvas);
         frame.setVisible(true);
+        frame.setResizable(false);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
