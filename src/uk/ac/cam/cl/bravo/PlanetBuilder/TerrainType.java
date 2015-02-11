@@ -1,8 +1,6 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
-/**
- * Created by Sam on 10/02/2015.
- */
+
 public class TerrainType {
     static String terrain;
 
