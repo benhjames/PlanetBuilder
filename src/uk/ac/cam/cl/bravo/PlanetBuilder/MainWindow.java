@@ -22,10 +22,13 @@ public class MainWindow implements GLEventListener {
 	private int fragShader;
 	private int shaderProgram;
 	private int modelViewProjectionMatrix;
+	private int cameraMatrix;
 	private int[] vboHandles;
 
 	static private final int VERTICES_IDX = 0;
 	static private final int NORMALS_IDX = 1;
+
+	private Camera camera = new Camera();
 
 	@Override
 	public void init(GLAutoDrawable drawable) {
@@ -103,6 +106,7 @@ public class MainWindow implements GLEventListener {
 
 		//Get a id number to the uniform_Projection matrix so that we can update it.
 		modelViewProjectionMatrix = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
+		cameraMatrix = gl.glGetUniformLocation(shaderProgram, "uniform_Camera");
 
 		vboHandles = new int[2];
 		gl.glGenBuffers(2, vboHandles, 0);
@@ -154,6 +158,7 @@ public class MainWindow implements GLEventListener {
         modelViewProjection = translate(identityMatrix, 0.0f, 0.0f, 0.0f);
 		modelViewProjection = rotate(modelViewProjection, (float)theta, 0.0f, 1.0f, 0.0f);
 
+		gl.glUniformMatrix4fv(cameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
 		gl.glUniformMatrix4fv(modelViewProjectionMatrix, 1, false, modelViewProjection, 0);
 
 		Icosahedron icosahedron = new Icosahedron();
