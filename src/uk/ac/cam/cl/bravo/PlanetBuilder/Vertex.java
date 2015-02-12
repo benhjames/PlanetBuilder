@@ -2,6 +2,8 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 class Vertex {
 
+	private static double TIME = 0;
+	
     // 3 coordiantes
     public double x,y,z;
 
@@ -22,8 +24,26 @@ class Vertex {
     }
 
     //Returns the height ie the distance from the origin
-    public double getHeight(){
-        return Math.sqrt(x*x + y*y + z*z);
+    public double getHeightNoise(){
+        return heightNoise;
+    }
+    
+    public double getClimateNoise(){
+        return climateNoise;
+    }
+
+
+    public void update(WorldOptions WO) {
+        double heightNoise = Noise.noise(x, y, z, TIME, (int) WO.getSeed() + Seeds.HeightSeed);
+        double climateNoise = Noise.noise(x, y, z, TIME, (int) WO.getSeed() + Seeds.ClimateSeed);
+        
+        double oldDistance = Math.sqrt(x*x + y*y + z*z);
+        double newDistance = WO.getTerrainFactor() * heightNoise;
+        
+        x *= newDistance / oldDistance;
+        y *= newDistance / oldDistance;
+        z *= newDistance / oldDistance;
+        
     }
 
 
