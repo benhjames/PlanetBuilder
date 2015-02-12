@@ -15,6 +15,9 @@ import java.awt.event.WindowEvent;
 
 public class MainClass {
 
+	public static int canvasWidth = 1366;
+	public static int canvasHeight = 768;
+
     public static void main(String[] args) {
         System.out.println("Planet Builder launched");
         //Prevents Linux locking crashes
@@ -39,7 +42,7 @@ public class MainClass {
         controls.setVisible(true);
 
         Frame frame = new Frame("Planet Builder");
-        frame.setSize(768, 768);
+        frame.setSize(canvasWidth, canvasHeight);
         frame.add(canvas);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -51,7 +54,7 @@ public class MainClass {
             }
         });
 
-        canvas.addGLEventListener(new MainWindow(frame.getSize().height, frame.getSize().width));
+        canvas.addGLEventListener(new MainWindow());
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();
