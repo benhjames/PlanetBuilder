@@ -30,7 +30,7 @@ class Triangle {
     	//Filling
     	double fillingTypeNoise = Noise.noise(avgX, avgY, avgZ, TIME , (int) WO.getSeed() + Seeds.FillingTypeSeed);
     	
-    	double settlementBound = WO.getSettlementLevel();
+    	double settlementBound = WO.getSettlementLevel() / 100;
     	double vegetationBound = settlementBound + WO.getVegetationFactor();
     	if (vegetationBound > 1){
     		settlementBound /= vegetationBound;
