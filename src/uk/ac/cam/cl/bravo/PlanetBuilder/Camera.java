@@ -81,7 +81,7 @@ public class Camera {
 	}
 
 	public void normalizeAngles() {
-		horizontalAngle = Math.floorMod((long)horizontalAngle, (long)360.0f);
+		horizontalAngle = horizontalAngle % 360.0f;
 		if(horizontalAngle < 0.0f)
 			horizontalAngle += 360.0f;
 		if(verticalAngle > 89.9f)
