@@ -19,15 +19,17 @@ class Triangle {
     	return new Color(red, green, blue);
     }
     
-    public void assignLand(WorldOptions WO){
+    public void assignSurface(WorldOptions WO){
     	v1.update(WO);
     	v2.update(WO);
     	v3.update(WO);
     	
-    	double avgX = (v1.x + v2.x + v3.x) / 3;
-    	double avgY = (v1.y + v2.y + v3.y) / 3;
-    	double avgZ = (v1.z + v2.z + v3.z) / 3;
-    	//Filling
+    	double avgX = (v1.getX() + v2.getX() + v3.getX()) / 3;
+    	double avgY = (v1.getY() + v2.getY() + v3.getY()) / 3;
+    	double avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3;
+    	
+    	//Assing Type: settlement/vegetation/land
+    	
     	double fillingTypeNoise = Noise.noise(avgX, avgY, avgZ, TIME , (int) WO.getSeed() + Seeds.FillingTypeSeed);
     	
     	double settlementBound = WO.getSettlementLevel() / 100;
@@ -77,20 +79,56 @@ class Triangle {
         v2 = V2;
         v3 = V3;
     }
-    
-    public float[] getFloatArray(){
-    	float[] result = new float[9];
-    	
-    	result[0] = (float) v1.x;
-    	result[1] = (float) v1.y;
-    	result[2] = (float) v1.z;
-    	result[3] = (float) v2.x;
-    	result[4] = (float) v2.y;
-    	result[5] = (float) v2.z;
-    	result[6] = (float) v3.x;
-    	result[7] = (float) v3.y;
-    	result[8] = (float) v3.z;
-    	
-    	return result;
-    }
+
+	public Vertex getV1() {
+		return v1;
+	}
+
+	public Vertex getV2() {
+		return v2;
+	}
+
+	public Vertex getV3() {
+		return v3;
+	}
+	
+	public float[] getCoordinateArray(){
+		float[] result = new float[9];
+		
+		pushVertex(result, v1, 0);
+		pushVertex(result, v2, 3);
+		pushVertex(result, v3, 6);
+		
+		return result;
+	}
+	
+	public float[] getColorArray(){
+		float[] result = new float[9];
+		
+		pushColor(result, c1, 0);
+		pushColor(result, c2, 3);
+		pushColor(result, c3, 6);
+		
+		return result;
+	}
+
+	private void pushVertex(float[] array, Vertex V, int index) {
+		array[index] = (float) V.getX();
+		array[index + 1] = (float) V.getY();
+		array[index + 2] = (float) V.getZ();
+	}
+	
+	private void pushColor(float[] array, Color C, int index) {
+		float[] components = null;
+		C.getColorComponents(components);
+		
+		assert(components == null);
+		
+		array[index] = components[0];
+		array[index + 1] = components[1];
+		array[index + 2] = components[2];
+	}
+	
+	
+	
 }

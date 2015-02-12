@@ -5,7 +5,7 @@ class Vertex {
 	private static double TIME = 0;
 	
     // 3 coordiantes
-    public double x,y,z;
+    private double x,y,z;
 
     //Noise for the height
     private double heightNoise;
@@ -23,6 +23,13 @@ class Vertex {
         z = z1;
     }
 
+    public void Normalize(){
+    	double Distance = Math.sqrt(x*x + y*y + z*z);
+    	x /= Distance;
+    	y /= Distance;
+    	z /= Distance;
+    }
+    
     //Returns the height ie the distance from the origin
     public double getHeightNoise(){
         return heightNoise;
@@ -45,6 +52,18 @@ class Vertex {
         z *= newDistance / oldDistance;
         
     }
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getZ() {
+		return z;
+	}
 
 
 }

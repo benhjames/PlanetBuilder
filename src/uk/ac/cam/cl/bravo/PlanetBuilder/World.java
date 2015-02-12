@@ -1,33 +1,42 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
+import java.util.ArrayList;
+
 class World{
-
-    //Initialize triangle mesh and noise values for the triangles and the verticies
+	private static final double SUBDIVISIONMULT = 5;
+	
     public void initializeGlobal(GlobalOptions GO){
-        //TODO
+    	int subdivisions = (int) (GO.getDetailLevel() * SUBDIVISIONMULT);
+        SurfaceTriangles = Icosahedron.generateIcosahedron(subdivisions);
+        SeaTriangles = Icosahedron.generateIcosahedron(subdivisions);
+        CloudTriangles = Icosahedron.generateIcosahedron(subdivisions);
     }
 
-    //Adjust the verticies based on the noise values and assign fillings
     public void finalizeWorld(WorldOptions WO) {
-        //TODO
+        for (Triangle T: SurfaceTriangles){
+        	T.assignSurface(WO);
+        }
+        for (Triangle T: CloudTriangles){
+        	T.assignCloud(WO);
+        }
+        for (Triangle T: SeaTriangles){
+        	T.assignSea(WO);
+        }
     }
 
-    private Triangle[] SurfaceTriangles;
-    private Triangle[] CloudTriangles;
-    private Triangle[] SeaTriangles;
+    private ArrayList<Triangle> SurfaceTriangles;
+    private ArrayList<Triangle> CloudTriangles;
+    private ArrayList<Triangle> SeaTriangles;
 
-    //get the surface triangle mesh
-    public Triangle[] getSurface(){
+    public ArrayList<Triangle> getSurface(){
         return SurfaceTriangles;
     }
 
-    //get the cloud triangle mesh
-    public Triangle[] getCloud(){
+    public ArrayList<Triangle> getCloud(){
         return CloudTriangles;
     }
 
-    //get the sea triangle mesh
-    public Triangle[] getSea(){
+    public ArrayList<Triangle> getSea(){
         return SeaTriangles;
     }
 }
