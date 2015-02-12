@@ -1,29 +1,32 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL3;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
+import javax.media.opengl.*;
+
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
+
+import java.io.File;
 import java.nio.FloatBuffer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.io.IOException;
 
 public class MainWindow implements GLEventListener {
 
 	private double prevTime, theta = 0;
 
-	private String vertexShaderString;
-	private String fragmentShaderString;
+	private int grassVertShader;
+	private int grassFragShader;
+	private int grassShaderProgram;
 
-	private int vertShader;
-	private int fragShader;
-	private int shaderProgram;
+	private int skyboxVertShader;
+	private int skyboxFragShader;
+	private int skyboxShaderProgram;
+
 	private int modelViewProjectionMatrix;
 	private int cameraMatrix;
 	private int[] vboHandles;
+
+	private Texture skyboxTexture;
 
 	static private final int VERTICES_IDX = 0;
 	static private final int NORMALS_IDX = 1;
@@ -33,96 +36,65 @@ public class MainWindow implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
-		vertShader = gl.glCreateShader(GL3.GL_VERTEX_SHADER);
-		fragShader = gl.glCreateShader(GL3.GL_FRAGMENT_SHADER);
 
-		try {
-			byte[] encoded = Files.readAllBytes(Paths.get("res/grass-shader.vp"));
-			vertexShaderString = new String(encoded, StandardCharsets.UTF_8);
-			encoded = Files.readAllBytes(Paths.get("res/grass-shader.fp"));
-			fragmentShaderString = new String(encoded, StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			System.err.println("Error: vertex or fragment shader not found.");
-			e.printStackTrace();
-			System.exit(1);
-		}
-
-		// Make the shader strings compatible with OpenGL 3 core if needed
-		if(gl.isGL3core()) {
-			System.out.println("GL3 core detected: explicit add #version 150 to shaders");
-			vertexShaderString = "#version 150\n" + vertexShaderString;
-			fragmentShaderString = "#version 150\n" + fragmentShaderString;
-		}
-
-		//Compile the vertexShader String into a program.
-		String[] vlines = new String[] { vertexShaderString };
-		int[] vlengths = new int[] { vlines[0].length() };
-		gl.glShaderSource(vertShader, vlines.length, vlines, vlengths, 0);
-		gl.glCompileShader(vertShader);
-
-		//Check compile status.
-		int[] compiled = new int[1];
-		gl.glGetShaderiv(vertShader, GL3.GL_COMPILE_STATUS, compiled,0);
-		if(compiled[0] == 0) {
-			int[] logLength = new int[1];
-			gl.glGetShaderiv(vertShader, GL3.GL_INFO_LOG_LENGTH, logLength, 0);
-
-			byte[] log = new byte[logLength[0]];
-			gl.glGetShaderInfoLog(vertShader, logLength[0], null, 0, log, 0);
-
-			System.err.println("Error compiling the vertex shader: " + new String(log));
-			System.exit(1);
-		}
-
-		//Compile the fragmentShader String into a program.
-		String[] flines = new String[] { fragmentShaderString };
-		int[] flengths = new int[] { flines[0].length() };
-		gl.glShaderSource(fragShader, flines.length, flines, flengths, 0);
-		gl.glCompileShader(fragShader);
-
-		//Check compile status.
-		gl.glGetShaderiv(fragShader, GL3.GL_COMPILE_STATUS, compiled,0);
-		if(compiled[0] == 0) {
-			int[] logLength = new int[1];
-			gl.glGetShaderiv(fragShader, GL3.GL_INFO_LOG_LENGTH, logLength, 0);
-
-			byte[] log = new byte[logLength[0]];
-			gl.glGetShaderInfoLog(fragShader, logLength[0], null, 0, log, 0);
-
-			System.err.println("Error compiling the fragment shader: " + new String(log));
-			System.exit(1);
-		}
-
-		//Each shaderProgram must have one vertex shader and one fragment shader.
-		shaderProgram = gl.glCreateProgram();
-		gl.glAttachShader(shaderProgram, vertShader);
-		gl.glAttachShader(shaderProgram, fragShader);
-
-		//Associate attribute ids with the attribute names inside the vertex shader.
-		gl.glBindAttribLocation(shaderProgram, 0, "attribute_Position");
-		gl.glBindAttribLocation(shaderProgram, 1, "attribute_Normal");
-
-		gl.glLinkProgram(shaderProgram);
-
-		//Get a id number to the uniform_Projection matrix so that we can update it.
-		modelViewProjectionMatrix = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
-		cameraMatrix = gl.glGetUniformLocation(shaderProgram, "uniform_Camera");
+		loadShaders(drawable);
 
 		vboHandles = new int[2];
 		gl.glGenBuffers(2, vboHandles, 0);
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
+
+		try {
+			skyboxTexture = TextureIO.newTexture(new File("res/skybox.jpg"), false);
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR );
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
+		} catch (IOException e) {
+			System.err.println("Error: Could not create skybox texture.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private void loadShaders(GLAutoDrawable drawable) {
+		GL3 gl = drawable.getGL().getGL3();
+
+		grassVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/grass-shader.vp");
+		grassFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/grass-shader.fp");
+
+		//Each shaderProgram must have one vertex shader and one fragment shader.
+		grassShaderProgram = gl.glCreateProgram();
+		gl.glAttachShader(grassShaderProgram, grassVertShader);
+		gl.glAttachShader(grassShaderProgram, grassFragShader);
+
+		//Associate attribute ids with the attribute names inside the vertex shader.
+		gl.glBindAttribLocation(grassShaderProgram, 0, "attribute_Position");
+		gl.glBindAttribLocation(grassShaderProgram, 1, "attribute_Normal");
+
+		gl.glLinkProgram(grassShaderProgram);
+
+		//Get a id number to the uniform_Projection matrix so that we can update it.
+		modelViewProjectionMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Projection");
+		cameraMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Camera");
+
+
+		skyboxVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/skybox-shader.vp");
+		skyboxFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/skybox-shader.fp");
+		skyboxShaderProgram = gl.glCreateProgram();
+		gl.glAttachShader(skyboxShaderProgram, skyboxVertShader);
+		gl.glAttachShader(skyboxShaderProgram, skyboxFragShader);
 	}
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
-		gl.glDetachShader(shaderProgram, vertShader);
-		gl.glDeleteShader(vertShader);
-		gl.glDetachShader(shaderProgram, fragShader);
-		gl.glDeleteShader(fragShader);
-		gl.glDeleteProgram(shaderProgram);
+		gl.glDetachShader(grassShaderProgram, grassVertShader);
+		gl.glDeleteShader(grassVertShader);
+		gl.glDetachShader(grassShaderProgram, grassFragShader);
+		gl.glDeleteShader(grassFragShader);
+		gl.glDeleteProgram(grassShaderProgram);
 	}
 
 	@Override
@@ -134,7 +106,7 @@ public class MainWindow implements GLEventListener {
 					GL3.GL_COLOR_BUFFER_BIT |
 					GL3.GL_DEPTH_BUFFER_BIT);
 
-		gl.glUseProgram(shaderProgram);
+		gl.glUseProgram(grassShaderProgram);
 
 		float[] modelViewProjection;
 		float[] identityMatrix = {
@@ -188,13 +160,26 @@ public class MainWindow implements GLEventListener {
 
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
+
+		float[] skyboxCoords = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+			-1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
+		FloatBuffer skyboxBuffer = Buffers.newDirectFloatBuffer(skyboxCoords);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
+		numBytes = skyboxCoords.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, skyboxBuffer, GL.GL_STATIC_DRAW);
+
+		skyboxTexture.enable(gl);
+		skyboxTexture.bind(gl);
+
+		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 0, 0);
+		gl.glEnableVertexAttribArray(0);
+		//gl.glDrawArrays(GL.TRIANGLES);
 	}
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 
 	}
-
 
 	// Helper functions for matrix manipulation.
 
@@ -236,6 +221,5 @@ public class MainWindow implements GLEventListener {
 		glMultMatrixf(FloatBuffer.wrap(a),FloatBuffer.wrap(b),FloatBuffer.wrap(tmp));
 		return tmp;
 	}
-
 
 }

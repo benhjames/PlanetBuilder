@@ -1,0 +1,26 @@
+#if __VERSION__ >= 130
+	// GLSL 130+ uses in and out
+	#define attribute in
+	#define varying out
+#endif
+
+#ifdef GL_ES
+	precision mediump float;
+	precision mediump int;
+#endif
+
+uniform mat4 uProjectionMatrix;
+uniform mat4 uWorldToCameraMatrix;
+
+attribute vec4 aPosition;
+
+smooth varying vec3 eyeDirection;
+
+void main() {
+    mat4 inverseProjection = inverse(uProjectionMatrix);
+    mat3 inverseModelview = transpose(mat3(uWorldToCameraMatrix));
+    vec3 unprojected = (inverseProjection * aPosition).xyz;
+    eyeDirection = inverseModelview * unprojected;
+
+    gl_Position = aPosition;
+}
