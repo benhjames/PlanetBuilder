@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class CommandAndControl extends JFrame {
+public class CommandAndControl extends JPanel {
 
     //Declare controls
     private JLabel detailLabel;
@@ -43,9 +43,7 @@ public class CommandAndControl extends JFrame {
     private JButton exportWorld;
 
     public CommandAndControl() {
-        setTitle("Planet Builder - Controls");
         setSize(200, 768);
-        setResizable(false);
         drawInitialUI();
         refreshValues();
     }
@@ -65,9 +63,8 @@ public class CommandAndControl extends JFrame {
     }
 
     private void drawInitialUI() {
-        Container pane = getContentPane();
         GridBagLayout gbl = new GridBagLayout();
-        pane.setLayout(gbl);
+        setLayout(gbl);
         GridBagConstraints c;
 
         //In general, for each control, create it, add change listener, add to groups
@@ -81,7 +78,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 0;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(detailLabel, c);
+        add(detailLabel, c);
 
         detailSlider = new JSlider(0, 100);
         detailSlider.addChangeListener(new ChangeListener() {
@@ -98,7 +95,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 1;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(detailSlider, c);
+        add(detailSlider, c);
 
         renderLabel = new JLabel("Details?");
         c = new GridBagConstraints();
@@ -109,7 +106,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 2;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(renderLabel, c);
+        add(renderLabel, c);
 
         renderCheck = new JCheckBox();
         renderCheck.addChangeListener(new ChangeListener() {
@@ -126,7 +123,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 2;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(renderCheck, c);
+        add(renderCheck, c);
 
         panLabel = new JLabel("Rotate?");
         c = new GridBagConstraints();
@@ -137,7 +134,7 @@ public class CommandAndControl extends JFrame {
         c.weightx=0.7;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(panLabel, c);
+        add(panLabel, c);
 
         panCheck = new JCheckBox();
         panCheck.addChangeListener(new ChangeListener() {
@@ -154,7 +151,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 2;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(panCheck, c);
+        add(panCheck, c);
 
         globalSep = new JSeparator();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -164,7 +161,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 3;
         c.gridheight=1;
         c.gridwidth=4;
-        pane.add(globalSep, c);
+        add(globalSep, c);
 
         terrainLabel = new JLabel("Terrain");
         c = new GridBagConstraints();
@@ -175,7 +172,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 4;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(terrainLabel, c);
+        add(terrainLabel, c);
 
         terrainSlider = new JSlider(0, 100);
         terrainSlider.addChangeListener(new ChangeListener() {
@@ -192,7 +189,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 5;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(terrainSlider, c);
+        add(terrainSlider, c);
 
         vegetationLabel = new JLabel("Vegetation");
         c = new GridBagConstraints();
@@ -203,7 +200,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 6;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(vegetationLabel, c);
+        add(vegetationLabel, c);
 
         vegetationSlider = new JSlider(0, 100);
         vegetationSlider.addChangeListener(new ChangeListener() {
@@ -220,7 +217,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 7;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(vegetationSlider, c);
+        add(vegetationSlider, c);
 
         desertLabel = new JLabel("Desert");
         c = new GridBagConstraints();
@@ -231,7 +228,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 8;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(desertLabel, c);
+        add(desertLabel, c);
 
         desertSlider = new JSlider(0, 100);
         desertSlider.addChangeListener(new ChangeListener() {
@@ -248,7 +245,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 9;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(desertSlider, c);
+        add(desertSlider, c);
 
         iceLabel = new JLabel("Ice");
         c = new GridBagConstraints();
@@ -259,7 +256,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 10;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(iceLabel, c);
+        add(iceLabel, c);
 
         iceSlider = new JSlider(0, 100);
         iceSlider.addChangeListener(new ChangeListener() {
@@ -276,7 +273,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 11;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(iceSlider, c);
+        add(iceSlider, c);
 
         waterLabel = new JLabel("Water Level");
         c = new GridBagConstraints();
@@ -287,7 +284,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 12;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(waterLabel, c);
+        add(waterLabel, c);
 
         waterSlider = new JSlider(0, 100);
         waterSlider.addChangeListener(new ChangeListener() {
@@ -304,7 +301,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 13;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(waterSlider, c);
+        add(waterSlider, c);
 
         settlementLabel = new JLabel("Settlements");
         c = new GridBagConstraints();
@@ -315,7 +312,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 14;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(settlementLabel, c);
+        add(settlementLabel, c);
 
         settlementSlider = new JSlider(0, 100);
         settlementSlider.addChangeListener(new ChangeListener() {
@@ -332,7 +329,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 15;
         c.gridwidth = 4;
         c.gridheight = 1;
-        pane.add(settlementSlider, c);
+        add(settlementSlider, c);
 
         ringsLabel = new JLabel("Rings?");
         c = new GridBagConstraints();
@@ -343,7 +340,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 16;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(ringsLabel, c);
+        add(ringsLabel, c);
 
         ringsCheck = new JCheckBox();
         ringsCheck.addChangeListener(new ChangeListener() {
@@ -360,7 +357,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 16;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(ringsCheck, c);
+        add(ringsCheck, c);
 
         inhabitedLabel = new JLabel("Inhabited?");
         c = new GridBagConstraints();
@@ -371,7 +368,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 16;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(inhabitedLabel, c);
+        add(inhabitedLabel, c);
 
 
         inhabitedCheck = new JCheckBox();
@@ -389,14 +386,14 @@ public class CommandAndControl extends JFrame {
         c.gridy = 16;
         c.gridheight=1;
         c.gridwidth=1;
-        pane.add(inhabitedCheck, c);
+        add(inhabitedCheck, c);
 
         //Will open colour chooser in popup
         groundColButton = new JButton("Ground Cols");
         groundColButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ColourChooser c = new ColourChooser(CommandAndControl.this, "Ground Colours", ColourChooser.ColourableItems.GROUND);
+                ColourChooser c = new ColourChooser(MainClass.window, "Ground Colours", ColourChooser.ColourableItems.GROUND);
                 c.setVisible(true);
             }
         });
@@ -408,14 +405,14 @@ public class CommandAndControl extends JFrame {
         c.gridy = 17;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(groundColButton, c);
+        add(groundColButton, c);
 
         //Will open colour chooser in popup
         waterColButton = new JButton("Water Cols");
         waterColButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ColourChooser c = new ColourChooser(CommandAndControl.this, "Water Colours", ColourChooser.ColourableItems.WATER);
+                ColourChooser c = new ColourChooser(MainClass.window, "Water Colours", ColourChooser.ColourableItems.WATER);
                 c.setVisible(true);
             }
         });
@@ -427,7 +424,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 17;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(waterColButton, c);
+        add(waterColButton, c);
 
         ioSep = new JSeparator();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -437,7 +434,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 17;
         c.gridheight=1;
         c.gridwidth=4;
-        pane.add(ioSep, c);
+        add(ioSep, c);
 
         newWorld = new JButton("New world");
         newWorld.addActionListener(new ActionListener() {
@@ -454,7 +451,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 18;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(newWorld, c);
+        add(newWorld, c);
 
         saveWorld = new JButton("Save world");
         saveWorld.addActionListener(new ActionListener() {
@@ -480,7 +477,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 19;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(saveWorld, c);
+        add(saveWorld, c);
 
         exportWorld = new JButton("Export world");
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -490,7 +487,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 19;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(exportWorld, c);
+        add(exportWorld, c);
 
         loadWorld = new JButton("Load world");
         loadWorld.addActionListener(new ActionListener() {
@@ -519,7 +516,7 @@ public class CommandAndControl extends JFrame {
         c.gridy = 18;
         c.gridheight=1;
         c.gridwidth=2;
-        pane.add(loadWorld, c);
+        add(loadWorld, c);
 
     }
 }
