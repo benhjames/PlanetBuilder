@@ -72,15 +72,15 @@ public class CommandAndControl extends JFrame {
 
         //In general, for each control, create it, add change listener, add to groups
 
-        detailLabel = new JLabel("Detail Level");
+        detailLabel = new JLabel("Detail Level", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 0;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         pane.add(detailLabel, c);
 
         detailSlider = new JSlider(0, 100);
@@ -100,7 +100,7 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(detailSlider, c);
 
-        renderLabel = new JLabel("Details?");
+        renderLabel = new JLabel("Details?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
@@ -108,7 +108,7 @@ public class CommandAndControl extends JFrame {
         c.gridx = 0;
         c.gridy = 2;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(renderLabel, c);
 
         renderCheck = new JCheckBox();
@@ -125,10 +125,10 @@ public class CommandAndControl extends JFrame {
         c.gridx = 1;
         c.gridy = 2;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(renderCheck, c);
 
-        panLabel = new JLabel("Rotate?");
+        panLabel = new JLabel("Rotate?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
@@ -136,7 +136,7 @@ public class CommandAndControl extends JFrame {
         c.weighty=0.1;
         c.weightx=0.7;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(panLabel, c);
 
         panCheck = new JCheckBox();
@@ -153,7 +153,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 2;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(panCheck, c);
 
         globalSep = new JSeparator();
@@ -163,18 +163,18 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.01;
         c.gridy = 3;
         c.gridheight=1;
-        c.gridwidth=4;
+        c.gridwidth = 4;
         pane.add(globalSep, c);
 
-        terrainLabel = new JLabel("Terrain");
+        terrainLabel = new JLabel("Terrain", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 4;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         pane.add(terrainLabel, c);
 
         terrainSlider = new JSlider(0, 100);
@@ -194,15 +194,15 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(terrainSlider, c);
 
-        vegetationLabel = new JLabel("Vegetation");
+        vegetationLabel = new JLabel("Vegetation", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 6;
-        c.gridheight=1;
-        c.gridwidth=2;
+        c.gridheight = 1;
+        c.gridwidth = 4;
         pane.add(vegetationLabel, c);
 
         vegetationSlider = new JSlider(0, 100);
@@ -222,15 +222,15 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(vegetationSlider, c);
 
-        desertLabel = new JLabel("Desert");
+        desertLabel = new JLabel("Desert", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 8;
-        c.gridheight=1;
-        c.gridwidth=2;
+        c.gridheight = 1;
+        c.gridwidth = 4;
         pane.add(desertLabel, c);
 
         desertSlider = new JSlider(0, 100);
@@ -250,15 +250,15 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(desertSlider, c);
 
-        iceLabel = new JLabel("Ice");
+        iceLabel = new JLabel("Ice", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 10;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         pane.add(iceLabel, c);
 
         iceSlider = new JSlider(0, 100);
@@ -278,15 +278,15 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(iceSlider, c);
 
-        waterLabel = new JLabel("Water Level");
+        waterLabel = new JLabel("Water Level", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 12;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         pane.add(waterLabel, c);
 
         waterSlider = new JSlider(0, 100);
@@ -306,15 +306,15 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(waterSlider, c);
 
-        settlementLabel = new JLabel("Settlements");
+        settlementLabel = new JLabel("Settlements", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 14;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         pane.add(settlementLabel, c);
 
         settlementSlider = new JSlider(0, 100);
@@ -334,7 +334,7 @@ public class CommandAndControl extends JFrame {
         c.gridheight = 1;
         pane.add(settlementSlider, c);
 
-        ringsLabel = new JLabel("Rings?");
+        ringsLabel = new JLabel("Rings?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
@@ -342,7 +342,7 @@ public class CommandAndControl extends JFrame {
         c.gridx = 0;
         c.gridy = 16;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(ringsLabel, c);
 
         ringsCheck = new JCheckBox();
@@ -359,10 +359,10 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 16;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(ringsCheck, c);
 
-        inhabitedLabel = new JLabel("Inhabited?");
+        inhabitedLabel = new JLabel("Inhabited?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
@@ -370,7 +370,7 @@ public class CommandAndControl extends JFrame {
         c.gridx = 2;
         c.gridy = 16;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(inhabitedLabel, c);
 
 
@@ -388,7 +388,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 16;
         c.gridheight=1;
-        c.gridwidth=1;
+        c.gridwidth = 1;
         pane.add(inhabitedCheck, c);
 
         //Will open colour chooser in popup
@@ -407,7 +407,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 17;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(groundColButton, c);
 
         //Will open colour chooser in popup
@@ -426,7 +426,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 17;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(waterColButton, c);
 
         ioSep = new JSeparator();
@@ -436,7 +436,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.01;
         c.gridy = 17;
         c.gridheight=1;
-        c.gridwidth=4;
+        c.gridwidth = 4;
         pane.add(ioSep, c);
 
         newWorld = new JButton("New world");
@@ -453,7 +453,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 18;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(newWorld, c);
 
         saveWorld = new JButton("Save world");
@@ -479,7 +479,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 19;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(saveWorld, c);
 
         exportWorld = new JButton("Export world");
@@ -489,7 +489,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 19;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(exportWorld, c);
 
         loadWorld = new JButton("Load world");
@@ -518,7 +518,7 @@ public class CommandAndControl extends JFrame {
         c.weighty = 0.1;
         c.gridy = 18;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 2;
         pane.add(loadWorld, c);
 
     }
