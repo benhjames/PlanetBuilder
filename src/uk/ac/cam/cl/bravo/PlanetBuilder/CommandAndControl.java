@@ -69,15 +69,15 @@ public class CommandAndControl extends JPanel {
 
         //In general, for each control, create it, add change listener, add to groups
 
-        detailLabel = new JLabel("Detail Level");
+        detailLabel = new JLabel("Detail Level", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 0;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         add(detailLabel, c);
 
         detailSlider = new JSlider(0, 100);
@@ -97,7 +97,7 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(detailSlider, c);
 
-        renderLabel = new JLabel("Details?");
+        renderLabel = new JLabel("Details?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
@@ -125,7 +125,7 @@ public class CommandAndControl extends JPanel {
         c.gridwidth=1;
         add(renderCheck, c);
 
-        panLabel = new JLabel("Rotate?");
+        panLabel = new JLabel("Rotate?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
@@ -163,15 +163,15 @@ public class CommandAndControl extends JPanel {
         c.gridwidth=4;
         add(globalSep, c);
 
-        terrainLabel = new JLabel("Terrain");
+        terrainLabel = new JLabel("Terrain", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 4;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth = 4;
         add(terrainLabel, c);
 
         terrainSlider = new JSlider(0, 100);
@@ -191,15 +191,15 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(terrainSlider, c);
 
-        vegetationLabel = new JLabel("Vegetation");
+        vegetationLabel = new JLabel("Vegetation", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 6;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth=4;
         add(vegetationLabel, c);
 
         vegetationSlider = new JSlider(0, 100);
@@ -219,15 +219,15 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(vegetationSlider, c);
 
-        desertLabel = new JLabel("Desert");
+        desertLabel = new JLabel("Desert", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 8;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth=4;
         add(desertLabel, c);
 
         desertSlider = new JSlider(0, 100);
@@ -247,15 +247,15 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(desertSlider, c);
 
-        iceLabel = new JLabel("Ice");
+        iceLabel = new JLabel("Ice", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 10;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth=4;
         add(iceLabel, c);
 
         iceSlider = new JSlider(0, 100);
@@ -275,15 +275,15 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(iceSlider, c);
 
-        waterLabel = new JLabel("Water Level");
+        waterLabel = new JLabel("Water Level", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 12;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth=4;
         add(waterLabel, c);
 
         waterSlider = new JSlider(0, 100);
@@ -303,15 +303,15 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(waterSlider, c);
 
-        settlementLabel = new JLabel("Settlements");
+        settlementLabel = new JLabel("Settlements", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridy = 14;
         c.gridheight=1;
-        c.gridwidth=2;
+        c.gridwidth=4;
         add(settlementLabel, c);
 
         settlementSlider = new JSlider(0, 100);
@@ -331,7 +331,7 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(settlementSlider, c);
 
-        ringsLabel = new JLabel("Rings?");
+        ringsLabel = new JLabel("Rings?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
@@ -359,7 +359,7 @@ public class CommandAndControl extends JPanel {
         c.gridwidth=1;
         add(ringsCheck, c);
 
-        inhabitedLabel = new JLabel("Inhabited?");
+        inhabitedLabel = new JLabel("Inhabited?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
