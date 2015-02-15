@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /* 
@@ -12,6 +13,8 @@ import java.util.List;
 
 public class Icosahedron {
         
+		
+	
         static final float X = 0.525731112119133606f;
         static final float Z = 0.850650808352039932f;
 
@@ -56,13 +59,14 @@ public class Icosahedron {
         }
         
         private static void subdivide(ArrayList<Triangle> icosahedron) {
-        	
+        	HashMap< UnorderedPair<Integer, Integer> ,Vertex> table = new HashMap< UnorderedPair<Integer, Integer>, Vertex> ();
+    		
 			ArrayList<Triangle> newTriangles = new ArrayList<Triangle>();
 			
 			for (Triangle t: icosahedron){
-				Vertex v12 = new Vertex( (t.getV1().getX() + t.getV2().getX())/2f, (t.getV1().getY() + t.getV2().getY())/2f, (t.getV1().getZ() + t.getV2().getZ())/2f );
-				Vertex v23 = new Vertex( (t.getV2().getX() + t.getV3().getX())/2f, (t.getV2().getY() + t.getV3().getY())/2f, (t.getV2().getZ() + t.getV3().getZ())/2f );
-				Vertex v31 = new Vertex( (t.getV3().getX() + t.getV1().getX())/2f, (t.getV3().getY() + t.getV1().getY())/2f, (t.getV3().getZ() + t.getV1().getZ())/2f );
+				Vertex v12 = getHalfPoint(t.getV1(), t.getV2(), table);
+				Vertex v23 = getHalfPoint(t.getV2(), t.getV3(), table);
+				Vertex v31 = getHalfPoint(t.getV3(), t.getV1(), table);
 				
 				v12.Normalize();
 				v23.Normalize();
@@ -75,5 +79,17 @@ public class Icosahedron {
 			}
 			
 			icosahedron	= newTriangles;		
+		}
+
+		private static Vertex getHalfPoint(Vertex v1, Vertex v2,
+			HashMap<UnorderedPair<Integer, Integer>, Vertex> table) {
+			
+			Vertex result = table.get(new UnorderedPair<Integer, Integer>(v1.id, v2.id));
+			if (result == null) {
+				result = new Vertex( (v1.getX() + v2.getX())/2f, (v1.getY() + v2.getY())/2f, (v1.getZ() + v2.getZ())/2f );
+				table.put(new UnorderedPair<Integer, Integer>(v1.id, v2.id), result);
+			}
+			
+			return result;
 		}
 }

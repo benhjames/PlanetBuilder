@@ -168,11 +168,11 @@ public class MainWindow implements GLEventListener {
 		modelViewProjection = rotate(modelViewProjection, (float)theta, 0.0f, 1.0f, 0.0f);
 
 		gl.glUniformMatrix4fv(modelViewProjectionMatrix, 1, false, modelViewProjection, 0);
-
-		Icosahedron icosahedron = new Icosahedron();
+		
+		/*
 		float[] vertices = icosahedron.getVertices();
 		float[] normals = icosahedron.getVertexNormals();
-
+		
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
 
@@ -193,7 +193,8 @@ public class MainWindow implements GLEventListener {
 		gl.glEnableVertexAttribArray(1);
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, vertices.length / 3);
-
+		*/
+		
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
 

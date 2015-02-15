@@ -73,6 +73,7 @@ class Triangle {
     	
     	
     }
+    
     //Constructor with the 3 Verticies as argumants
     public Triangle(Vertex V1, Vertex V2, Vertex V3){
         v1 = V1;
@@ -91,42 +92,17 @@ class Triangle {
 	public Vertex getV3() {
 		return v3;
 	}
-	
-	public float[] getCoordinateArray(){
-		float[] result = new float[9];
-		
-		pushVertex(result, v1, 0);
-		pushVertex(result, v2, 3);
-		pushVertex(result, v3, 6);
-		
-		return result;
-	}
-	
-	public float[] getColorArray(){
-		float[] result = new float[9];
-		
-		pushColor(result, c1, 0);
-		pushColor(result, c2, 3);
-		pushColor(result, c3, 6);
-		
-		return result;
-	}
 
-	private void pushVertex(float[] array, Vertex V, int index) {
-		array[index] = (float) V.getX();
-		array[index + 1] = (float) V.getY();
-		array[index + 2] = (float) V.getZ();
+	public Color getC1() {
+		return c1;
 	}
 	
-	private void pushColor(float[] array, Color C, int index) {
-		float[] components = null;
-		C.getColorComponents(components);
-		
-		assert(components == null);
-		
-		array[index] = components[0];
-		array[index + 1] = components[1];
-		array[index + 2] = components[2];
+	public Color getC2() {
+		return c2;
+	}
+	
+	public Color getC3() {
+		return c3;
 	}
 	
 	
