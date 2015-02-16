@@ -10,8 +10,6 @@ import java.util.List;
 public class ConversionUtils {
         /**
          * Coverts Float-List to float array
-         * @param list List to convert
-         * @return float array
          */
         public static float[] floatListToFloatArray(List<Float> list) {
                 float[] array = new float[list.size()];
@@ -23,8 +21,6 @@ public class ConversionUtils {
         
         /**
          * Converts Integer-List to int array
-         * @param list List to convert
-         * @return int array
          */
         public static int[] integerListToIntegerArray(List<Integer> list) {
                 int[] array = new int[list.size()];
