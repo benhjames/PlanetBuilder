@@ -33,7 +33,7 @@ public class MainClass {
         GLProfile.initSingleton();
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glc = new GLCapabilities(glp);
-        GLJPanel canvas = new GLJPanel(glc);
+        GLCanvas canvas = new GLCanvas(glc);
         canvas.setSize(canvasWidth, canvasHeight);
 
         try {
