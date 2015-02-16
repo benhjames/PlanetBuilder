@@ -7,7 +7,7 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-class TriangleTest{
+public class TriangleTest{
 	
 	private World w;
 	private GlobalOptions GO;

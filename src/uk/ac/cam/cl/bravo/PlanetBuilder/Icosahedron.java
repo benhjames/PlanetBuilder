@@ -52,13 +52,13 @@ public class Icosahedron {
                 ArrayList<Triangle> icosahedron = generateInitialIcosahedron();
 
                 for (int i = 0; i < subdivisions; ++i) {
-                        subdivide(icosahedron);
+                        icosahedron = subdivide(icosahedron);
                 }
 
                 return icosahedron;
         }
         
-        private static void subdivide(ArrayList<Triangle> icosahedron) {
+        private static ArrayList<Triangle> subdivide(ArrayList<Triangle> icosahedron) {
         	HashMap< UnorderedPair<Integer, Integer> ,Vertex> table = new HashMap< UnorderedPair<Integer, Integer>, Vertex> ();
     		
 			ArrayList<Triangle> newTriangles = new ArrayList<Triangle>();
@@ -78,7 +78,7 @@ public class Icosahedron {
 				newTriangles.add(new Triangle(v12, v23, v31));
 			}
 			
-			icosahedron	= newTriangles;		
+			return newTriangles;		
 		}
 
 		private static Vertex getHalfPoint(Vertex v1, Vertex v2,

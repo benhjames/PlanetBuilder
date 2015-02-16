@@ -8,7 +8,7 @@ class World{
 	
 	// SINGLETON
 	private static World instance = new World();
-	public World getInstance() {
+	public static World getInstance() {
 		return instance;
 	}
 	
@@ -48,7 +48,7 @@ class World{
 
     }
 
-    private float[] GenerateColorArray(ArrayList<Triangle> Triangles) {
+    private float[] GenerateVertexArray(ArrayList<Triangle> Triangles) {
 		float[] result = new float[Triangles.size() * 9];
 		int i = 0;
 		for (Triangle t:Triangles) {
@@ -68,7 +68,7 @@ class World{
 		result[i+2] = (float) v1.getZ();
 	}
 
-	private float[] GenerateVertexArray(ArrayList<Triangle> Triangles) {
+	private float[] GenerateColorArray(ArrayList<Triangle> Triangles) {
 		float[] result = new float[Triangles.size() * 12];
 		int i = 0;
 		for (Triangle t:Triangles) {
@@ -83,16 +83,12 @@ class World{
 	}
 
 
-	private void insertColor(Color c1, int i, float[] result) {
-		float[] compArray = null;
-		c1.getComponents(compArray);
+	private void insertColor(Color c1, int i, float[] result) {		
 		
-		assert(compArray != null);
-		
-		result[i] = compArray[0];
-		result[i+1] = compArray[1];
-		result[i+2] = compArray[2];
-		result[i+3] = compArray[3];
+		result[i] = c1.getRed() / 255;
+		result[i+1] = c1.getGreen() / 255;
+		result[i+2] = c1.getBlue() / 255;
+		result[i+3] = c1.getAlpha() / 255;
 		
 	}
 
@@ -109,7 +105,7 @@ class World{
     private float[] seaColorArray = null;
     private float[] cloudColorArray = null;
     
-    public float[] getSurfaceVertices() {
+    public float[] getSurfaceVertexArray() {
     	return surfaceVertexArray;
     }
 
@@ -132,21 +128,5 @@ class World{
 	public float[] getCloudColorArray() {
 		return cloudColorArray;
 	}
-
-
-    
-    /* public float[] getSurfaceVertices {
-    	ArrayList<Triangles> of surface
-    	extract the position of each vertex from each triangle
-    	put all of the extracted positions in a massive fucking float[]
-    	{v1.x, v1.y, v1.z, v2... , 
-    	}
-    	9 floats define a triangle
-    	{v1.r, v1.g, v1.b, v1.a, v2.... }
-    	12 floats 
-    	return float[]
-    }*/
-    /* public float[] get SurfaceColours {
-    }*/
     
 }

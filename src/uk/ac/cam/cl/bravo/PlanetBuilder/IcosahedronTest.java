@@ -7,18 +7,22 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-class IcosahedronTest{
+public class IcosahedronTest{
 	
-	private ArrayList<Triangle> triangles;
+	private ArrayList<Triangle> triangles = null;
+	
+	public IcosahedronTest() {};
 	
     @Before
     public void setUp() {
         triangles = Icosahedron.generateIcosahedron(3);
-        assertNotNull(triangles);
+        
     }
     
     @Test
     public void testgenerateIcosahedron() {
+        assertNotNull(triangles);
+        System.out.println(triangles.size());
         assertEquals(triangles.size(), 20*4*4*4);
     }
     

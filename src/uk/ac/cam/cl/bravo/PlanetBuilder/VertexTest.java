@@ -7,7 +7,7 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-class VertexTest{
+public class VertexTest{
 	
 	private World w;
 	private GlobalOptions GO;

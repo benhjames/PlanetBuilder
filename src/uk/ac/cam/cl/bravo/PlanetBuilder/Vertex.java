@@ -9,17 +9,13 @@ class Vertex {
 	private static int nextId = 0;
 	public final int id;
 	
-    // 3 coordiantes
     private float x,y,z;
     private final float originalX, originalY, originalZ; 
 
-    //Noise for the height
     private final double heightNoise;
 
-    //Noise for the climate
     private final double climateNoise;
 
-    //Constructor with the 3 coordinates as arguments
     public Vertex(float x1, float y1, float z1) {
     	
         id = nextId;
@@ -46,7 +42,6 @@ class Vertex {
     	z /= Distance;
     }
     
-    //Returns the height ie the distance from the origin
     public double getHeightNoise(){
         return heightNoise;
     }
@@ -55,10 +50,9 @@ class Vertex {
         return climateNoise;
     }
 
-
     public void updateHeight(WorldOptions WO) {
-    	
-        float newDistance = (float) (SURFACEVARIATION * WO.getTerrainFactor() * heightNoise + (1f - SURFACEVARIATION / 2f)) ;
+    	float maxDifference = SURFACEVARIATION * WO.getTerrainFactor();
+        float newDistance = (float) ( maxDifference * heightNoise + (1f - maxDifference / 2f)) ;
 
         x = originalX * newDistance;
         y = originalY * newDistance;
@@ -87,6 +81,4 @@ class Vertex {
 	public float getZ() {
 		return z;
 	}
-
-
 }
