@@ -56,9 +56,19 @@ class Vertex {
     }
 
 
-    public void update(WorldOptions WO) {
+    public void updateHeight(WorldOptions WO) {
     	
         float newDistance = (float) (SURFACEVARIATION * WO.getTerrainFactor() * heightNoise + (1f - SURFACEVARIATION / 2f)) ;
+
+        x = originalX * newDistance;
+        y = originalY * newDistance;
+        z = originalZ * newDistance;
+        
+    }
+    
+    public void updateHeight(WorldOptions WO, float height) {
+    	
+        float newDistance = height;
 
         x = originalX * newDistance;
         y = originalY * newDistance;

@@ -20,9 +20,9 @@ class Triangle {
     }
     
     public void assignSurface(WorldOptions WO){
-    	v1.update(WO);
-    	v2.update(WO);
-    	v3.update(WO);
+    	v1.updateHeight(WO);
+    	v2.updateHeight(WO);
+    	v3.updateHeight(WO);
     	
     	double avgX = (v1.getX() + v2.getX() + v3.getX()) / 3;
     	double avgY = (v1.getY() + v2.getY() + v3.getY()) / 3;
@@ -56,9 +56,9 @@ class Triangle {
     }
     
     public void assignCloud(WorldOptions WO){
-    	v1.update(WO);
-    	v2.update(WO);
-    	v3.update(WO);
+    	v1.updateHeight(WO, 1.5f);
+    	v2.updateHeight(WO, 1.5f);
+    	v3.updateHeight(WO, 1.5f);
     	
     	
     	c1 = interpolate(Color.BLUE,new Color(0,0,0,0), v1.getClimateNoise());
@@ -67,9 +67,9 @@ class Triangle {
     }
     
     public void assignSea(WorldOptions WO){
-    	v1.update(WO);
-    	v2.update(WO);
-    	v3.update(WO);
+    	v1.updateHeight(WO, 1f);
+    	v2.updateHeight(WO, 1f);
+    	v3.updateHeight(WO, 1f);
     	
     	
     }
