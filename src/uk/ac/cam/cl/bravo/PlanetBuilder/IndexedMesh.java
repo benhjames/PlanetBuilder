@@ -13,8 +13,6 @@ public class IndexedMesh extends Mesh {
         
         /**
          * Returns the indices for this IndexedMesh.
-         * 
-         * @return the indices
          */
         public int[] getIndices() {
                 return indices;
