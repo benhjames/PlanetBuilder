@@ -3,6 +3,7 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 import javax.imageio.ImageIO;
 import javax.media.opengl.*;
 
+import com.hackoeur.jglm.Vec3;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
@@ -25,7 +26,7 @@ public class MainWindow implements GLEventListener {
 	private int skyboxFragShader;
 	private int skyboxShaderProgram;
 
-	private int modelViewProjectionMatrix;
+	private int modelMatrix;
 	private int cameraMatrix;
 	private int projectionMatrix;
 	private int worldToCameraMatrix;
@@ -97,7 +98,7 @@ public class MainWindow implements GLEventListener {
 		gl.glLinkProgram(grassShaderProgram);
 
 		//Get a id number to the uniform_Projection matrix so that we can update it.
-		modelViewProjectionMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Projection");
+		modelMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Model");
 		cameraMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Camera");
 
 
@@ -140,7 +141,7 @@ public class MainWindow implements GLEventListener {
 		gl.glUseProgram(skyboxShaderProgram);
 
 		gl.glUniformMatrix4fv(projectionMatrix, 1, false, camera.projection().getBuffer().array(), 0);
-		gl.glUniformMatrix4fv(worldToCameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
+		gl.glUniformMatrix4fv(worldToCameraMatrix, 1, false, camera.view().getBuffer().array(), 0);
 
 		float[] skyboxCoords = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
 				                       -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
@@ -169,7 +170,7 @@ public class MainWindow implements GLEventListener {
 
 		gl.glUseProgram(grassShaderProgram);
 
-		float[] modelViewProjection;
+		float[] model;
 		float[] identityMatrix = {
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
@@ -188,11 +189,15 @@ public class MainWindow implements GLEventListener {
 
         prevTime = currTime;
 
-        modelViewProjection = translate(identityMatrix, 0.0f, 0.0f, 0.0f);
-		modelViewProjection = rotate(modelViewProjection, (float)theta, 0.0f, 1.0f, 0.0f);
+        model = translate(identityMatrix, 0.0f, 0.0f, 0.0f);
+
+		camera.setPosition(new Vec3((float)Math.sin(Math.toRadians(theta)) * 3.0f,
+				                           0.0f,
+				                           (float)Math.cos(Math.toRadians(theta)) * 3.0f));
+		camera.lookAt(new Vec3(0.0f, 0.0f, 0.0f));
 
 		gl.glUniformMatrix4fv(cameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
-		gl.glUniformMatrix4fv(modelViewProjectionMatrix, 1, false, modelViewProjection, 0);
+		gl.glUniformMatrix4fv(modelMatrix, 1, false, model, 0);
 
 		Icosahedron icosahedron = new Icosahedron();
 		float[] vertices = icosahedron.getVertices();

@@ -3,10 +3,10 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 import com.hackoeur.jglm.*;
 
 public class Camera {
-	private Vec3 position = new Vec3(0.0f, 0.0f, 80.0f);
+	private Vec3 position = new Vec3(0.0f, 0.0f, 0.0f);
 	private float horizontalAngle = 0.0f;
 	private float verticalAngle = 0.0f;
-	private float fieldOfView = 90.0f;
+	private float fieldOfView = 60.0f;
 	private float nearPlane = 1.0f;
 	private float farPlane = 500.0f;
 	private float viewportAspectRatio = (float)MainClass.canvasWidth/(float)MainClass.canvasHeight;
@@ -52,8 +52,8 @@ public class Camera {
 	public void lookAt(Vec3 target) {
 		if(target != position) {
 			Vec3 direction = (target.subtract(position)).getUnitVector().multiply(-1.0f);
-			verticalAngle = (float)Math.toRadians(Math.asin(direction.getY()));
-			horizontalAngle = (float)Math.toRadians(Math.atan2(direction.getX(), direction.getZ()));
+			verticalAngle = (float)Math.toDegrees(Math.asin(direction.getY()));
+			horizontalAngle = -(float)Math.toDegrees(Math.atan2(direction.getX(), direction.getZ()));
 			normalizeAngles();
 		}
 	}
@@ -72,11 +72,10 @@ public class Camera {
 	}
 
 	public Mat4 projection() {
-		return Matrices.perspective((float)Math.toRadians(fieldOfView), viewportAspectRatio, nearPlane, farPlane);
+		return Matrices.perspective(fieldOfView, viewportAspectRatio, nearPlane, farPlane);
 	}
 
 	public Mat4 view() {
-		Mat4 mat = orientation().multiply(Mat4.MAT4_IDENTITY.translate(position.multiply(-1.0f)));
 		return orientation().multiply(Mat4.MAT4_IDENTITY.translate(position.multiply(-1.0f)));
 	}
 
