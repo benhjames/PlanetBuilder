@@ -1,11 +1,14 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
+import javax.imageio.ImageIO;
 import javax.media.opengl.*;
 
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.FloatBuffer;
 import java.io.IOException;
@@ -24,6 +27,9 @@ public class MainWindow implements GLEventListener {
 
 	private int modelViewProjectionMatrix;
 	private int cameraMatrix;
+	private int projectionMatrix;
+	private int worldToCameraMatrix;
+	private int shaderTexture;
 	private int[] vboHandles;
 
 	private Texture skyboxTexture;
@@ -46,11 +52,26 @@ public class MainWindow implements GLEventListener {
 		gl.glDepthFunc(GL.GL_LEQUAL);
 
 		try {
-			skyboxTexture = TextureIO.newTexture(new File("res/skybox.jpg"), false);
-			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR );
-			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR );
-			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
-			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
+			skyboxTexture = TextureIO.newTexture(GL.GL_TEXTURE_CUBE_MAP);
+
+			String[] suffixes = {"xpos", "xneg", "ypos",
+					                    "yneg", "zpos", "zneg"};
+			int[] targets = {gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+			                        gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+					                gl.GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+					                gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+					                gl.GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+					                gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z};
+
+			for(int i = 0; i < suffixes.length; i++ ) {
+				BufferedImage img = ImageIO.read(new File("res/" + suffixes[i] + ".png"));
+				skyboxTexture.updateImage(gl, AWTTextureIO.newTextureData(gl.getGLProfile(), img, false), targets[i]);
+			}
+
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE);
+			skyboxTexture.setTexParameteri(gl, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE);
 		} catch (IOException e) {
 			System.err.println("Error: Could not create skybox texture.");
 			e.printStackTrace();
@@ -85,6 +106,11 @@ public class MainWindow implements GLEventListener {
 		skyboxShaderProgram = gl.glCreateProgram();
 		gl.glAttachShader(skyboxShaderProgram, skyboxVertShader);
 		gl.glAttachShader(skyboxShaderProgram, skyboxFragShader);
+		gl.glBindAttribLocation(skyboxShaderProgram, 0, "aPosition");
+		gl.glLinkProgram(skyboxShaderProgram);
+		projectionMatrix = gl.glGetUniformLocation(skyboxShaderProgram, "uProjectionMatrix");
+		worldToCameraMatrix = gl.glGetUniformLocation(skyboxShaderProgram, "uWorldToCameraMatrix");
+		shaderTexture = gl.glGetUniformLocation(skyboxShaderProgram, "uTexture");
 	}
 
 	@Override
@@ -95,6 +121,11 @@ public class MainWindow implements GLEventListener {
 		gl.glDetachShader(grassShaderProgram, grassFragShader);
 		gl.glDeleteShader(grassFragShader);
 		gl.glDeleteProgram(grassShaderProgram);
+		gl.glDetachShader(skyboxShaderProgram, skyboxVertShader);
+		gl.glDeleteShader(skyboxVertShader);
+		gl.glDetachShader(skyboxShaderProgram, skyboxFragShader);
+		gl.glDeleteShader(skyboxFragShader);
+		gl.glDeleteProgram(skyboxShaderProgram);
 	}
 
 	@Override
@@ -105,6 +136,36 @@ public class MainWindow implements GLEventListener {
 		gl.glClear(GL3.GL_STENCIL_BUFFER_BIT |
 					GL3.GL_COLOR_BUFFER_BIT |
 					GL3.GL_DEPTH_BUFFER_BIT);
+
+		gl.glUseProgram(skyboxShaderProgram);
+
+		gl.glUniformMatrix4fv(projectionMatrix, 1, false, camera.projection().getBuffer().array(), 0);
+		gl.glUniformMatrix4fv(worldToCameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
+
+		float[] skyboxCoords = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+				                       -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
+		FloatBuffer skyboxBuffer = Buffers.newDirectFloatBuffer(skyboxCoords);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
+		int numBytes = skyboxCoords.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, skyboxBuffer, GL.GL_STATIC_DRAW);
+
+		gl.glDisable(GL.GL_DEPTH_TEST);
+
+		gl.glActiveTexture(GL.GL_TEXTURE0);
+		skyboxTexture.bind(gl);
+		skyboxTexture.enable(gl);
+		gl.glUniform1i(shaderTexture, 0);
+
+		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 0, 0);
+		gl.glEnableVertexAttribArray(0);
+		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, skyboxCoords.length / 2);
+		gl.glDisableVertexAttribArray(0);
+
+		skyboxTexture.disable(gl);
+
+		gl.glEnable(GL.GL_DEPTH_TEST);
+
+		// END SKYBOX DRAWING, BEGIN DRAWING WORLD
 
 		gl.glUseProgram(grassShaderProgram);
 
@@ -140,16 +201,14 @@ public class MainWindow implements GLEventListener {
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
 
-		int numBytes = vertices.length * 4;
+		numBytes = vertices.length * 4;
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, vertexBuffer, GL.GL_STATIC_DRAW);
-		vertexBuffer = null;
 
 		FloatBuffer normalBuffer = Buffers.newDirectFloatBuffer(normals);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[NORMALS_IDX]);
 
 		numBytes = normals.length * 4;
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, normalBuffer, GL.GL_STATIC_DRAW);
-		normalBuffer = null;
 
 		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
 		gl.glEnableVertexAttribArray(0);
@@ -161,19 +220,6 @@ public class MainWindow implements GLEventListener {
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
 
-		float[] skyboxCoords = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
-			-1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
-		FloatBuffer skyboxBuffer = Buffers.newDirectFloatBuffer(skyboxCoords);
-		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
-		numBytes = skyboxCoords.length * 4;
-		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, skyboxBuffer, GL.GL_STATIC_DRAW);
-
-		skyboxTexture.enable(gl);
-		skyboxTexture.bind(gl);
-
-		gl.glVertexAttribPointer(0, 2, GL3.GL_FLOAT, false, 0, 0);
-		gl.glEnableVertexAttribArray(0);
-		//gl.glDrawArrays(GL.TRIANGLES);
 	}
 
 	@Override

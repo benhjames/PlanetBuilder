@@ -39,8 +39,8 @@ public class Camera {
 
 	public Mat4 orientation() {
 		Mat4 orientation = Mat4.MAT4_IDENTITY;
-		orientation.multiply(Matrices.rotate((float)Math.toRadians(verticalAngle), new Vec3(1.0f, 0.0f, 0.0f)));
-		orientation.multiply(Matrices.rotate((float)Math.toRadians(horizontalAngle), new Vec3(0.0f, 1.0f, 0.0f)));
+		orientation = orientation.multiply(Matrices.rotate((float)Math.toRadians(verticalAngle), new Vec3(1.0f, 0.0f, 0.0f)));
+		orientation = orientation.multiply(Matrices.rotate((float)Math.toRadians(horizontalAngle), new Vec3(0.0f, 1.0f, 0.0f)));
 		return orientation;
 	}
 

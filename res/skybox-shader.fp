@@ -1,7 +1,9 @@
 #if __VERSION__ >= 130
-	// GLSL 130+ uses in and out
-	#define attribute in
 	#define varying out
+	#define attribute in
+	out vec4 mgl_FragColor;
+	#define texture2D texture
+	#define gl_FragColor mgl_FragColor
 #endif
 
 #ifdef GL_ES
@@ -13,8 +15,6 @@ uniform samplerCube uTexture;
 
 smooth attribute vec3 eyeDirection;
 
-varying vec4 fragmentColor;
-
 void main() {
-    fragmentColor = texture(uTexture, eyeDirection);
+    gl_FragColor = texture(uTexture, eyeDirection);
 }
