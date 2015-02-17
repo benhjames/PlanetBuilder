@@ -84,8 +84,8 @@ public class MainWindow implements GLEventListener {
 			System.exit(1);
 		}
 
-		World.getInstance().initializeGlobal(GlobalOptions.getInstance());
-		World.getInstance().finalizeWorld(WorldOptions.getInstance());
+		World.getInstance().initializeGlobal();
+		World.getInstance().finalizeWorld();
 
 		createPlanet(drawable);
 		createSkybox(drawable);

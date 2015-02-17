@@ -18,7 +18,8 @@ class World{
 	
 	
 	// Initalize Global Options
-    public void initializeGlobal(GlobalOptions GO){
+    public void initializeGlobal(){
+        GlobalOptions GO = GlobalOptions.getInstance();
     	int subdivisions = (int) (GO.getDetailLevel() * SUBDIVISIONMULT);
         SurfaceTriangles = Icosahedron.generateIcosahedron(subdivisions);
         SeaTriangles = Icosahedron.generateIcosahedron(subdivisions);
@@ -27,7 +28,8 @@ class World{
 
     
     // Finalize World Options
-    public void finalizeWorld(WorldOptions WO) {
+    public void finalizeWorld() {
+        WorldOptions WO = WorldOptions.getInstance();
         for (Triangle T: SurfaceTriangles){
         	T.assignSurface(WO);
         }

@@ -33,8 +33,8 @@ public class WorldTest{
     @Test
     public void testeverything() {
     	
-        w.initializeGlobal(GO);
-        w.finalizeWorld(WO);
+        w.initializeGlobal();
+        w.finalizeWorld();
         assertEquals(w.getCloudVertexArray().length, 9*20*4*4);
         assertEquals(w.getSurfaceVertexArray().length, 9*20*4*4);
         assertEquals(w.getSeaVertexArray().length, 9*20*4*4);

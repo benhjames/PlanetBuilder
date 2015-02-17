@@ -79,6 +79,7 @@ public class WorldOptions implements Serializable {
             this.terrainFactor = terrainFactor;
             version++;
         }
+        World.getInstance().finalizeWorld();
     }
 
     public float getVegetationFactor() {
@@ -91,6 +92,7 @@ public class WorldOptions implements Serializable {
             version++;
 
         }
+        World.getInstance().finalizeWorld();
     }
 
     public float getDesertFactor() {
@@ -103,6 +105,7 @@ public class WorldOptions implements Serializable {
             version++;
 
         }
+        World.getInstance().finalizeWorld();
     }
 
     public float getIceFactor() {
@@ -114,6 +117,7 @@ public class WorldOptions implements Serializable {
             this.iceFactor = iceFactor;
             version++;
         }
+        World.getInstance().finalizeWorld();
     }
 
     public float getWaterFactor() {
@@ -125,6 +129,7 @@ public class WorldOptions implements Serializable {
             this.waterFactor = waterFactor;
             version++;
         }
+        World.getInstance().finalizeWorld();
     }
 
     public float getSettlementLevel() {
@@ -136,6 +141,7 @@ public class WorldOptions implements Serializable {
             this.settlementLevel = settlementLevel;
             version++;
         }
+        World.getInstance().finalizeWorld();
     }
 
     public boolean isPlanetRings() {
@@ -145,6 +151,7 @@ public class WorldOptions implements Serializable {
     public void setPlanetRings(boolean planetRings) {
         this.planetRings = planetRings;
         version++;
+        World.getInstance().finalizeWorld();
     }
 
     public boolean isInhabitants() {
@@ -154,6 +161,7 @@ public class WorldOptions implements Serializable {
     public void setInhabitants(boolean inhabitants) {
         this.inhabitants = inhabitants;
         version++;
+        World.getInstance().finalizeWorld();
     }
 
     public Color getGroundStart() {
@@ -163,6 +171,7 @@ public class WorldOptions implements Serializable {
     public void setGroundStart(Color groundStart) {
         this.groundStart = groundStart;
         version++;
+        World.getInstance().finalizeWorld();
     }
 
     public Color getGroundEnd() {
@@ -181,6 +190,7 @@ public class WorldOptions implements Serializable {
     public void setWaterStart(Color waterStart) {
         this.waterStart = waterStart;
         version++;
+        World.getInstance().finalizeWorld();
     }
 
     public Color getWaterEnd() {
@@ -190,6 +200,7 @@ public class WorldOptions implements Serializable {
     public void setWaterEnd(Color waterEnd) {
         this.waterEnd = waterEnd;
         version++;
+        World.getInstance().finalizeWorld();
     }
 
     public long getSeed() {
