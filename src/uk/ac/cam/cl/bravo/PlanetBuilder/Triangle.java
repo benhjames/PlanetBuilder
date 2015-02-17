@@ -37,7 +37,7 @@ class Triangle {
     	double settlementBound = WO.getSettlementLevel() / 100f;
     	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100f;
     	double desertBound = vegetationBound + WO.getDesertFactor()/100f;
-        double iceBound = dessertBound + WO.getIceFactor()/100f;
+        double iceBound = desertBound + WO.getIceFactor()/100f;
 
     	if (vegetationBound > 1){
     		settlementBound /= vegetationBound;
