@@ -203,6 +203,14 @@ public class MainWindow implements GLEventListener {
 		float[] vertices = icosahedron.getVertices();
 		float[] normals = icosahedron.getVertexNormals();
 
+		gl.glEnableVertexAttribArray(0);
+		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
+
+		gl.glEnableVertexAttribArray(1);
+		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 0, 0);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[NORMALS_IDX]);
+
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
 
@@ -214,11 +222,6 @@ public class MainWindow implements GLEventListener {
 
 		numBytes = normals.length * 4;
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, normalBuffer, GL.GL_STATIC_DRAW);
-
-		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
-		gl.glEnableVertexAttribArray(0);
-		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 0, 0);
-		gl.glEnableVertexAttribArray(1);
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, vertices.length / 3);
 
