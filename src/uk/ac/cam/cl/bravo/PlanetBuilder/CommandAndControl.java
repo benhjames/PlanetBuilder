@@ -80,7 +80,7 @@ public class CommandAndControl extends JPanel {
         c.gridwidth = 4;
         add(detailLabel, c);
 
-        detailSlider = new JSlider(0, 100);
+        detailSlider = new JSlider(0, 6);
         detailSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
