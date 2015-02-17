@@ -7,7 +7,8 @@ class Triangle {
 
 	private static double TIME = 0;
 	private static final double CLIMATEFACTOR = 0.5;
-	
+
+
     //3 Verticies
     private Vertex v1, v2, v3;
 
@@ -34,8 +35,8 @@ class Triangle {
     	
     	//Assing Type: settlement/vegetation/land
    
-    	double settlementBound = WO.getSettlementLevel() / 100;
-    	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100;
+    	double settlementBound = WO.getSettlementLevel() / 100f;
+    	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100f;
     	
     	if (vegetationBound > 1){
     		settlementBound /= vegetationBound;
@@ -43,14 +44,14 @@ class Triangle {
     	}
     	
     	if (fillingTypeNoise < settlementBound) {
-    		c1 = Color.GRAY;
-    		c2 = Color.GRAY;
-    		c3 = Color.GRAY;
-    		
-    	} else if (fillingTypeNoise < vegetationBound) {
-    		c1 = Color.GREEN;
-    		c2 = Color.GREEN;
-    		c3 = Color.GREEN;
+            c1 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v1.getHeightNoise());
+            c2 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v2.getHeightNoise());
+            c3 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v3.getHeightNoise());
+
+        } else if (fillingTypeNoise < vegetationBound) {
+    		c1 = interpolate(WO.getVegStart() , WO.getVegEnd(), v1.getHeightNoise());
+    		c2 = interpolate(WO.getVegStart() , WO.getVegEnd(), v2.getHeightNoise());
+    		c3 = interpolate(WO.getVegStart() , WO.getVegEnd(), v3.getHeightNoise());
     		
     	} else {
     		c1 = interpolate(WO.getGroundStart() , WO.getGroundEnd(), v1.getHeightNoise());
@@ -65,11 +66,13 @@ class Triangle {
     	v1.updateHeight(WO, 1.5f);
     	v2.updateHeight(WO, 1.5f);
     	v3.updateHeight(WO, 1.5f);
-    	
+
+
+        Color cloudColor = new Color(224f,255f,255f,0.5f);
     	Color transparent = new Color(0f, 0f, 0f, 0f);
-    	c1 = interpolate(Color.BLUE, transparent, v1.getClimateNoise() * CLIMATEFACTOR);
-    	c2 = interpolate(Color.BLUE, transparent, v2.getClimateNoise() * CLIMATEFACTOR);
-    	c3 = interpolate(Color.BLUE, transparent, v3.getClimateNoise() * CLIMATEFACTOR);
+    	c1 = interpolate(cloudColor, transparent, v1.getClimateNoise() * CLIMATEFACTOR);
+    	c2 = interpolate(cloudColor, transparent, v2.getClimateNoise() * CLIMATEFACTOR);
+    	c3 = interpolate(cloudColor, transparent, v3.getClimateNoise() * CLIMATEFACTOR);
     }
     
     public void assignSea(WorldOptions WO){
