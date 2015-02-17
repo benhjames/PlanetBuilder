@@ -45,32 +45,32 @@ class Triangle {
     	}
 
     	if (fillingTypeNoise < settlementBound) {
-            Color settlementColor1 = new Color(105f,105f,105f,1.0f);
-            Color settlementColor2 = new Color(169f,169f,169f,1.0f);
+            Color settlementColor1 = new Color(105f/255f, 105f/255f, 105f/255f, 1.0f);
+            Color settlementColor2 = new Color(169f/255f, 169f/255f, 169f/255f, 1.0f);
 
             c1 = interpolate(settlementColor1 ,settlementColor2, v1.getHeightNoise());
             c2 = interpolate( settlementColor1 ,settlementColor2, v2.getHeightNoise());
             c3 = interpolate(settlementColor1 ,settlementColor2, v3.getHeightNoise());
 
         } else if (fillingTypeNoise < vegetationBound) {
-            Color vegColor1 = new Color(139f,69f,19f,1.0f);
-            Color vegColor2 = new Color(160f,82f,45f,1.0f);
+            Color vegColor1 = new Color(139, 69, 19, 255);
+            Color vegColor2 = new Color(160, 82, 45, 255);
 
     		c1 = interpolate(vegColor1, vegColor2, v1.getHeightNoise());
     		c2 = interpolate(vegColor1, vegColor2, v2.getHeightNoise());
     		c3 = interpolate(vegColor1, vegColor2, v3.getHeightNoise());
 
         } else if (fillingTypeNoise < desertBound) {
-            Color desertColor1 = new Color(218f,165f,32f,1.0f);
-            Color desertColor2 = new Color(184f,134f,11f,1.0f);
+            Color desertColor1 = new Color(218, 165, 32, 255);
+            Color desertColor2 = new Color(184, 134, 11, 255);
 
             c1 = interpolate(desertColor1,desertColor2, v1.getHeightNoise());
             c2 = interpolate(desertColor1,desertColor2, v2.getHeightNoise());
             c3 = interpolate(desertColor1,desertColor2, v3.getHeightNoise());
 
         }else if (fillingTypeNoise < iceBound) {
-            Color iceColor1 = new Color(176f,196f,222f,1.0f);
-            Color iceColor2 = new Color(230f,230f,250f,1.0f);
+            Color iceColor1 = new Color(176, 196, 222, 255);
+            Color iceColor2 = new Color(230, 230, 250, 255);
 
             c1 = interpolate(iceColor1,iceColor2, v1.getHeightNoise());
             c2 = interpolate(iceColor1,iceColor2, v2.getHeightNoise());
@@ -90,8 +90,8 @@ class Triangle {
     	v2.updateHeight(WO, 1.5f);
     	v3.updateHeight(WO, 1.5f);
         
-        Color cloudColor = new Color(224f,255f,255f,0.5f);
-    	Color transparent = new Color(0f, 0f, 0f, 0f);
+        Color cloudColor = new Color(224, 255, 255, 127);
+    	Color transparent = new Color(0, 0, 0, 0);
     	c1 = interpolate(cloudColor, transparent, v1.getClimateNoise() * CLIMATEFACTOR);
     	c2 = interpolate(cloudColor, transparent, v2.getClimateNoise() * CLIMATEFACTOR);
     	c3 = interpolate(cloudColor, transparent, v3.getClimateNoise() * CLIMATEFACTOR);
