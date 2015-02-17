@@ -57,12 +57,12 @@ public class MainWindow implements GLEventListener {
 
 			String[] suffixes = {"xpos", "xneg", "ypos",
 					                    "yneg", "zpos", "zneg"};
-			int[] targets = {gl.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
-			                        gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-					                gl.GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-					                gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-					                gl.GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-					                gl.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z};
+			int[] targets = {GL3.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+			                        GL3.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+					                GL3.GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+					                GL3.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+					                GL3.GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+					                GL3.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z};
 
 			for(int i = 0; i < suffixes.length; i++ ) {
 				BufferedImage img = ImageIO.read(new File("res/" + suffixes[i] + ".png"));
