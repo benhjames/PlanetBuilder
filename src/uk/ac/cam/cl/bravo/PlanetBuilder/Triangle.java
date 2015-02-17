@@ -45,8 +45,8 @@ class Triangle {
     	}
 
     	if (fillingTypeNoise < settlementBound) {
-            Color settlementColor1 = new Color(105f/255f, 105f/255f, 105f/255f, 1.0f);
-            Color settlementColor2 = new Color(169f/255f, 169f/255f, 169f/255f, 1.0f);
+            Color settlementColor1 = new Color(105, 105, 105, 255);
+            Color settlementColor2 = new Color(169, 169, 169, 255);
 
             c1 = interpolate(settlementColor1 ,settlementColor2, v1.getHeightNoise());
             c2 = interpolate( settlementColor1 ,settlementColor2, v2.getHeightNoise());
