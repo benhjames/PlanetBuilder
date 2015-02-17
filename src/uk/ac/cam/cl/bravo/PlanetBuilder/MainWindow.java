@@ -39,6 +39,8 @@ public class MainWindow implements GLEventListener {
 
 	private Texture skyboxTexture;
 
+	private static boolean planetNeedsUpdate;
+
 	static private final int VERTICES_IDX = 0;
 	static private final int COLORS_IDX = 1;
 	static private final int SKYBOX_IDX = 2;
@@ -140,6 +142,10 @@ public class MainWindow implements GLEventListener {
 		gl.glDeleteProgram(skyboxShaderProgram);
 	}
 
+	public static void updatePlanet() {
+		planetNeedsUpdate = true;
+	}
+
 	private void createPlanet(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
 
@@ -162,6 +168,8 @@ public class MainWindow implements GLEventListener {
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
 		planetVertexCount = vertices.length / 3;
+
+		planetNeedsUpdate = false;
 	}
 
 	private void createSkybox(GLAutoDrawable drawable) {
@@ -182,6 +190,9 @@ public class MainWindow implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
+
+		if(planetNeedsUpdate)
+			createPlanet(drawable);
 
 		gl.glClearColor(0, 0, 0, 0.5f);
 		gl.glClear(GL3.GL_STENCIL_BUFFER_BIT |
