@@ -125,13 +125,16 @@ public class Noise {
 		double t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
 		double t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
 		double t4 = 0.6 - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
-		return 0.5 + 10.125 * (
+		double ret = 0.5 + 10.125 * (
 			(t0 >= 0 ? t0 * t0 * t0 * t0 * ((((h0>>0)&2)-1) * x0 + (((h0>>1)&2)-1) * y0 + (((h0>>2)&2)-1) * z0 + (((h0>>3)&2)-1) * w0) : 0) +
 			(t1 >= 0 ? t1 * t1 * t1 * t1 * ((((h1>>0)&2)-1) * x1 + (((h1>>1)&2)-1) * y1 + (((h1>>2)&2)-1) * z1 + (((h1>>3)&2)-1) * w1) : 0) +
 			(t2 >= 0 ? t2 * t2 * t2 * t2 * ((((h2>>0)&2)-1) * x2 + (((h2>>1)&2)-1) * y2 + (((h2>>2)&2)-1) * z2 + (((h2>>3)&2)-1) * w2) : 0) +
 			(t3 >= 0 ? t3 * t3 * t3 * t3 * ((((h3>>0)&2)-1) * x3 + (((h3>>1)&2)-1) * y3 + (((h3>>2)&2)-1) * z3 + (((h3>>3)&2)-1) * w3) : 0) +
 			(t4 >= 0 ? t4 * t4 * t4 * t4 * ((((h4>>0)&2)-1) * x4 + (((h4>>1)&2)-1) * y4 + (((h4>>2)&2)-1) * z4 + (((h4>>3)&2)-1) * w4) : 0)
 		);
+		if(ret > 1.0f) ret = 1.0f;
+		else if(ret < 0.0f) ret = 0.0f;
+		return ret;
 	}
 
 	public static double fractal_noise(double persistence, int iterations, double x, double y, double z, double w, int seed) {

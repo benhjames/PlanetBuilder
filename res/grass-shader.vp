@@ -12,7 +12,7 @@
 uniform mat4 uniform_Model;
 uniform mat4 uniform_Camera;
 attribute vec4 attribute_Position;
-attribute vec4 attribute_Normal;
+attribute vec4 attribute_Color;
 
 varying vec4 varying_Color;
 varying vec4 varying_Position;
@@ -24,7 +24,7 @@ float rand(vec2 co){
 void main(void)
 {
     float random = rand(attribute_Position.xy) / 2.0f;
-	varying_Color = vec4(0.035 + random, 0.619f + random, 0.055f + random, 1.0f);
+	varying_Color = attribute_Color + random;
 	varying_Position = attribute_Position;
 	gl_Position = uniform_Camera * uniform_Model * attribute_Position;
 }
