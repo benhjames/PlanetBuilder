@@ -48,6 +48,8 @@ public class GlobalOptions implements Serializable {
         if (detailLevel >= 0.0f && detailLevel <= 100.0f) {
             this.detailLevel = detailLevel;
         }
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
     }
 
     public boolean isRenderHigh() {

@@ -84,7 +84,9 @@ public class CommandAndControl extends JPanel {
         detailSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
-                GlobalOptions.getInstance().setDetailLevel(detailSlider.getValue());
+                if (!detailSlider.getValueIsAdjusting()) {
+                    GlobalOptions.getInstance().setDetailLevel(detailSlider.getValue());
+                }
             }
         });
         c = new GridBagConstraints();
