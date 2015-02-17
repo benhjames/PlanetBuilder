@@ -45,21 +45,9 @@ public class MainWindow implements GLEventListener {
 
 	private Camera camera = new Camera();
 
-	public MainWindow() {
-		height = 768;
-		width = 768;
-	}
-
-	public MainWindow(int height, int width) {
-		this.height = height;
-        this.width = width;
-	}
-
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
-		vertShader = gl.glCreateShader(GL3.GL_VERTEX_SHADER);
-		fragShader = gl.glCreateShader(GL3.GL_FRAGMENT_SHADER);
 
 		loadShaders(drawable);
 
@@ -95,6 +83,9 @@ public class MainWindow implements GLEventListener {
 			e.printStackTrace();
 			System.exit(1);
 		}
+
+		World.getInstance().initializeGlobal(GlobalOptions.getInstance());
+		World.getInstance().finalizeWorld(WorldOptions.getInstance());
 
 		createPlanet(drawable);
 		createSkybox(drawable);
@@ -152,9 +143,8 @@ public class MainWindow implements GLEventListener {
 	private void createPlanet(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
 
-		Icosahedron icosahedron = new Icosahedron();
-		float[] vertices = icosahedron.getVertices();
-		float[] normals = icosahedron.getVertexNormals();
+		float[] vertices = World.getInstance().getSurfaceVertexArray();
+		float[] normals = World.getInstance().getSurfaceVertexArray();
 
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 class World{
-	private static final double SUBDIVISIONMULT = 5;
+	private static final double SUBDIVISIONMULT = 1;
 	
 	// SINGLETON
 	private static World instance = new World();
