@@ -87,10 +87,10 @@ class World{
 
 	private void insertColor(Color c1, int i, float[] result) {		
 		
-		result[i] = c1.getRed() / 255;
-		result[i+1] = c1.getGreen() / 255;
-		result[i+2] = c1.getBlue() / 255;
-		result[i+3] = c1.getAlpha() / 255;
+		result[i] = c1.getRed() / 255f;
+		result[i+1] = c1.getGreen() / 255f;
+		result[i+2] = c1.getBlue() / 255f;
+		result[i+3] = c1.getAlpha() / 255f;
 		
 	}
 
