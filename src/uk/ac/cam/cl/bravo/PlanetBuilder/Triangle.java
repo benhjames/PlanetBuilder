@@ -37,23 +37,48 @@ class Triangle {
    
     	double settlementBound = WO.getSettlementLevel() / 100f;
     	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100f;
-    	
+    	double dessertBound = vegetationBound + WO.getDesertFactor()/100f;
+        double iceBound = dessertBound + WO.getIceFactor()/100f;
+
+
     	if (vegetationBound > 1){
     		settlementBound /= vegetationBound;
     		vegetationBound = 1;
     	}
-    	
+
     	if (fillingTypeNoise < settlementBound) {
-            c1 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v1.getHeightNoise());
-            c2 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v2.getHeightNoise());
-            c3 = interpolate(WO.getSettlementStart() , WO.getSettlementEnd(), v3.getHeightNoise());
+            Color settlementColor1 = new Color(105f,105f,105f,1.0f);
+            Color settlementColor2 = new Color(169f,169f,169f,1.0f);
+
+            c1 = interpolate(settlementColor1 ,settlementColor2, v1.getHeightNoise());
+            c2 = interpolate( settlementColor1 ,settlementColor2, v2.getHeightNoise());
+            c3 = interpolate(settlementColor1 ,settlementColor2, v3.getHeightNoise());
 
         } else if (fillingTypeNoise < vegetationBound) {
-    		c1 = interpolate(WO.getVegStart() , WO.getVegEnd(), v1.getHeightNoise());
-    		c2 = interpolate(WO.getVegStart() , WO.getVegEnd(), v2.getHeightNoise());
-    		c3 = interpolate(WO.getVegStart() , WO.getVegEnd(), v3.getHeightNoise());
-    		
-    	} else {
+            Color vegColor1 = new Color(139f,69f,19f,1.0f);
+            Color vegColor2 = new Color(160f,82f,45f,1.0f);
+
+    		c1 = interpolate(vegColor1, vegColor2, v1.getHeightNoise());
+    		c2 = interpolate(vegColor1, vegColor2, v2.getHeightNoise());
+    		c3 = interpolate(vegColor1, vegColor2, v3.getHeightNoise());
+
+        } else if (fillingTypeNoise < dessertBound) {
+            Color dessertColor1 = new Color(218f,165f,32f,1.0f);
+            Color dessertColor2 = new Color(184f,134f,11f,1.0f);
+
+            c1 = interpolate(dessertColor1,dessertColor2, v1.getHeightNoise());
+            c2 = interpolate(dessertColor1,dessertColor2, v2.getHeightNoise());
+            c3 = interpolate(dessertColor1,dessertColor2, v3.getHeightNoise());
+
+        }else if (fillingTypeNoise < iceBound) {
+            Color iceColor1 = new Color(176f,196f,222f,1.0f);
+            Color iceColor2 = new Color(230f,230f,250f,1.0f);
+
+            c1 = interpolate(iceColor1,iceColor2, v1.getHeightNoise());
+            c2 = interpolate(iceColor1,iceColor2, v2.getHeightNoise());
+            c3 = interpolate(iceColor1,iceColor2, v3.getHeightNoise());
+
+         } else {
     		c1 = interpolate(WO.getGroundStart() , WO.getGroundEnd(), v1.getHeightNoise());
     		c2 = interpolate(WO.getGroundStart() , WO.getGroundEnd(), v2.getHeightNoise());
     		c3 = interpolate(WO.getGroundStart() , WO.getGroundEnd(), v3.getHeightNoise());
