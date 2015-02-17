@@ -32,8 +32,8 @@ public class Icosahedron {
                         { 7, 2, 11 } };
         
         private static ArrayList<Triangle> generateInitialIcosahedron(){
-        	ArrayList<Triangle> icosahedron = new ArrayList<>();
-            ArrayList<Vertex> verticies = new ArrayList<>();
+        	ArrayList<Triangle> icosahedron = new ArrayList<Triangle>();
+            ArrayList<Vertex> verticies = new ArrayList<Vertex>();
             
             for (float[] V: vdata){
             	verticies.add(new Vertex(V[0], V[1], V[2]));
