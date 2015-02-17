@@ -50,6 +50,7 @@ public class GlobalOptions implements Serializable {
         }
         World.getInstance().initializeGlobal();
         World.getInstance().finalizeWorld();
+        MainWindow.updatePlanet();
     }
 
     public boolean isRenderHigh() {
