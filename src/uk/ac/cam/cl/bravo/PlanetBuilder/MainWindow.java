@@ -60,8 +60,8 @@ public class MainWindow implements GLEventListener {
 		try {
 			skyboxTexture = TextureIO.newTexture(GL.GL_TEXTURE_CUBE_MAP);
 
-			String[] suffixes = {"xpos", "xneg", "ypos",
-					                    "yneg", "zpos", "zneg"};
+			String[] suffixes = {"RT", "LF", "UP",
+					                    "DN", "FT", "BK"};
 			int[] targets = {GL3.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
 			                        GL3.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
 					                GL3.GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
@@ -70,7 +70,7 @@ public class MainWindow implements GLEventListener {
 					                GL3.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z};
 
 			for(int i = 0; i < suffixes.length; i++ ) {
-				BufferedImage img = ImageIO.read(new File("res/" + suffixes[i] + ".png"));
+				BufferedImage img = ImageIO.read(new File("res/skybox/nebula" + suffixes[i] + ".png"));
 				skyboxTexture.updateImage(gl, AWTTextureIO.newTextureData(gl.getGLProfile(), img, false), targets[i]);
 			}
 
@@ -94,8 +94,8 @@ public class MainWindow implements GLEventListener {
 	private void loadShaders(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
 
-		grassVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/grass-shader.vp");
-		grassFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/grass-shader.fp");
+		grassVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/shaders/grass-shader.vp");
+		grassFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/shaders/grass-shader.fp");
 
 		//Each shaderProgram must have one vertex shader and one fragment shader.
 		grassShaderProgram = gl.glCreateProgram();
@@ -113,8 +113,8 @@ public class MainWindow implements GLEventListener {
 		cameraMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Camera");
 
 
-		skyboxVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/skybox-shader.vp");
-		skyboxFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/skybox-shader.fp");
+		skyboxVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/shaders/skybox-shader.vp");
+		skyboxFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/shaders/skybox-shader.fp");
 		skyboxShaderProgram = gl.glCreateProgram();
 		gl.glAttachShader(skyboxShaderProgram, skyboxVertShader);
 		gl.glAttachShader(skyboxShaderProgram, skyboxFragShader);
