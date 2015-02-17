@@ -2,7 +2,7 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 class Vertex {
 
-	private static final float SURFACEVARIATION = 0.5f;
+	private static final float SURFACEVARIATION = 1.0f;
 
 	private static double TIME = 0;
 	
@@ -30,9 +30,9 @@ class Vertex {
         originalX = x;
         originalY = y;
         originalZ = z;
-        
-        heightNoise = Noise.noise(originalX, originalY, originalZ, TIME, (int) WorldOptions.getInstance().getSeed() + Seeds.HeightSeed);
-        climateNoise = Noise.noise(originalX, originalY, originalZ, TIME, (int) WorldOptions.getInstance().getSeed() + Seeds.ClimateSeed);
+
+	    heightNoise = Noise.noise(originalX, originalY, originalZ, TIME, (int) WorldOptions.getInstance().getSeed() + Seeds.HeightSeed);
+	    climateNoise = Noise.noise(originalX, originalY, originalZ, TIME, (int) WorldOptions.getInstance().getSeed() + Seeds.ClimateSeed);
     }
 
     public void Normalize(){
@@ -51,7 +51,7 @@ class Vertex {
     }
 
     public void updateHeight(WorldOptions WO) {
-    	float maxDifference = SURFACEVARIATION * WO.getTerrainFactor();
+    	float maxDifference = SURFACEVARIATION * WO.getTerrainFactor() / 100f;
         float newDistance = (float) ( maxDifference * heightNoise + (1f - maxDifference / 2f)) ;
 
         x = originalX * newDistance;

@@ -19,6 +19,6 @@ float mag(vec4 v) {
 
 void main (void)
 {
-    float m = (mag(varying_Position) - 0.8) * 2.5;
-	gl_FragColor = varying_Color + vec4(m,m,m,1.0f);
+    //float m = (mag(varying_Position) - 0.8) * 2.5;
+	gl_FragColor = varying_Color;// + vec4(m,m,m,1.0f);
 }

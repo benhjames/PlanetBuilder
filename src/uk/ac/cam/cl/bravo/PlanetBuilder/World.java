@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 class World{
-	private static final double SUBDIVISIONMULT = 5;
+	private static final double SUBDIVISIONMULT = 1;
 	
 	// SINGLETON
 	private static World instance = new World();
@@ -18,7 +18,8 @@ class World{
 	
 	
 	// Initalize Global Options
-    public void initializeGlobal(GlobalOptions GO){
+    public void initializeGlobal(){
+        GlobalOptions GO = GlobalOptions.getInstance();
     	int subdivisions = (int) (GO.getDetailLevel() * SUBDIVISIONMULT);
         SurfaceTriangles = Icosahedron.generateIcosahedron(subdivisions);
         SeaTriangles = Icosahedron.generateIcosahedron(subdivisions);
@@ -27,7 +28,8 @@ class World{
 
     
     // Finalize World Options
-    public void finalizeWorld(WorldOptions WO) {
+    public void finalizeWorld() {
+        WorldOptions WO = WorldOptions.getInstance();
         for (Triangle T: SurfaceTriangles){
         	T.assignSurface(WO);
         }

@@ -1,5 +1,6 @@
 #if __VERSION__ >= 130
-	#define varying in
+	#define varying out
+	#define attribute in
 	out vec4 mgl_FragColor;
 	#define texture2D texture
 	#define gl_FragColor mgl_FragColor
@@ -10,9 +11,10 @@
 	precision mediump int;
 #endif
 
-varying vec4 varying_Color;
+uniform samplerCube uTexture;
 
-void main (void)
-{
-	gl_FragColor = varying_Color;
+smooth attribute vec3 eyeDirection;
+
+void main() {
+    gl_FragColor = texture(uTexture, eyeDirection);
 }
