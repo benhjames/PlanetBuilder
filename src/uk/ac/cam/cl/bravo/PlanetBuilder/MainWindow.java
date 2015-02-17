@@ -40,7 +40,7 @@ public class MainWindow implements GLEventListener {
 	private Texture skyboxTexture;
 
 	static private final int VERTICES_IDX = 0;
-	static private final int NORMALS_IDX = 1;
+	static private final int COLORS_IDX = 1;
 	static private final int SKYBOX_IDX = 2;
 
 	private Camera camera = new Camera();
@@ -104,7 +104,7 @@ public class MainWindow implements GLEventListener {
 
 		//Associate attribute ids with the attribute names inside the vertex shader.
 		gl.glBindAttribLocation(grassShaderProgram, 0, "attribute_Position");
-		gl.glBindAttribLocation(grassShaderProgram, 1, "attribute_Normal");
+		gl.glBindAttribLocation(grassShaderProgram, 1, "attribute_Color");
 
 		gl.glLinkProgram(grassShaderProgram);
 
@@ -144,7 +144,7 @@ public class MainWindow implements GLEventListener {
 		GL3 gl = drawable.getGL().getGL3();
 
 		float[] vertices = World.getInstance().getSurfaceVertexArray();
-		float[] normals = World.getInstance().getSurfaceVertexArray();
+		float[] colors = World.getInstance().getSurfaceColorArray();
 
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
@@ -152,12 +152,12 @@ public class MainWindow implements GLEventListener {
 		int numBytes = vertices.length * 4;
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, vertexBuffer, GL.GL_STATIC_DRAW);
 
-		FloatBuffer normalBuffer = Buffers.newDirectFloatBuffer(normals);
-		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[NORMALS_IDX]);
-		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 0, 0);
+		FloatBuffer colorBuffer = Buffers.newDirectFloatBuffer(colors);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[COLORS_IDX]);
+		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
-		numBytes = normals.length * 4;
-		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, normalBuffer, GL.GL_STATIC_DRAW);
+		numBytes = colors.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, colorBuffer, GL.GL_STATIC_DRAW);
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
@@ -240,8 +240,8 @@ public class MainWindow implements GLEventListener {
 		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
 
 		gl.glEnableVertexAttribArray(1);
-		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[NORMALS_IDX]);
-		gl.glVertexAttribPointer(1, 3, GL3.GL_FLOAT, false, 0, 0);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[COLORS_IDX]);
+		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, planetVertexCount);
 

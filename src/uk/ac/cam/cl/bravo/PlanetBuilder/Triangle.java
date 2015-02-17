@@ -34,8 +34,8 @@ class Triangle {
     	
     	//Assing Type: settlement/vegetation/land
    
-    	double settlementBound = WO.getSettlementLevel() / 100;
-    	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100;
+    	double settlementBound = WO.getSettlementLevel() / 100f;
+    	double vegetationBound = settlementBound + WO.getVegetationFactor() / 100f;
     	
     	if (vegetationBound > 1){
     		settlementBound /= vegetationBound;
@@ -88,9 +88,9 @@ class Triangle {
         v2 = V2;
         v3 = V3;
 
-    	float avgX = (v1.getX() + v2.getX() + v3.getX()) / 3;
-    	float avgY = (v1.getY() + v2.getY() + v3.getY()) / 3;
-    	float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3;
+    	float avgX = (v1.getX() + v2.getX() + v3.getX()) / 3f;
+    	float avgY = (v1.getY() + v2.getY() + v3.getY()) / 3f;
+    	float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
     	
         fillingTypeNoise = Noise.noise(avgX, avgY, avgZ, TIME , (int) WorldOptions.getInstance().getSeed() + Seeds.FillingTypeSeed);
     }
