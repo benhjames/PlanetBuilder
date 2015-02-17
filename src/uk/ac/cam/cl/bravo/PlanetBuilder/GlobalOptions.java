@@ -20,7 +20,7 @@ public class GlobalOptions implements Serializable {
 
     protected GlobalOptions() {
         //Initialise options with defaults
-        detailLevel = 50.0f;
+        detailLevel = 4.0f;
         renderHigh = true;
         autoPan = true;
     }

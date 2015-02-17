@@ -84,6 +84,9 @@ public class MainWindow implements GLEventListener {
 			System.exit(1);
 		}
 
+		World.getInstance().initializeGlobal(GlobalOptions.getInstance());
+		World.getInstance().finalizeWorld(WorldOptions.getInstance());
+
 		createPlanet(drawable);
 		createSkybox(drawable);
 	}
@@ -140,9 +143,8 @@ public class MainWindow implements GLEventListener {
 	private void createPlanet(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
 
-		Icosahedron icosahedron = new Icosahedron();
-		float[] vertices = icosahedron.getVertices();
-		float[] normals = icosahedron.getVertexNormals();
+		float[] vertices = World.getInstance().getSurfaceVertexArray();
+		float[] normals = World.getInstance().getSurfaceVertexArray();
 
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
