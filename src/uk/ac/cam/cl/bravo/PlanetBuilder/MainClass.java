@@ -8,12 +8,24 @@ import com.jogamp.opengl.util.*;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
+import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainClass {
+
+    public static JFrame window;
+
+    public static int windowWidth = 1466;
+    public static int windowHeight = 768;
+
+    public static int controlWidth = 200;
+    public static int controlHeight = windowHeight;
+
+	public static int canvasWidth = windowWidth - controlWidth;
+	public static int canvasHeight = windowHeight;
 
     public static void main(String[] args) {
         System.out.println("Planet Builder launched");
@@ -22,6 +34,7 @@ public class MainClass {
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glc = new GLCapabilities(glp);
         GLCanvas canvas = new GLCanvas(glc);
+        canvas.setSize(canvasWidth, canvasHeight);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -35,23 +48,22 @@ public class MainClass {
             e.printStackTrace();
         }
 
-        Frame controls = new CommandAndControl();
-        controls.setVisible(true);
+        JPanel controls = new CommandAndControl();
 
-        Frame frame = new Frame("Planet Builder");
-        frame.setSize(768, 768);
-        frame.add(canvas);
-        frame.setVisible(true);
-        frame.setResizable(false);
-
-        frame.addWindowListener(new WindowAdapter() {
+        window = new JFrame("PlanetBuilder");
+        window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
+        window.setSize(windowWidth, windowHeight);
+        window.setResizable(false);
+        window.getContentPane().add(canvas, BorderLayout.CENTER);
+        window.getContentPane().add(controls, BorderLayout.EAST);
+        window.setVisible(true);
 
-        canvas.addGLEventListener(new MainWindow(frame.getSize().height, frame.getSize().width));
+        canvas.addGLEventListener(new MainWindow());
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();

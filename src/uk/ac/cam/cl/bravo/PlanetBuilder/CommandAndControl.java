@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class CommandAndControl extends JFrame {
+public class CommandAndControl extends JPanel {
 
     //Declare controls
     private JLabel detailLabel;
@@ -40,10 +40,10 @@ public class CommandAndControl extends JFrame {
     private JButton newWorld;
     private JButton saveWorld;
     private JButton loadWorld;
+    private JButton exportWorld;
 
     public CommandAndControl() {
-        setTitle("Planet Builder - Controls");
-        setSize(200, 850);
+        setSize(200, 768);
         drawInitialUI();
         refreshValues();
     }
@@ -63,19 +63,22 @@ public class CommandAndControl extends JFrame {
     }
 
     private void drawInitialUI() {
-        Container pane = getContentPane();
-        GroupLayout gl = new GroupLayout(pane);
-        pane.setLayout(gl);
-        GroupLayout.Group horiz = gl.createParallelGroup();
-        GroupLayout.Group vert = gl.createSequentialGroup();
-        gl.setHorizontalGroup(horiz);
-        gl.setVerticalGroup(vert);
+        GridBagLayout gbl = new GridBagLayout();
+        setLayout(gbl);
+        GridBagConstraints c;
 
         //In general, for each control, create it, add change listener, add to groups
 
-        detailLabel = new JLabel("Detail Level");
-        horiz.addComponent(detailLabel);
-        vert.addComponent(detailLabel);
+        detailLabel = new JLabel("Detail Level", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight=1;
+        c.gridwidth = 4;
+        add(detailLabel, c);
 
         detailSlider = new JSlider(0, 100);
         detailSlider.addChangeListener(new ChangeListener() {
@@ -84,12 +87,26 @@ public class CommandAndControl extends JFrame {
                 GlobalOptions.getInstance().setDetailLevel(detailSlider.getValue());
             }
         });
-        horiz.addComponent(detailSlider);
-        vert.addComponent(detailSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(detailSlider, c);
 
-        renderLabel = new JLabel("Render details?");
-        horiz.addComponent(renderLabel);
-        vert.addComponent(renderLabel);
+        renderLabel = new JLabel("Details?", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.7;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(renderLabel, c);
 
         renderCheck = new JCheckBox();
         renderCheck.addChangeListener(new ChangeListener() {
@@ -98,12 +115,26 @@ public class CommandAndControl extends JFrame {
                 GlobalOptions.getInstance().setRenderHigh(renderCheck.isSelected());
             }
         });
-        horiz.addComponent(renderCheck);
-        vert.addComponent(renderCheck);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridx = 1;
+        c.gridy = 2;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(renderCheck, c);
 
-        panLabel = new JLabel("Auto-pan");
-        horiz.addComponent(panLabel);
-        vert.addComponent(panLabel);
+        panLabel = new JLabel("Rotate?", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.gridy = 2;
+        c.weighty=0.1;
+        c.weightx=0.7;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(panLabel, c);
 
         panCheck = new JCheckBox();
         panCheck.addChangeListener(new ChangeListener() {
@@ -112,16 +143,36 @@ public class CommandAndControl extends JFrame {
                 GlobalOptions.getInstance().setAutoPan(panCheck.isSelected());
             }
         });
-        horiz.addComponent(panCheck);
-        vert.addComponent(panCheck);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 3;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 2;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(panCheck, c);
 
         globalSep = new JSeparator();
-        horiz.addComponent(globalSep);
-        vert.addComponent(globalSep);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.weightx = 1;
+        c.weighty = 0.01;
+        c.gridy = 3;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(globalSep, c);
 
-        terrainLabel = new JLabel("Terrain");
-        horiz.addComponent(terrainLabel);
-        vert.addComponent(terrainLabel);
+        terrainLabel = new JLabel("Terrain", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.gridheight=1;
+        c.gridwidth = 4;
+        add(terrainLabel, c);
 
         terrainSlider = new JSlider(0, 100);
         terrainSlider.addChangeListener(new ChangeListener() {
@@ -130,12 +181,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setTerrainFactor(terrainSlider.getValue());
             }
         });
-        horiz.addComponent(terrainSlider);
-        vert.addComponent(terrainSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 5;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(terrainSlider, c);
 
-        vegetationLabel = new JLabel("Vegetation");
-        horiz.addComponent(vegetationLabel);
-        vert.addComponent(vegetationLabel);
+        vegetationLabel = new JLabel("Vegetation", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 6;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(vegetationLabel, c);
 
         vegetationSlider = new JSlider(0, 100);
         vegetationSlider.addChangeListener(new ChangeListener() {
@@ -144,12 +209,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setVegetationFactor(vegetationSlider.getValue());
             }
         });
-        horiz.addComponent(vegetationSlider);
-        vert.addComponent(vegetationSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 7;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(vegetationSlider, c);
 
-        desertLabel = new JLabel("Desert");
-        horiz.addComponent(desertLabel);
-        vert.addComponent(desertLabel);
+        desertLabel = new JLabel("Desert", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 8;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(desertLabel, c);
 
         desertSlider = new JSlider(0, 100);
         desertSlider.addChangeListener(new ChangeListener() {
@@ -158,12 +237,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setDesertFactor(desertSlider.getValue());
             }
         });
-        horiz.addComponent(desertSlider);
-        vert.addComponent(desertSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 9;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(desertSlider, c);
 
-        iceLabel = new JLabel("Ice");
-        horiz.addComponent(iceLabel);
-        vert.addComponent(iceLabel);
+        iceLabel = new JLabel("Ice", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 10;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(iceLabel, c);
 
         iceSlider = new JSlider(0, 100);
         iceSlider.addChangeListener(new ChangeListener() {
@@ -172,12 +265,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setIceFactor(iceSlider.getValue());
             }
         });
-        horiz.addComponent(iceSlider);
-        vert.addComponent(iceSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 11;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(iceSlider, c);
 
-        waterLabel = new JLabel("Water Level");
-        horiz.addComponent(waterLabel);
-        vert.addComponent(waterLabel);
+        waterLabel = new JLabel("Water Level", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 12;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(waterLabel, c);
 
         waterSlider = new JSlider(0, 100);
         waterSlider.addChangeListener(new ChangeListener() {
@@ -186,12 +293,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setWaterFactor(waterSlider.getValue());
             }
         });
-        horiz.addComponent(waterSlider);
-        vert.addComponent(waterSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 13;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(waterSlider, c);
 
-        settlementLabel = new JLabel("Settlements");
-        horiz.addComponent(settlementLabel);
-        vert.addComponent(settlementLabel);
+        settlementLabel = new JLabel("Settlements", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 14;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(settlementLabel, c);
 
         settlementSlider = new JSlider(0, 100);
         settlementSlider.addChangeListener(new ChangeListener() {
@@ -200,12 +321,26 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setSettlementLevel(settlementSlider.getValue());
             }
         });
-        horiz.addComponent(settlementSlider);
-        vert.addComponent(settlementSlider);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 15;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(settlementSlider, c);
 
-        ringsLabel = new JLabel("Planet rings?");
-        horiz.addComponent(ringsLabel);
-        vert.addComponent(ringsLabel);
+        ringsLabel = new JLabel("Rings?", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.7;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 16;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(ringsLabel, c);
 
         ringsCheck = new JCheckBox();
         ringsCheck.addChangeListener(new ChangeListener() {
@@ -214,12 +349,27 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setPlanetRings(ringsCheck.isSelected());
             }
         });
-        horiz.addComponent(ringsCheck);
-        vert.addComponent(ringsCheck);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 1;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 16;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(ringsCheck, c);
 
-        inhabitedLabel = new JLabel("Inhabited?");
-        horiz.addComponent(inhabitedLabel);
-        vert.addComponent(inhabitedLabel);
+        inhabitedLabel = new JLabel("Inhabited?", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.7;
+        c.weighty = 0.1;
+        c.gridx = 2;
+        c.gridy = 16;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(inhabitedLabel, c);
+
 
         inhabitedCheck = new JCheckBox();
         inhabitedCheck.addChangeListener(new ChangeListener() {
@@ -228,36 +378,63 @@ public class CommandAndControl extends JFrame {
                 WorldOptions.getInstance().setInhabitants(inhabitedCheck.isSelected());
             }
         });
-        horiz.addComponent(inhabitedCheck);
-        vert.addComponent(inhabitedCheck);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 3;
+        c.weightx = 0.1;
+        c.weighty = 0.1;
+        c.gridy = 16;
+        c.gridheight=1;
+        c.gridwidth=1;
+        add(inhabitedCheck, c);
 
         //Will open colour chooser in popup
-        groundColButton = new JButton("Ground colours");
+        groundColButton = new JButton("Ground Cols");
         groundColButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ColourChooser c = new ColourChooser(CommandAndControl.this, "Ground Colours", ColourChooser.ColourableItems.GROUND);
+                ColourChooser c = new ColourChooser(MainClass.window, "Ground Colours", ColourChooser.ColourableItems.GROUND);
                 c.setVisible(true);
             }
         });
-        horiz.addComponent(groundColButton);
-        vert.addComponent(groundColButton);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 17;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(groundColButton, c);
 
         //Will open colour chooser in popup
-        waterColButton = new JButton("Water colours");
+        waterColButton = new JButton("Water Cols");
         waterColButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ColourChooser c = new ColourChooser(CommandAndControl.this, "Water Colours", ColourChooser.ColourableItems.WATER);
+                ColourChooser c = new ColourChooser(MainClass.window, "Water Colours", ColourChooser.ColourableItems.WATER);
                 c.setVisible(true);
             }
         });
-        horiz.addComponent(waterColButton);
-        vert.addComponent(waterColButton);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 17;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(waterColButton, c);
 
         ioSep = new JSeparator();
-        horiz.addComponent(ioSep);
-        vert.addComponent(ioSep);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.weightx = 1;
+        c.weighty = 0.01;
+        c.gridy = 17;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(ioSep, c);
 
         newWorld = new JButton("New world");
         newWorld.addActionListener(new ActionListener() {
@@ -267,8 +444,14 @@ public class CommandAndControl extends JFrame {
                 refreshValues();
             }
         });
-        horiz.addComponent(newWorld);
-        vert.addComponent(newWorld);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 18;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(newWorld, c);
 
         saveWorld = new JButton("Save world");
         saveWorld.addActionListener(new ActionListener() {
@@ -287,8 +470,24 @@ public class CommandAndControl extends JFrame {
 
             }
         });
-        horiz.addComponent(saveWorld);
-        vert.addComponent(saveWorld);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 19;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(saveWorld, c);
+
+        exportWorld = new JButton("Export world");
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 19;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(exportWorld, c);
 
         loadWorld = new JButton("Load world");
         loadWorld.addActionListener(new ActionListener() {
@@ -310,8 +509,14 @@ public class CommandAndControl extends JFrame {
 
             }
         });
-        horiz.addComponent(loadWorld);
-        vert.addComponent(loadWorld);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 2;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridy = 18;
+        c.gridheight=1;
+        c.gridwidth=2;
+        add(loadWorld, c);
 
     }
 }

@@ -9,7 +9,8 @@
 	precision mediump int;
 #endif
 
-uniform mat4 uniform_Projection;
+uniform mat4 uniform_Model;
+uniform mat4 uniform_Camera;
 attribute vec4 attribute_Position;
 attribute vec4 attribute_Normal;
 
@@ -25,5 +26,5 @@ void main(void)
     float random = rand(attribute_Position.xy) / 2.0f;
 	varying_Color = vec4(0.035 + random, 0.619f + random, 0.055f + random, 1.0f);
 	varying_Position = attribute_Position;
-	gl_Position = uniform_Projection * attribute_Position;
+	gl_Position = uniform_Camera * uniform_Model * attribute_Position;
 }
