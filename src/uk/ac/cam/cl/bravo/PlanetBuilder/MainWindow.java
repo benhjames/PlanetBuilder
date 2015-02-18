@@ -326,23 +326,25 @@ public class MainWindow implements GLEventListener {
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
-		// END RING DRAWING, BEGIN DRAWING WORLD
+		// END WORLD DRAWING, BEGIN DRAWING RING
 
-		gl.glEnable(gl.GL_BLEND);
-		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC1_ALPHA);
-		gl.glUseProgram(ringShaderProgram);
+		if(WorldOptions.getInstance().isPlanetRings()) {
+			gl.glEnable(gl.GL_BLEND);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC1_ALPHA);
+			gl.glUseProgram(ringShaderProgram);
 
-		gl.glUniformMatrix4fv(cameraRingMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
+			gl.glUniformMatrix4fv(cameraRingMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
 
-		gl.glEnableVertexAttribArray(0);
-		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[RING_IDX]);
-		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
-		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, ringVertexCount);
-		gl.glDisableVertexAttribArray(0);
-		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-		gl.glDisable(gl.GL_BLEND);
+			gl.glEnableVertexAttribArray(0);
+			gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[RING_IDX]);
+			gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
+			gl.glDrawArrays(GL3.GL_TRIANGLES, 0, ringVertexCount);
+			gl.glDisableVertexAttribArray(0);
+			gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+			gl.glDisable(gl.GL_BLEND);
 
-		gl.glDisable(gl.GL_BLEND);
+			gl.glDisable(gl.GL_BLEND);
+		}
 	}
 
 	@Override
