@@ -100,13 +100,17 @@ class Triangle {
 	}
 
 	public void assignSea(WorldOptions WO){
-		v1.updateHeight(WO, 1f);
-		v2.updateHeight(WO, 1f);
-		v3.updateHeight(WO, 1f);
+		v1.updateHeight(WO, 0.75f + WO.getWaterFactor() / 250f);
+		v2.updateHeight(WO, 0.75f + WO.getWaterFactor() / 250f);
+		v3.updateHeight(WO, 0.75f + WO.getWaterFactor() / 250f);
 
 		c1 = interpolate(WO.getWaterStart(), WO.getWaterEnd(), v1.getHeightNoise());
 		c2 = interpolate(WO.getWaterStart(), WO.getWaterEnd(), v2.getHeightNoise());
 		c3 = interpolate(WO.getWaterStart(), WO.getWaterEnd(), v3.getHeightNoise());
+
+		c1 = new Color(c1.getRed(), c1.getBlue(), c1.getGreen(), 160);
+		c2 = new Color(c2.getRed(), c2.getBlue(), c2.getGreen(), 160);
+		c3 = new Color(c3.getRed(), c3.getBlue(), c3.getGreen(), 160);
 
 	}
 

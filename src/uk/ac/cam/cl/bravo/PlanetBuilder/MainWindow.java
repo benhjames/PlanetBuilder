@@ -28,6 +28,7 @@ public class MainWindow implements GLEventListener {
 
 	private Mat4 planetMatrix = new Mat4(1.0f);
 	private int planetVertexCount;
+	private int waterVertexCount;
 	private int skyboxVertexCount;
 
 	private int modelMatrix;
@@ -44,6 +45,8 @@ public class MainWindow implements GLEventListener {
 	static private final int VERTICES_IDX = 0;
 	static private final int COLORS_IDX = 1;
 	static private final int SKYBOX_IDX = 2;
+	static private final int WATER_VERTICES_IDX = 3;
+	static private final int WATER_COLORS_IDX = 4;
 
 	private Camera camera = new Camera();
 
@@ -53,8 +56,8 @@ public class MainWindow implements GLEventListener {
 
 		loadShaders(drawable);
 
-		vboHandles = new int[3];
-		gl.glGenBuffers(3, vboHandles, 0);
+		vboHandles = new int[5];
+		gl.glGenBuffers(5, vboHandles, 0);
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
@@ -151,6 +154,8 @@ public class MainWindow implements GLEventListener {
 
 		float[] vertices = World.getInstance().getSurfaceVertexArray();
 		float[] colors = World.getInstance().getSurfaceColorArray();
+		float[] waterVertices = World.getInstance().getSeaVertexArray();
+		float[] waterColors = World.getInstance().getSeaColorArray();
 
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
@@ -160,14 +165,26 @@ public class MainWindow implements GLEventListener {
 
 		FloatBuffer colorBuffer = Buffers.newDirectFloatBuffer(colors);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[COLORS_IDX]);
-		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
 		numBytes = colors.length * 4;
 		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, colorBuffer, GL.GL_STATIC_DRAW);
 
+		FloatBuffer waterVertexBuffer = Buffers.newDirectFloatBuffer(waterVertices);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_VERTICES_IDX]);
+
+		numBytes = waterVertices.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, waterVertexBuffer, GL.GL_STATIC_DRAW);
+
+		FloatBuffer waterColorBuffer = Buffers.newDirectFloatBuffer(waterColors);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_COLORS_IDX]);
+
+		numBytes = waterColors.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, waterColorBuffer, GL.GL_STATIC_DRAW);
+
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
 		planetVertexCount = vertices.length / 3;
+		waterVertexCount = waterVertices.length / 3;
 
 		planetNeedsUpdate = false;
 	}
@@ -256,11 +273,23 @@ public class MainWindow implements GLEventListener {
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, planetVertexCount);
 
+		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glEnable(gl.GL_BLEND);
+
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_VERTICES_IDX]);
+		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
+
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_COLORS_IDX]);
+		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
+
+		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, waterVertexCount);
+
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
+		gl.glDisable(gl.GL_BLEND);
 	}
 
 	@Override
