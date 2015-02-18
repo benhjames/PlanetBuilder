@@ -26,13 +26,19 @@ public class MainWindow implements GLEventListener {
 	private int skyboxFragShader;
 	private int skyboxShaderProgram;
 
+	private int ringVertShader;
+	private int ringFragShader;
+	private int ringShaderProgram;
+
 	private Mat4 planetMatrix = new Mat4(1.0f);
 	private int planetVertexCount;
 	private int waterVertexCount;
 	private int skyboxVertexCount;
+	private int ringVertexCount;
 
 	private int modelMatrix;
 	private int cameraMatrix;
+	private int cameraRingMatrix;
 	private int projectionMatrix;
 	private int worldToCameraMatrix;
 	private int shaderTexture;
@@ -47,6 +53,7 @@ public class MainWindow implements GLEventListener {
 	static private final int SKYBOX_IDX = 2;
 	static private final int WATER_VERTICES_IDX = 3;
 	static private final int WATER_COLORS_IDX = 4;
+	static private final int RING_IDX = 5;
 
 	private Camera camera = new Camera();
 
@@ -56,8 +63,8 @@ public class MainWindow implements GLEventListener {
 
 		loadShaders(drawable);
 
-		vboHandles = new int[5];
-		gl.glGenBuffers(5, vboHandles, 0);
+		vboHandles = new int[6];
+		gl.glGenBuffers(6, vboHandles, 0);
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
@@ -94,6 +101,7 @@ public class MainWindow implements GLEventListener {
 
 		createPlanet(drawable);
 		createSkybox(drawable);
+		setupRings(drawable);
 	}
 
 	private void loadShaders(GLAutoDrawable drawable) {
@@ -128,6 +136,15 @@ public class MainWindow implements GLEventListener {
 		projectionMatrix = gl.glGetUniformLocation(skyboxShaderProgram, "uProjectionMatrix");
 		worldToCameraMatrix = gl.glGetUniformLocation(skyboxShaderProgram, "uWorldToCameraMatrix");
 		shaderTexture = gl.glGetUniformLocation(skyboxShaderProgram, "uTexture");
+
+		ringVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/shaders/ring-shader.vp");
+		ringFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/shaders/ring-shader.fp");
+		ringShaderProgram = gl.glCreateProgram();
+		gl.glAttachShader(ringShaderProgram, ringVertShader);
+		gl.glAttachShader(ringShaderProgram, ringFragShader);
+		gl.glBindAttribLocation(ringShaderProgram, 0, "attribute_Position");
+		gl.glLinkProgram(ringShaderProgram);
+		cameraRingMatrix = gl.glGetUniformLocation(ringShaderProgram, "uniform_Camera");
 	}
 
 	@Override
@@ -143,6 +160,11 @@ public class MainWindow implements GLEventListener {
 		gl.glDetachShader(skyboxShaderProgram, skyboxFragShader);
 		gl.glDeleteShader(skyboxFragShader);
 		gl.glDeleteProgram(skyboxShaderProgram);
+		gl.glDetachShader(ringShaderProgram, ringVertShader);
+		gl.glDeleteShader(ringVertShader);
+		gl.glDetachShader(ringShaderProgram, ringFragShader);
+		gl.glDeleteShader(ringFragShader);
+		gl.glDeleteProgram(ringShaderProgram);
 	}
 
 	public static void updatePlanet() {
@@ -187,6 +209,21 @@ public class MainWindow implements GLEventListener {
 		waterVertexCount = waterVertices.length / 3;
 
 		planetNeedsUpdate = false;
+	}
+
+	private void setupRings(GLAutoDrawable drawable) {
+		GL3 gl = drawable.getGL().getGL3();
+
+		float[] ringCoords = {-2.0f, 0.0f, -2.0f, 2.0f, 0.0f, -2.0f, 2.0f, 0.0f, 2.0f,
+				                       -2.0f, 0.0f, -2.0f, 2.0f, 0.0f, 2.0f, -2.0f, 0.0f, 2.0f};
+		FloatBuffer ringBuffer = Buffers.newDirectFloatBuffer(ringCoords);
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[RING_IDX]);
+		int numBytes = ringCoords.length * 4;
+		gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, ringBuffer, GL.GL_STATIC_DRAW);
+
+		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+
+		ringVertexCount = ringCoords.length / 3;
 	}
 
 	private void createSkybox(GLAutoDrawable drawable) {
@@ -256,7 +293,7 @@ public class MainWindow implements GLEventListener {
         prevTime = currTime;
 
         camera.setPosition(new Vec3((float)Math.sin(Math.toRadians(theta)) * 3.0f,
-				                           0.0f,
+				                           0.2f,
 				                           (float)Math.cos(Math.toRadians(theta)) * 3.0f));
 		camera.lookAt(new Vec3(0.0f, 0.0f, 0.0f));
 
@@ -289,7 +326,25 @@ public class MainWindow implements GLEventListener {
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
-		gl.glDisable(gl.GL_BLEND);
+		// END WORLD DRAWING, BEGIN DRAWING RING
+
+		if(WorldOptions.getInstance().isPlanetRings()) {
+			gl.glEnable(gl.GL_BLEND);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC1_ALPHA);
+			gl.glUseProgram(ringShaderProgram);
+
+			gl.glUniformMatrix4fv(cameraRingMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
+
+			gl.glEnableVertexAttribArray(0);
+			gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[RING_IDX]);
+			gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
+			gl.glDrawArrays(GL3.GL_TRIANGLES, 0, ringVertexCount);
+			gl.glDisableVertexAttribArray(0);
+			gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+			gl.glDisable(gl.GL_BLEND);
+
+			gl.glDisable(gl.GL_BLEND);
+		}
 	}
 
 	@Override
