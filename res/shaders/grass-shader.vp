@@ -24,7 +24,7 @@ float rand(vec2 co){
 void main(void)
 {
     float random = rand(attribute_Position.xy) / 2.0f;
-	varying_Color = attribute_Color + random;
+	varying_Color = attribute_Color; //+ random;
 	varying_Position = attribute_Position;
 	gl_Position = uniform_Camera * uniform_Model * attribute_Position;
 }
