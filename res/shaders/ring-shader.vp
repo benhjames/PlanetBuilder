@@ -1,0 +1,27 @@
+#if __VERSION__ >= 130
+	// GLSL 130+ uses in and out
+	#define attribute in
+	#define varying out
+#endif
+
+#ifdef GL_ES
+	precision mediump float;
+	precision mediump int;
+#endif
+
+uniform mat4 uniform_Camera;
+
+attribute vec4 attribute_Position;
+
+varying vec4 varying_Position;
+
+float rand(vec2 co){
+    return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+
+void main(void)
+{
+    float random = rand(attribute_Position.xy) / 2.0f;
+	varying_Position = attribute_Position;
+	gl_Position = uniform_Camera * attribute_Position;
+}
