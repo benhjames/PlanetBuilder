@@ -29,11 +29,11 @@ public class WorldOptions implements Serializable {
         //Randomly generate all settings.
         Random r = new Random();
         terrainFactor = r.nextFloat() * 100.0f;
-        vegetationFactor = r.nextFloat() * 100.0f;
-        desertFactor = r.nextFloat() * 100.0f;
-        iceFactor = r.nextFloat() * 100.0f;
-        waterFactor = r.nextFloat() * 100.0f;
-        settlementLevel = r.nextFloat() * 100.0f;
+        vegetationFactor = r.nextFloat() * 20.0f;
+        desertFactor = r.nextFloat() * 50.0f;
+        iceFactor = r.nextFloat() * 50.0f;
+        waterFactor = r.nextFloat() * 50.0f + 20.0f;
+        settlementLevel = r.nextFloat() * 20.0f;
 
         planetRings = r.nextBoolean();
         inhabitants = r.nextBoolean();
