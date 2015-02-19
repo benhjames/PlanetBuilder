@@ -367,7 +367,7 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(iterSlider, c);
 
-        persLabel = new JLabel("Persistence", SwingConstants.CENTER);
+        persLabel = new JLabel("Roughness", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
