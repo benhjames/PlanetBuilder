@@ -482,6 +482,12 @@ public class CommandAndControl extends JPanel {
         add(saveWorld, c);
 
         exportWorld = new JButton("Export world");
+	    exportWorld.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent event) {
+			    FBXExporter.exportWorld();
+		    }
+	    });
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.weightx = 0.5;
