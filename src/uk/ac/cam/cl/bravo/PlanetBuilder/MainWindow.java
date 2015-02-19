@@ -73,6 +73,7 @@ public class MainWindow implements GLEventListener {
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
+		gl.glFrontFace(GL.GL_CW);
 
 		try {
 			skyboxTexture = TextureIO.newTexture(GL.GL_TEXTURE_CUBE_MAP);
@@ -131,7 +132,6 @@ public class MainWindow implements GLEventListener {
 		//Get a id number to the uniform_Projection matrix so that we can update it.
 		modelMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Model");
 		cameraMatrix = gl.glGetUniformLocation(grassShaderProgram, "uniform_Camera");
-
 
 		skyboxVertShader = Shader.createShader(drawable, GL3.GL_VERTEX_SHADER, "res/shaders/skybox-shader.vp");
 		skyboxFragShader = Shader.createShader(drawable, GL3.GL_FRAGMENT_SHADER, "res/shaders/skybox-shader.fp");
@@ -333,6 +333,7 @@ public class MainWindow implements GLEventListener {
 
 		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glEnable(gl.GL_BLEND);
+		gl.glEnable(GL.GL_CULL_FACE);
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_VERTICES_IDX]);
 		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
@@ -340,9 +341,7 @@ public class MainWindow implements GLEventListener {
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_COLORS_IDX]);
 		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
-        gl.glDisable(GL.GL_DEPTH_TEST);
-
-		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, waterVertexCount);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, waterVertexCount);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[CLOUD_VERTICES_IDX]);
         gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
@@ -350,9 +349,13 @@ public class MainWindow implements GLEventListener {
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[CLOUD_COLORS_IDX]);
         gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
+		gl.glDisable(GL.GL_DEPTH_TEST);
+
         gl.glDrawArrays(GL3.GL_TRIANGLES, 0, cloudVertexCount);
 
+		gl.glDisable(gl.GL_BLEND);
         gl.glEnable(GL.GL_DEPTH_TEST);
+		gl.glDisable(GL.GL_CULL_FACE);
 
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
@@ -374,8 +377,6 @@ public class MainWindow implements GLEventListener {
 			gl.glDrawArrays(GL3.GL_TRIANGLES, 0, ringVertexCount);
 			gl.glDisableVertexAttribArray(0);
 			gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-			gl.glDisable(gl.GL_BLEND);
-
 			gl.glDisable(gl.GL_BLEND);
 		}
 	}
