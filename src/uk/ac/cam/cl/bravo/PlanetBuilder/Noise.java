@@ -3,7 +3,7 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 import java.lang.Thread;
 
 public class Noise {
-    public static long[] hash(final long[] key, final int seed) {
+    public static long[] hash(long[] key, int seed) {
         //hash function, based on murmur hash 3 implementation
         //key.length needs to be a multiple of 2, when key.length is 2, there arent any loops and hash is very fast
         long h1 = 0x9368e53c2f6af274L ^ seed;

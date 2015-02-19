@@ -8,7 +8,7 @@ public class WorldOptions implements Serializable {
 
     private static WorldOptions wo;
 
-    private long seed;
+    private int seed;
     private long version;
 
     private float terrainFactor;
@@ -51,6 +51,8 @@ public class WorldOptions implements Serializable {
 
     public static void replaceInstance() {
         wo = new WorldOptions();
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
     }
 
     public static WorldOptions getInstance() {
@@ -216,13 +218,13 @@ public class WorldOptions implements Serializable {
 	    MainWindow.updatePlanet();
     }
 
-    public long getSeed() {
+    public int getSeed() {
         return seed;
     }
 
     public void newSeed() {
         Random r = new Random();
-        this.seed = r.nextLong();
+        this.seed = r.nextInt();
         version++;
     }
 
