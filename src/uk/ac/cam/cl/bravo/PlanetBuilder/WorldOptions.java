@@ -64,7 +64,7 @@ public class WorldOptions implements Serializable {
         waterFactor = r.nextFloat() * 100.0f;
         settlementLevel = r.nextFloat() * 100.0f;
         persistence = r.nextFloat();
-        iterations = r.nextInt(100);
+        iterations = r.nextInt(10);
 
         planetRings = r.nextBoolean();
         inhabitants = r.nextBoolean();
@@ -90,9 +90,6 @@ public class WorldOptions implements Serializable {
         return wo;
     }
 
-    public long getVersion() {
-        return version;
-    }
 
     public static void readFromFile(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(filename);
