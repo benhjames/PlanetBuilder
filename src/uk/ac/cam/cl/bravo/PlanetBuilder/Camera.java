@@ -16,6 +16,7 @@ public class Camera {
 
 	public Vec3 getPosition() { return position; }
 	public void setPosition(Vec3 pos) { position = pos; }
+	public void updatePosition() { circle(0,0); }
 
 	public void offsetPosition(Vec3 offset) { position = position.add(offset); }
 
@@ -76,6 +77,17 @@ public class Camera {
 			vAngle = -89.9f;
 		setPosition(new Vec3((float) Math.sin(Math.toRadians(hAngle)) * distanceFromCenter * (float) Math.cos(Math.toRadians(vAngle)), (float) Math.sin(Math.toRadians(vAngle)) * distanceFromCenter, (float) Math.cos(Math.toRadians(hAngle)) * distanceFromCenter * (float) Math.cos(Math.toRadians(vAngle))));
 		lookAt(new Vec3(0.0f, 0.0f, 0.0f));
+	}
+
+	public void zoom(float x) {
+		distanceFromCenter += x;
+		if (distanceFromCenter < 2.5f) {
+			distanceFromCenter = 2.5f;
+		}
+		else if (distanceFromCenter > 7.5f) {
+			distanceFromCenter = 7.5f;
+		}
+		updatePosition();
 	}
 
 	public float getViewportAspectRatio() {
