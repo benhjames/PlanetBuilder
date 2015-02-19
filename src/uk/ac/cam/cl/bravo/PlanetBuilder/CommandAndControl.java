@@ -30,6 +30,10 @@ public class CommandAndControl extends JPanel {
     private JSlider waterSlider;
     private JLabel settlementLabel;
     private JSlider settlementSlider;
+    private JLabel iterLabel;
+    private JSlider iterSlider;
+    private JLabel persLabel;
+    private JSlider persSlider;
     private JLabel ringsLabel;
     private JCheckBox ringsCheck;
     private JLabel inhabitedLabel;
@@ -333,13 +337,69 @@ public class CommandAndControl extends JPanel {
         c.gridheight = 1;
         add(settlementSlider, c);
 
+        iterLabel = new JLabel("Iterations", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 16;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(iterLabel, c);
+
+        iterSlider = new JSlider(1, 100);
+        iterSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setIterations(settlementSlider.getValue());
+            }
+        });
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 17;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(iterSlider, c);
+
+        persLabel = new JLabel("Persistence", SwingConstants.CENTER);
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 18;
+        c.gridheight=1;
+        c.gridwidth=4;
+        add(persLabel, c);
+
+        persSlider = new JSlider(1, 100);
+        persSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                WorldOptions.getInstance().setPersistence(settlementSlider.getValue() / 100.0);
+            }
+        });
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 0.1;
+        c.gridx = 0;
+        c.gridy = 19;
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        add(persSlider, c);
+
         ringsLabel = new JLabel("Rings?", SwingConstants.CENTER);
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.7;
         c.weighty = 0.1;
         c.gridx = 0;
-        c.gridy = 16;
+        c.gridy = 20;
         c.gridheight=1;
         c.gridwidth=1;
         add(ringsLabel, c);
@@ -356,7 +416,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 1;
         c.weightx = 0.1;
         c.weighty = 0.1;
-        c.gridy = 16;
+        c.gridy = 20;
         c.gridheight=1;
         c.gridwidth=1;
         add(ringsCheck, c);
@@ -367,7 +427,7 @@ public class CommandAndControl extends JPanel {
         c.weightx = 0.7;
         c.weighty = 0.1;
         c.gridx = 2;
-        c.gridy = 16;
+        c.gridy = 20;
         c.gridheight=1;
         c.gridwidth=1;
         add(inhabitedLabel, c);
@@ -385,7 +445,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 3;
         c.weightx = 0.1;
         c.weighty = 0.1;
-        c.gridy = 16;
+        c.gridy = 20;
         c.gridheight=1;
         c.gridwidth=1;
         add(inhabitedCheck, c);
@@ -404,7 +464,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 0;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 17;
+        c.gridy = 21;
         c.gridheight=1;
         c.gridwidth=2;
         add(groundColButton, c);
@@ -423,7 +483,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 2;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 17;
+        c.gridy = 21;
         c.gridheight=1;
         c.gridwidth=2;
         add(waterColButton, c);
@@ -433,7 +493,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 0;
         c.weightx = 1;
         c.weighty = 0.01;
-        c.gridy = 17;
+        c.gridy = 22;
         c.gridheight=1;
         c.gridwidth=4;
         add(ioSep, c);
@@ -450,7 +510,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 0;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 18;
+        c.gridy = 23;
         c.gridheight=1;
         c.gridwidth=2;
         add(newWorld, c);
@@ -476,7 +536,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 0;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 19;
+        c.gridy = 24;
         c.gridheight=1;
         c.gridwidth=2;
         add(saveWorld, c);
@@ -486,7 +546,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 2;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 19;
+        c.gridy = 24;
         c.gridheight=1;
         c.gridwidth=2;
         add(exportWorld, c);
@@ -515,7 +575,7 @@ public class CommandAndControl extends JPanel {
         c.gridx = 2;
         c.weightx = 0.5;
         c.weighty = 0.1;
-        c.gridy = 18;
+        c.gridy = 23;
         c.gridheight=1;
         c.gridwidth=2;
         add(loadWorld, c);
