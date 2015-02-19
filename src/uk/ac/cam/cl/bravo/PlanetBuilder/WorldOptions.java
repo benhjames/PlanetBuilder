@@ -25,6 +25,32 @@ public class WorldOptions implements Serializable {
     private Color waterStart;
     private Color waterEnd;
 
+    private int iterations;
+    private double persistence;
+
+    public int getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
+        MainWindow.updatePlanet();
+    }
+
+    public double getPersistence() {
+        return persistence;
+    }
+
+    public void setPersistence(double persistence) {
+        if(persistence >= 0.0 && persistence <= 1.0)
+            this.persistence = persistence;
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
+        MainWindow.updatePlanet();
+    }
+
     protected WorldOptions() {
         //Randomly generate all settings.
         Random r = new Random();
@@ -34,6 +60,8 @@ public class WorldOptions implements Serializable {
         iceFactor = r.nextFloat() * 50.0f;
         waterFactor = r.nextFloat() * 50.0f + 20.0f;
         settlementLevel = r.nextFloat() * 20.0f;
+        persistence = r.nextFloat();
+        iterations = r.nextInt(10)
 
         planetRings = r.nextBoolean();
         inhabitants = r.nextBoolean();
