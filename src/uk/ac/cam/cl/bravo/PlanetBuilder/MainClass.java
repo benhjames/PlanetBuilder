@@ -4,6 +4,7 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 
 import com.jogamp.opengl.util.*;
+import sun.applet.Main;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
@@ -63,7 +64,12 @@ public class MainClass {
         window.getContentPane().add(controls, BorderLayout.EAST);
         window.setVisible(true);
 
-        canvas.addGLEventListener(new MainWindow());
+        MainWindow mainWindow = new MainWindow();
+
+		KeyInput.setWindow(mainWindow);
+        canvas.addKeyListener(new KeyInput());
+
+        canvas.addGLEventListener(mainWindow);
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();
