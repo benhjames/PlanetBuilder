@@ -340,6 +340,8 @@ public class MainWindow implements GLEventListener {
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_COLORS_IDX]);
 		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
+        gl.glDisable(GL.GL_DEPTH_TEST);
+
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, waterVertexCount);
 
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[CLOUD_VERTICES_IDX]);
@@ -349,6 +351,8 @@ public class MainWindow implements GLEventListener {
         gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
         gl.glDrawArrays(GL3.GL_TRIANGLES, 0, cloudVertexCount);
+
+        gl.glEnable(GL.GL_DEPTH_TEST);
 
 		gl.glDisableVertexAttribArray(0);
 		gl.glDisableVertexAttribArray(1);
