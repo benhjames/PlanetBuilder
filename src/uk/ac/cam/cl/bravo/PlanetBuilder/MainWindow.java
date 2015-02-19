@@ -57,6 +57,8 @@ public class MainWindow implements GLEventListener {
 
 	private Camera camera = new Camera();
 
+    public Camera getCamera() { return camera; }
+
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL3 gl = drawable.getGL().getGL3();
