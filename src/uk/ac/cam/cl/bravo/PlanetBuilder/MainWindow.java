@@ -246,6 +246,7 @@ public class MainWindow implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		KeyInput.update();
+        Leap.updateLeapControls();
 
 		GL3 gl = drawable.getGL().getGL3();
 
