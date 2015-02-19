@@ -9,7 +9,6 @@ public class WorldOptions implements Serializable {
     private static WorldOptions wo;
 
     private int seed;
-    private long version;
 
     private float terrainFactor;
     private float vegetationFactor;
@@ -27,16 +26,14 @@ public class WorldOptions implements Serializable {
     private Color waterEnd;
 
     protected WorldOptions() {
-        version = 0;
-
         //Randomly generate all settings.
         Random r = new Random();
         terrainFactor = r.nextFloat() * 100.0f;
-        vegetationFactor = r.nextFloat() * 100.0f;
-        desertFactor = r.nextFloat() * 100.0f;
-        iceFactor = r.nextFloat() * 100.0f;
-        waterFactor = r.nextFloat() * 100.0f;
-        settlementLevel = r.nextFloat() * 100.0f;
+        vegetationFactor = r.nextFloat() * 20.0f;
+        desertFactor = r.nextFloat() * 50.0f;
+        iceFactor = r.nextFloat() * 50.0f;
+        waterFactor = r.nextFloat() * 50.0f + 20.0f;
+        settlementLevel = r.nextFloat() * 20.0f;
 
         planetRings = r.nextBoolean();
         inhabitants = r.nextBoolean();
@@ -62,9 +59,6 @@ public class WorldOptions implements Serializable {
         return wo;
     }
 
-    public long getVersion() {
-        return version;
-    }
 
     public static void readFromFile(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(filename);
@@ -79,7 +73,6 @@ public class WorldOptions implements Serializable {
     public void setTerrainFactor(float terrainFactor) {
         if (terrainFactor >= 0.0f && terrainFactor <= 100.0f) {
             this.terrainFactor = terrainFactor;
-            version++;
         }
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
@@ -92,7 +85,6 @@ public class WorldOptions implements Serializable {
     public void setVegetationFactor(float vegetationFactor) {
         if (vegetationFactor >= 0.0f && vegetationFactor <= 100.0f) {
             this.vegetationFactor = vegetationFactor;
-            version++;
 
         }
         World.getInstance().finalizeWorld();
@@ -106,8 +98,6 @@ public class WorldOptions implements Serializable {
     public void setDesertFactor(float desertFactor) {
         if (desertFactor >= 0.0f && desertFactor <= 100.0f) {
             this.desertFactor = desertFactor;
-            version++;
-
         }
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
@@ -120,7 +110,6 @@ public class WorldOptions implements Serializable {
     public void setIceFactor(float iceFactor) {
         if (iceFactor >= 0.0f && iceFactor <= 100.0f) {
             this.iceFactor = iceFactor;
-            version++;
         }
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
@@ -133,7 +122,6 @@ public class WorldOptions implements Serializable {
     public void setWaterFactor(float waterFactor) {
         if (waterFactor >= 0.0f && waterFactor <= 100.0f) {
             this.waterFactor = waterFactor;
-            version++;
         }
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
@@ -146,7 +134,6 @@ public class WorldOptions implements Serializable {
     public void setSettlementLevel(float settlementLevel) {
         if (settlementLevel >= 0.0f && settlementLevel <= 100.0f) {
             this.settlementLevel = settlementLevel;
-            version++;
         }
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
@@ -158,7 +145,6 @@ public class WorldOptions implements Serializable {
 
     public void setPlanetRings(boolean planetRings) {
         this.planetRings = planetRings;
-        version++;
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -169,7 +155,6 @@ public class WorldOptions implements Serializable {
 
     public void setInhabitants(boolean inhabitants) {
         this.inhabitants = inhabitants;
-        version++;
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -180,7 +165,6 @@ public class WorldOptions implements Serializable {
 
     public void setGroundStart(Color groundStart) {
         this.groundStart = groundStart;
-        version++;
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -191,7 +175,6 @@ public class WorldOptions implements Serializable {
 
     public void setGroundEnd(Color groundEnd) {
         this.groundEnd = groundEnd;
-        version++;
 	    World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -202,7 +185,6 @@ public class WorldOptions implements Serializable {
 
     public void setWaterStart(Color waterStart) {
         this.waterStart = waterStart;
-        version++;
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -213,7 +195,6 @@ public class WorldOptions implements Serializable {
 
     public void setWaterEnd(Color waterEnd) {
         this.waterEnd = waterEnd;
-        version++;
         World.getInstance().finalizeWorld();
 	    MainWindow.updatePlanet();
     }
@@ -225,7 +206,6 @@ public class WorldOptions implements Serializable {
     public void newSeed() {
         Random r = new Random();
         this.seed = r.nextInt();
-        version++;
     }
 
     public static void writeToFile(WorldOptions w, String pathname) throws IOException {
