@@ -73,8 +73,8 @@ public class Icosahedron {
 				v31.Normalize();
 				
 				newTriangles.add(new Triangle(t.getV1(), v12, v31));
-				newTriangles.add(new Triangle(t.getV2(), v12, v23));
-				newTriangles.add(new Triangle(t.getV3(), v23, v31));
+				newTriangles.add(new Triangle(t.getV2(), v23, v12));
+				newTriangles.add(new Triangle(t.getV3(), v31, v23));
 				newTriangles.add(new Triangle(v12, v23, v31));
 			}
 			
