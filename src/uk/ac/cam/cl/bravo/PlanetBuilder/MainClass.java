@@ -19,7 +19,7 @@ public class MainClass {
 
     public static JFrame window;
 
-    public static int windowWidth = 1466;
+    public static int windowWidth = 1366;
     public static int windowHeight = 768;
 
     public static int controlWidth = 200;
