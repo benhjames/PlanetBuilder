@@ -58,6 +58,12 @@ public class Camera {
 		}
 	}
 
+	//Circle in the sense that birds circle
+	public void circle(double x, double y) {
+		setPosition(new Vec3((float)Math.sin(Math.toRadians(x)) * 3.0f, 0f, (float)Math.cos(Math.toRadians(x)) * 3.0f));
+		lookAt(new Vec3(0.0f, 0.0f, 0.0f));
+	}
+
 	public float getViewportAspectRatio() {
 		return viewportAspectRatio;
 	}

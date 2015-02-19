@@ -290,14 +290,13 @@ public class MainWindow implements GLEventListener {
             if (theta >= 360 || theta < 0) {
                 theta = theta % 360;
             }
+
+			camera.circle(theta,0);
         }
 
         prevTime = currTime;
 
-        camera.setPosition(new Vec3((float)Math.sin(Math.toRadians(theta)) * 3.0f,
-				                           0.2f,
-				                           (float)Math.cos(Math.toRadians(theta)) * 3.0f));
-		camera.lookAt(new Vec3(0.0f, 0.0f, 0.0f));
+        camera.circle(theta,0);
 
 		gl.glUniformMatrix4fv(cameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
 		gl.glUniformMatrix4fv(modelMatrix, 1, false, planetMatrix.getBuffer().array(), 0);
