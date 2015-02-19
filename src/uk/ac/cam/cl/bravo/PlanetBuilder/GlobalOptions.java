@@ -8,6 +8,32 @@ public class GlobalOptions implements Serializable {
     private float detailLevel;
     private boolean renderHigh;
 
+    public int getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
+        MainWindow.updatePlanet();
+    }
+
+    public double getPersistence() {
+        return persistence;
+    }
+
+    public void setPersistence(double persistence) {
+        if(persistence >= 0.0 && persistence <= 1.0)
+        this.persistence = persistence;
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
+        MainWindow.updatePlanet();
+    }
+
+    private int iterations;
+    private double persistence;
+
     public boolean isAutoPan() {
         return autoPan;
     }
