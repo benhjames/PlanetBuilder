@@ -51,6 +51,8 @@ public class WorldOptions implements Serializable {
 
     public static void replaceInstance() {
         wo = new WorldOptions();
+        World.getInstance().initializeGlobal();
+        World.getInstance().finalizeWorld();
     }
 
     public static WorldOptions getInstance() {
