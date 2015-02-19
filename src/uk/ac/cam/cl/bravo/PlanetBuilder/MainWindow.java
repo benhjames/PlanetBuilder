@@ -245,6 +245,8 @@ public class MainWindow implements GLEventListener {
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
+		KeyInput.update();
+
 		GL3 gl = drawable.getGL().getGL3();
 
 		if(planetNeedsUpdate)
@@ -286,17 +288,15 @@ public class MainWindow implements GLEventListener {
 		double currTime = System.currentTimeMillis();
 
         if(GlobalOptions.getInstance().isAutoPan()) {
-            theta += (currTime - prevTime) * 0.01f;
+            theta = (currTime - prevTime) * 0.01f;
             if (theta >= 360 || theta < 0) {
                 theta = theta % 360;
             }
 
-			camera.circle(theta,0);
+			camera.circle(theta,0f);
         }
 
         prevTime = currTime;
-
-        camera.circle(theta,0);
 
 		gl.glUniformMatrix4fv(cameraMatrix, 1, false, camera.matrix().getBuffer().array(), 0);
 		gl.glUniformMatrix4fv(modelMatrix, 1, false, planetMatrix.getBuffer().array(), 0);

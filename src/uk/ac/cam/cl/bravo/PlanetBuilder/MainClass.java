@@ -66,8 +66,8 @@ public class MainClass {
 
         MainWindow mainWindow = new MainWindow();
 
-        KeyboardFocusManager keyManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        keyManager.addKeyEventDispatcher(new KeyInput(mainWindow));
+		KeyInput.setWindow(mainWindow);
+        canvas.addKeyListener(new KeyInput());
 
         canvas.addGLEventListener(mainWindow);
 

@@ -9,6 +9,7 @@ public class Camera {
 	private float fieldOfView = 60.0f;
 	private float nearPlane = 1.0f;
 	private float farPlane = 500.0f;
+	private float distanceFromCenter = 3.0f;
 	private float viewportAspectRatio = (float)MainClass.canvasWidth/(float)MainClass.canvasHeight;
 
 	public Camera() {}
@@ -37,6 +38,13 @@ public class Camera {
 			System.err.println("Trying to set far plane closer than near plane!");
 	}
 
+	public float getHorizontalAngle() {
+		return -horizontalAngle;
+	}
+	public float getVerticalAngle() {
+		return verticalAngle;
+	}
+
 	public Mat4 orientation() {
 		Mat4 orientation = Mat4.MAT4_IDENTITY;
 		orientation = orientation.multiply(Matrices.rotate((float)Math.toRadians(verticalAngle), new Vec3(1.0f, 0.0f, 0.0f)));
@@ -60,7 +68,13 @@ public class Camera {
 
 	//Circle in the sense that birds circle
 	public void circle(double x, double y) {
-		setPosition(new Vec3((float)Math.sin(Math.toRadians(x)) * 3.0f, 0f, (float)Math.cos(Math.toRadians(x)) * 3.0f));
+		float hAngle = getHorizontalAngle() + (float)x;
+		float vAngle = getVerticalAngle() + (float)y;
+		if(vAngle > 89.9f)
+			vAngle = 89.9f;
+		else if(vAngle < -89.9f)
+			vAngle = -89.9f;
+		setPosition(new Vec3((float) Math.sin(Math.toRadians(hAngle)) * distanceFromCenter * (float) Math.cos(Math.toRadians(vAngle)), (float) Math.sin(Math.toRadians(vAngle)) * distanceFromCenter, (float) Math.cos(Math.toRadians(hAngle)) * distanceFromCenter * (float) Math.cos(Math.toRadians(vAngle))));
 		lookAt(new Vec3(0.0f, 0.0f, 0.0f));
 	}
 
