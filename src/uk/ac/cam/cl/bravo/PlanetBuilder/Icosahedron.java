@@ -1,5 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
+import com.hackoeur.jglm.Vec3;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +44,6 @@ public class Icosahedron {
             for (int[] T: tindices){
             	icosahedron.add(new Triangle(verticies.get(T[0]), verticies.get(T[1]), verticies.get(T[2])));
             }
-            
             return icosahedron;
             
         }
