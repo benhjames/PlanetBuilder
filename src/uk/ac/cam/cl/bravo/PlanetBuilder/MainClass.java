@@ -67,6 +67,7 @@ public class MainClass {
         MainWindow mainWindow = new MainWindow();
 
 		KeyInput.setWindow(mainWindow);
+        Leap.setWindow(mainWindow);
         canvas.addKeyListener(new KeyInput());
 
         canvas.addGLEventListener(mainWindow);
