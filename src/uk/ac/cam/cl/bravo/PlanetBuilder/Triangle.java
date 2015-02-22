@@ -33,8 +33,7 @@ class Triangle {
 		float avgY = (v1.getY() + v2.getY() + v3.getY()) / 3f;
 		float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
 		
-		boolean aboveSea = Math.sqrt(avgX*avgX + avgY*avgY + avgZ*avgZ ) > 0.75f + WorldOptions.getInstance().getWaterFactor() / 250f;
-		return aboveSea && (fillingSettlementNoise < WorldOptions.getInstance().getSettlementLevel()/100f);
+		return isAboveSea() && (fillingSettlementNoise < WorldOptions.getInstance().getSettlementLevel()/100f);
 	}
 	
 	private boolean isAboveSea(){
@@ -72,7 +71,7 @@ class Triangle {
 
 		
 		
-		if (avgHeight() > (WO.getIceFactor() / 200f)) {
+		if (avgHeight() > (1f - WO.getIceFactor() / 100f) && isAboveSea()) {
 			//ice
 			Color iceColor1 = new Color(176, 196, 222, 255);
 			Color iceColor2 = new Color(230, 230, 250, 255);
