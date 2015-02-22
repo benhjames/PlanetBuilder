@@ -110,8 +110,8 @@ class Triangle {
 
 		} else if (fillingTypeNoise > 1 - (WO.getVegetationFactor() / 100f) && isAboveSea()) {
 			//vegetation
-			Color vegColor1 = new Color(139, 69, 19, 255);
-			Color vegColor2 = new Color(160, 82, 45, 255);
+			Color vegColor1 = new Color(0, 139, 25, 255);
+			Color vegColor2 = new Color(119, 160, 14, 255);
 
 			c1 = interpolate(vegColor1, vegColor2, v1.getClimateNoise());
 			c2 = interpolate(vegColor1, vegColor2, v2.getClimateNoise());
