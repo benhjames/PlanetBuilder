@@ -8,6 +8,7 @@ public class GlobalOptions implements Serializable {
     private float detailLevel;
     private boolean renderHigh;
 
+
     public boolean isAutoPan() {
         return autoPan;
     }

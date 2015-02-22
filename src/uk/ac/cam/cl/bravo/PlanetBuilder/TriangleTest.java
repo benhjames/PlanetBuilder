@@ -23,16 +23,19 @@ public class TriangleTest{
         GO.setDetailLevel(0.5f);
         
         WO = WorldOptions.getInstance();
-        WO.setSettlementLevel(20);
-        WO.setTerrainFactor(100);
-        WO.setWaterFactor(50);
-        WO.setVegetationFactor(20);
+        WO.setSettlementLevel(100);
+        WO.setTerrainFactor(0);
+        WO.setWaterFactor(0);
+        WO.setVegetationFactor(0);
+        WO.setIceFactor(0);
+        WO.setDesertFactor(0);
         WO.setGroundStart(Color.GREEN);
         WO.setGroundEnd(Color.GREEN);
         WO.setWaterStart(Color.BLUE);
         WO.setWaterEnd(Color.BLUE);
         
-        T = new Triangle(new Vertex(0f,0f,1f), new Vertex(0f,1f,0f), new Vertex(1f, 0f, 0f));
+        T = new Triangle(new Vertex(1f,0f,0f), new Vertex(0f,1f,0f), new Vertex(0f, 0f, 1f));
+        
         
     }
     
@@ -60,6 +63,15 @@ public class TriangleTest{
     public void testCloudUpdate() {
     	
         T.assignCloud(WO);
+    
+    }
+    
+    @Test
+    public void testmodel() {
+    	T.assignSurface(WO);
+        float[] m = T.getmodels();
+        for (float f: m)
+        	System.out.println(f);
     
     }
 }

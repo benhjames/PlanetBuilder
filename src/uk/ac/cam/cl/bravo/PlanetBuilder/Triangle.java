@@ -26,7 +26,12 @@ class Triangle {
 
 		return new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
-	
+    private float[] models = null;
+
+    public float[] getmodels() {
+        return models;
+    }
+    
 	private boolean isSettlement(){
 
 		float avgX = (v1.getX() + v2.getX() + v3.getX()) / 3f;
@@ -89,6 +94,11 @@ class Triangle {
 			c2 = interpolate(settlementColor1, settlementColor2, v2.getClimateNoise());
 			c3 = interpolate(settlementColor1, settlementColor2, v3.getClimateNoise());
 
+            if (models == null) {
+                models = getmidnormal();
+
+            }
+            
 		} else if (fillingTypeNoise < desertBound && isAboveSea()) {
 			//desert
 			Color desertColor1 = new Color(218, 165, 32, 255);
@@ -143,7 +153,29 @@ class Triangle {
 		c3 = new Color(c3.getRed(), c3.getBlue(), c3.getGreen(), 160);
 
 	}
+	
+	private float[] getmidnormal(){
+		float[] result = new float[6];
+		result[0] = (v1.getX() + v2.getX() + v3.getX()) / 3f;
+		result[1] = (v1.getY() + v2.getY() + v3.getY()) / 3f;
+		result[2] = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
+		
+		result[3] = ((v2.getY()- v1.getY()) * (v3.getZ() - v1.getZ()) - (v2.getZ() - v1.getZ()) * (v3.getY() - v1.getY()));
+		result[4] = ((v2.getZ()- v1.getZ()) * (v3.getX() - v1.getX()) - (v2.getX() - v1.getX()) * (v3.getZ() - v1.getZ()));
+		result[5] = ((v2.getX()- v1.getX()) * (v3.getY() - v1.getY()) - (v2.getY() - v1.getY()) * (v3.getX() - v1.getX()));
+		
+		double length12 = Math.sqrt( (v2.getX() - v1.getX()) * (v2.getX() - v1.getX()) + (v2.getY() - v1.getY()) * (v2.getY() - v1.getY()) + (v2.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
+		double length13 = Math.sqrt( (v3.getX() - v1.getX()) * (v3.getX() - v1.getX()) + (v3.getY() - v1.getY()) * (v3.getY() - v1.getY()) + (v3.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
+		
+		double multiplier = 1d / Math.sqrt(length12 * length13);
 
+		result[3] *= multiplier;
+		result[4] *= multiplier;
+		result[5] *= multiplier;
+		
+		return result;
+	}
+	
 	public Triangle(Vertex V1, Vertex V2, Vertex V3){
 		v1 = V1;
 		v2 = V2;

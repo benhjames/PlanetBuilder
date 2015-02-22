@@ -31,8 +31,10 @@ class Vertex {
         originalY = y;
         originalZ = z;
 
-	    heightNoise = Noise.noise(originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.HeightSeed);
-	    climateNoise = Noise.noise(originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.ClimateSeed);
+	    heightNoise = Noise.fractal_noise(WorldOptions.getInstance().getPersistence(), WorldOptions.getInstance().getIterations(),
+                originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.HeightSeed);
+	    climateNoise = Noise.fractal_noise(WorldOptions.getInstance().getPersistence(), WorldOptions.getInstance().getIterations(),
+                originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.ClimateSeed);
     }
 
     public void Normalize(){
