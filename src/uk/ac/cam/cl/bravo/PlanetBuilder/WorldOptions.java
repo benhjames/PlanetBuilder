@@ -61,7 +61,7 @@ public class WorldOptions implements Serializable {
         waterFactor = r.nextFloat() * 50.0f + 20.0f;
         settlementLevel = r.nextFloat() * 20.0f;
         persistence = r.nextFloat();
-        iterations = r.nextInt(10);
+        iterations = r.nextInt(9) + 1;
 
         planetRings = r.nextBoolean();
         inhabitants = r.nextBoolean();
