@@ -163,11 +163,8 @@ class Triangle {
 		result[3] = ((v2.getY()- v1.getY()) * (v3.getZ() - v1.getZ()) - (v2.getZ() - v1.getZ()) * (v3.getY() - v1.getY()));
 		result[4] = ((v2.getZ()- v1.getZ()) * (v3.getX() - v1.getX()) - (v2.getX() - v1.getX()) * (v3.getZ() - v1.getZ()));
 		result[5] = ((v2.getX()- v1.getX()) * (v3.getY() - v1.getY()) - (v2.getY() - v1.getY()) * (v3.getX() - v1.getX()));
-		
-		double length12 = Math.sqrt( (v2.getX() - v1.getX()) * (v2.getX() - v1.getX()) + (v2.getY() - v1.getY()) * (v2.getY() - v1.getY()) + (v2.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
-		double length13 = Math.sqrt( (v3.getX() - v1.getX()) * (v3.getX() - v1.getX()) + (v3.getY() - v1.getY()) * (v3.getY() - v1.getY()) + (v3.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
-		
-		double multiplier = 1d / Math.sqrt(length12 * length13);
+
+		double multiplier = 1d / Math.sqrt(result[3] * result[3] + result[4] * result[4] + result[5] * result[5]);
 
 		result[3] *= multiplier;
 		result[4] *= multiplier;
