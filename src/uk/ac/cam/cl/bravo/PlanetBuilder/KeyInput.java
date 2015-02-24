@@ -33,6 +33,8 @@ public class KeyInput implements KeyListener {
 		for (int i=0; i<128; i++) {
 			if (keyHold[i]) {
 				runAction(i);
+                GlobalOptions.getInstance().setAutoPan(false);
+                CommandAndControl.refreshValues();
 			}
 			keyPressed[i] = false;
 			keyReleased[i] = false;
