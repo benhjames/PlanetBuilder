@@ -11,6 +11,11 @@ class Triangle {
 	private static double TIME = 0;
 	private static final double CLIMATEFACTOR = 0.5;
 
+    public enum Status {
+        ICE, SETTLEMENT, DESERT, VEGETATION, GROUND
+    }
+    Status status;
+
 	//3 Verticies
 	private Vertex v1, v2, v3;
 
@@ -33,7 +38,12 @@ class Triangle {
     private float[] modelsColors = null;
 
     public float[] getmodels() {
-        return models;
+        if ((status == Status.SETTLEMENT && WorldOptions.getInstance().isInhabitants()) || status==Status.VEGETATION) {
+            return models;
+        }
+        else {
+            return null;
+        }
     }
     public float[] getmodelsColors() { return modelsColors; }
     
@@ -82,6 +92,7 @@ class Triangle {
 		
 		
 		if (avgHeight() > (1f - WO.getIceFactor() / 100f) && isAboveSea()) {
+            status = Status.ICE;
 			//ice
 			Color iceColor1 = new Color(176, 196, 222, 255);
 			Color iceColor2 = new Color(230, 230, 250, 255);
@@ -93,6 +104,7 @@ class Triangle {
             models = null;
 
 		} else if (isSettlement()) {
+            status = Status.SETTLEMENT;
 			//settlement
 			Color settlementColor1 = new Color(105, 105, 105, 255);
 			Color settlementColor2 = new Color(169, 169, 169, 255);
@@ -151,6 +163,7 @@ class Triangle {
             }
             
 		} else if (fillingTypeNoise < desertBound && isAboveSea()) {
+            status = Status.DESERT;
 			//desert
 			Color desertColor1 = new Color(218, 165, 32, 255);
 			Color desertColor2 = new Color(184, 134, 11, 255);
@@ -162,6 +175,7 @@ class Triangle {
             models = null;
 
 		} else if (fillingTypeNoise > 1 - (WO.getVegetationFactor() / 100f) && isAboveSea()) {
+            status = Status.VEGETATION;
 			//vegetation
 			Color vegColor1 = new Color(0, 139, 25, 255);
 			Color vegColor2 = new Color(119, 160, 14, 255);
@@ -191,7 +205,7 @@ class Triangle {
                 models = new float[vertexCount * 3];
                 modelsColors = new float[vertexCount * 4];
 
-                float scale = 2f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
+                float scale = 1.5f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
                 float heightScale = 1.0f + ((new Random()).nextFloat() / 5f);
 
                 float rndColor = (new Random()).nextFloat() * 12f / 100f;
@@ -223,6 +237,8 @@ class Triangle {
             }
 
 		} else  {
+            status = Status.GROUND;
+
 			c1 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v1.getHeightNoise());
 			c2 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v2.getHeightNoise());
 			c3 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v3.getHeightNoise());

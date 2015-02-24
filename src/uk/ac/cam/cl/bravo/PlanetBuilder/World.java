@@ -164,7 +164,7 @@ class World{
 	}
 	
 	public float[] getModelVertexArray() {
-		if (WorldOptions.getInstance().isInhabitants() && GlobalOptions.getInstance().isRenderHigh()) {
+		if (GlobalOptions.getInstance().isRenderHigh()) {
             return modelVertexArray;
         }
         else {
