@@ -1,6 +1,9 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
+import java.util.Random;
+
+import com.hackoeur.jglm.*;
 
 class Triangle {
 
@@ -27,10 +30,12 @@ class Triangle {
 		return new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
     private float[] models = null;
+    private float[] modelsColors = null;
 
     public float[] getmodels() {
         return models;
     }
+    public float[] getmodelsColors() { return modelsColors; }
     
 	private boolean isSettlement(){
 
@@ -85,6 +90,8 @@ class Triangle {
 			c2 = interpolate(iceColor1, iceColor2, v2.getHeightNoise());
 			c3 = interpolate(iceColor1, iceColor2, v3.getHeightNoise());
 
+            models = null;
+
 		} else if (isSettlement()) {
 			//settlement
 			Color settlementColor1 = new Color(105, 105, 105, 255);
@@ -95,8 +102,51 @@ class Triangle {
 			c3 = interpolate(settlementColor1, settlementColor2, v3.getClimateNoise());
 
             if (models == null) {
-                models = getmidnormal();
+                float[] modelsPos = getmidnormal();
 
+                Vec4 pos = new Vec4(modelsPos[0], modelsPos[1], modelsPos[2], 1.0f);
+                Vec3 dir = new Vec3(modelsPos[3], modelsPos[4], modelsPos[5]);
+
+                Vec3 rotationDir = dir.cross(new Vec3(0,1,0)).getUnitVector();
+                float angle = -dir.angleInRadians(new Vec3(0,1,0));
+                float rndAngle = (float)((new Random()).nextInt(90) * 0.0174532925);
+
+                Mat4 rotationMat = Matrices.rotate(angle, rotationDir);
+                Mat4 rotationMat2 = Matrices.rotate(rndAngle, dir);
+                rotationMat = rotationMat.multiply(rotationMat2);
+                Mat4 translationMat = new Mat4((Vec4)rotationMat.getColumn(0), (Vec4)rotationMat.getColumn(1), (Vec4)rotationMat.getColumn(2), pos);
+
+                int vertexCount = StructureModel.getVertexArray().length / 3;
+                models = new float[vertexCount * 3];
+                modelsColors = new float[vertexCount * 4];
+
+                float scale = 1f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
+                float heightScale = 1.0f + (new Random()).nextFloat();
+
+                for (int i = 0; i < vertexCount; i++) {
+                    float x = StructureModel.getVertexArray()[i*3 + 0] * scale;
+                    float y = StructureModel.getVertexArray()[i*3 + 1] * scale * heightScale;
+                    float z = StructureModel.getVertexArray()[i*3 + 2] * scale;
+                    float w = 1f;
+
+                    Vec4 col0 = translationMat.getColumn(0);
+                    Vec4 col1 = translationMat.getColumn(1);
+                    Vec4 col2 = translationMat.getColumn(2);
+                    Vec4 col3 = translationMat.getColumn(3);
+
+                    float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w);
+                    float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w);
+                    float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w);
+
+                    models[i*3 + 0] = newX;
+                    models[i*3 + 1] = newY;
+                    models[i*3 + 2] = newZ;
+
+                    modelsColors[i*4 + 0] = 0.65f;
+                    modelsColors[i*4 + 1] = 0.65f;
+                    modelsColors[i*4 + 2] = 0.65f;
+                    modelsColors[i*4 + 3] = 1.0f;
+                }
             }
             
 		} else if (fillingTypeNoise < desertBound && isAboveSea()) {
@@ -108,6 +158,8 @@ class Triangle {
 			c2 = interpolate(desertColor1, desertColor2, v2.getClimateNoise());
 			c3 = interpolate(desertColor1, desertColor2, v3.getClimateNoise());
 
+            models = null;
+
 		} else if (fillingTypeNoise > 1 - (WO.getVegetationFactor() / 100f) && isAboveSea()) {
 			//vegetation
 			Color vegColor1 = new Color(0, 139, 25, 255);
@@ -117,10 +169,14 @@ class Triangle {
 			c2 = interpolate(vegColor1, vegColor2, v2.getClimateNoise());
 			c3 = interpolate(vegColor1, vegColor2, v3.getClimateNoise());
 
+            models = null;
+
 		} else  {
 			c1 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v1.getHeightNoise());
 			c2 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v2.getHeightNoise());
 			c3 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v3.getHeightNoise());
+
+            models = null;
 
 		}
 
@@ -163,11 +219,8 @@ class Triangle {
 		result[3] = ((v2.getY()- v1.getY()) * (v3.getZ() - v1.getZ()) - (v2.getZ() - v1.getZ()) * (v3.getY() - v1.getY()));
 		result[4] = ((v2.getZ()- v1.getZ()) * (v3.getX() - v1.getX()) - (v2.getX() - v1.getX()) * (v3.getZ() - v1.getZ()));
 		result[5] = ((v2.getX()- v1.getX()) * (v3.getY() - v1.getY()) - (v2.getY() - v1.getY()) * (v3.getX() - v1.getX()));
-		
-		double length12 = Math.sqrt( (v2.getX() - v1.getX()) * (v2.getX() - v1.getX()) + (v2.getY() - v1.getY()) * (v2.getY() - v1.getY()) + (v2.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
-		double length13 = Math.sqrt( (v3.getX() - v1.getX()) * (v3.getX() - v1.getX()) + (v3.getY() - v1.getY()) * (v3.getY() - v1.getY()) + (v3.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
-		
-		double multiplier = 1d / Math.sqrt(length12 * length13);
+
+		double multiplier = -1d / Math.sqrt(result[3] * result[3] + result[4] * result[4] + result[5] * result[5]);
 
 		result[3] *= multiplier;
 		result[4] *= multiplier;

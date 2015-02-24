@@ -60,6 +60,7 @@ public class GlobalOptions implements Serializable {
 
     public void setRenderHigh(boolean renderHigh) {
         this.renderHigh = renderHigh;
+        MainWindow.updatePlanet();
     }
 
     public static void writeToFile(GlobalOptions g, String pathname) throws IOException {
