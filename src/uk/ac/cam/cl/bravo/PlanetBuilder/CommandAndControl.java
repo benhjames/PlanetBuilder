@@ -12,32 +12,32 @@ public class CommandAndControl extends JPanel {
 
     //Declare controls
     private JLabel detailLabel;
-    private JSlider detailSlider;
+    private static JSlider detailSlider;
     private JLabel renderLabel;
-    private JCheckBox renderCheck;
+    private static JCheckBox renderCheck;
     private JLabel panLabel;
-    private JCheckBox panCheck;
+    private static JCheckBox panCheck;
     private JSeparator globalSep;
     private JLabel terrainLabel;
-    private JSlider terrainSlider;
+    private static JSlider terrainSlider;
     private JLabel vegetationLabel;
-    private JSlider vegetationSlider;
+    private static JSlider vegetationSlider;
     private JLabel desertLabel;
-    private JSlider desertSlider;
+    private static JSlider desertSlider;
     private JLabel iceLabel;
-    private JSlider iceSlider;
+    private static JSlider iceSlider;
     private JLabel waterLabel;
-    private JSlider waterSlider;
+    private static JSlider waterSlider;
     private JLabel settlementLabel;
-    private JSlider settlementSlider;
+    private static JSlider settlementSlider;
     private JLabel iterLabel;
     private JSlider iterSlider;
     private JLabel persLabel;
     private JSlider persSlider;
     private JLabel ringsLabel;
-    private JCheckBox ringsCheck;
+    private static JCheckBox ringsCheck;
     private JLabel inhabitedLabel;
-    private JCheckBox inhabitedCheck;
+    private static JCheckBox inhabitedCheck;
     private JButton groundColButton;
     private JButton waterColButton;
     private JSeparator ioSep;
@@ -52,7 +52,7 @@ public class CommandAndControl extends JPanel {
         refreshValues();
     }
 
-    public void refreshValues() {
+    public static void refreshValues() {
         detailSlider.setValue((int) GlobalOptions.getInstance().getDetailLevel());
         renderCheck.setSelected(GlobalOptions.getInstance().isRenderHigh());
         panCheck.setSelected(GlobalOptions.getInstance().isAutoPan());
