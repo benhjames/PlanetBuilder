@@ -128,16 +128,6 @@ class Triangle {
                     float z = StructureModel.getVertexArray()[i*3 + 2] * scale;
                     float w = 1f;
 
-                    Vec4 rotcol0 = rotationMat.getColumn(0);
-                    Vec4 rotcol1 = rotationMat.getColumn(1);
-                    Vec4 rotcol2 = rotationMat.getColumn(2);
-                    Vec4 rotcol3 = rotationMat.getColumn(3);
-
-                    float rotnewX = (rotcol0.getX()*x + rotcol1.getX()*y + rotcol2.getX()*z + rotcol3.getX()*w);
-                    float rotnewY = (rotcol0.getY()*x + rotcol1.getY()*y + rotcol2.getY()*z + rotcol3.getY()*w);
-                    float rotnewZ = (rotcol0.getZ()*x + rotcol1.getZ()*y + rotcol2.getZ()*z + rotcol3.getZ()*w);
-                    float rotnewW = rotcol0.getW()*x + rotcol1.getW()*y + rotcol2.getW()*z + rotcol3.getW()*w;
-
                     Vec4 col0 = translationMat.getColumn(0);
                     Vec4 col1 = translationMat.getColumn(1);
                     Vec4 col2 = translationMat.getColumn(2);
@@ -146,15 +136,14 @@ class Triangle {
                     float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w);
                     float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w);
                     float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w);
-                    float newW = col0.getW()*x + col1.getW()*y + col2.getW()*z + col3.getW()*w;
 
                     models[i*3 + 0] = newX;
                     models[i*3 + 1] = newY;
                     models[i*3 + 2] = newZ;
 
-                    modelsColors[i*4 + 0] = 0.5f;
-                    modelsColors[i*4 + 1] = 0.5f;
-                    modelsColors[i*4 + 2] = 0.5f;
+                    modelsColors[i*4 + 0] = 0.65f;
+                    modelsColors[i*4 + 1] = 0.65f;
+                    modelsColors[i*4 + 2] = 0.65f;
                     modelsColors[i*4 + 3] = 1.0f;
                 }
             }

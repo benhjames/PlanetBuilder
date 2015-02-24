@@ -112,6 +112,7 @@ public class MainWindow implements GLEventListener {
 		createSkybox(drawable);
 		setupRings(drawable);
 
+        camera.circle(0,25);
         camera.updatePosition();
 	}
 
