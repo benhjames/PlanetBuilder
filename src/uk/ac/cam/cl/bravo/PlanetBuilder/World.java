@@ -32,11 +32,14 @@ class World{
         WorldOptions WO = WorldOptions.getInstance();
         
         ArrayList<float[]> initialmodelArray = new ArrayList<float[]>();
+        ArrayList<float[]> initialmodelColorsArray = new ArrayList<float[]>();
         
         for (Triangle T: SurfaceTriangles){
         	T.assignSurface(WO);
-        	if (T.getmodels() != null)
-        		initialmodelArray.add(T.getmodels());
+        	if (T.getmodels() != null) {
+                initialmodelArray.add(T.getmodels());
+                initialmodelColorsArray.add(T.getmodelsColors());
+            }
         }
         for (Triangle T: CloudTriangles){
         	T.assignCloud(WO);
@@ -54,6 +57,7 @@ class World{
         cloudColorArray = GenerateColorArray(CloudTriangles);
 
         modelVertexArray = generateArray(initialmodelArray);
+        modelColorArray = generateArray(initialmodelColorsArray);
     }
 
     private float[] generateArray(ArrayList<float[]> floatArrayList) {
@@ -133,6 +137,7 @@ class World{
     private float[] cloudColorArray = null;
     
     private float[] modelVertexArray = null;
+    private float[] modelColorArray = null;
     
     public float[] getSurfaceVertexArray() {
     	return surfaceVertexArray;
@@ -158,8 +163,12 @@ class World{
 		return cloudColorArray;
 	}
 	
-	public float[] getModelArray() {
+	public float[] getModelVertexArray() {
 		return modelVertexArray;
 	}
+
+    public float[] getModelColorArray() {
+        return modelColorArray;
+    }
     
 }

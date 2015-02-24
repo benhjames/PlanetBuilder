@@ -30,10 +30,12 @@ class Triangle {
 		return new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
     private float[] models = null;
+    private float[] modelsColors = null;
 
     public float[] getmodels() {
         return models;
     }
+    public float[] getmodelsColors() { return modelsColors; }
     
 	private boolean isSettlement(){
 
@@ -88,6 +90,8 @@ class Triangle {
 			c2 = interpolate(iceColor1, iceColor2, v2.getHeightNoise());
 			c3 = interpolate(iceColor1, iceColor2, v3.getHeightNoise());
 
+            models = null;
+
 		} else if (isSettlement()) {
 			//settlement
 			Color settlementColor1 = new Color(105, 105, 105, 255);
@@ -113,7 +117,8 @@ class Triangle {
                 Mat4 translationMat = new Mat4((Vec4)rotationMat.getColumn(0), (Vec4)rotationMat.getColumn(1), (Vec4)rotationMat.getColumn(2), pos);
 
                 int vertexCount = StructureModel.getVertexArray().length / 3;
-                models = new float[StructureModel.getVertexArray().length];
+                models = new float[vertexCount * 3];
+                modelsColors = new float[vertexCount * 4];
 
                 float scale = 0.02f;
 
@@ -146,6 +151,11 @@ class Triangle {
                     models[i*3 + 0] = newX;
                     models[i*3 + 1] = newY;
                     models[i*3 + 2] = newZ;
+
+                    modelsColors[i*4 + 0] = 0.5f;
+                    modelsColors[i*4 + 1] = 0.5f;
+                    modelsColors[i*4 + 2] = 0.5f;
+                    modelsColors[i*4 + 3] = 1.0f;
                 }
             }
             
@@ -158,6 +168,8 @@ class Triangle {
 			c2 = interpolate(desertColor1, desertColor2, v2.getClimateNoise());
 			c3 = interpolate(desertColor1, desertColor2, v3.getClimateNoise());
 
+            models = null;
+
 		} else if (fillingTypeNoise > 1 - (WO.getVegetationFactor() / 100f) && isAboveSea()) {
 			//vegetation
 			Color vegColor1 = new Color(0, 139, 25, 255);
@@ -167,10 +179,14 @@ class Triangle {
 			c2 = interpolate(vegColor1, vegColor2, v2.getClimateNoise());
 			c3 = interpolate(vegColor1, vegColor2, v3.getClimateNoise());
 
+            models = null;
+
 		} else  {
 			c1 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v1.getHeightNoise());
 			c2 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v2.getHeightNoise());
 			c3 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v3.getHeightNoise());
+
+            models = null;
 
 		}
 
