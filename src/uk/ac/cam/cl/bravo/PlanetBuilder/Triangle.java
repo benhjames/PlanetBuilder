@@ -14,6 +14,7 @@ class Triangle {
 	private Color c1, c2, c3;
 
 	private final double fillingTypeNoise;
+	private final double fillingSettlementNoise;
 
 	private Color interpolate(Color C1, Color C2, double weight) {
 		weight = 1f - weight;
@@ -25,7 +26,35 @@ class Triangle {
 
 		return new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
+    private float[] models = null;
 
+    public float[] getmodels() {
+        return models;
+    }
+    
+	private boolean isSettlement(){
+
+		float avgX = (v1.getX() + v2.getX() + v3.getX()) / 3f;
+		float avgY = (v1.getY() + v2.getY() + v3.getY()) / 3f;
+		float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
+		
+		return isAboveSea() && (fillingSettlementNoise < WorldOptions.getInstance().getSettlementLevel()/100f);
+	}
+	
+	private boolean isAboveSea(){
+
+		float avgX = (v1.getX() + v2.getX() + v3.getX()) / 3f;
+		float avgY = (v1.getY() + v2.getY() + v3.getY()) / 3f;
+		float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
+		
+		boolean aboveSea = Math.sqrt(avgX*avgX + avgY*avgY + avgZ*avgZ ) > 0.75f + WorldOptions.getInstance().getWaterFactor() / 250f;
+		return aboveSea;
+	}
+	
+	private float avgHeight() {
+		return (float) (v1.getHeightNoise() + v2.getHeightNoise() + v3.getHeightNoise()) / 3f;
+	}
+	
 	public void assignSurface(WorldOptions WO){
 		v1.updateHeight(WO);
 		v2.updateHeight(WO);
@@ -34,43 +63,21 @@ class Triangle {
 
 		//Assing Type: settlement/vegetation/land
 
-		double settlementBound = WO.getSettlementLevel() / 100f;
-		double vegetationBound = settlementBound + WO.getVegetationFactor() / 100f;
-		double desertBound = vegetationBound + WO.getDesertFactor()/100f;
-		double iceBound = desertBound + WO.getIceFactor()/100f;
+		double desertBound =  WO.getDesertFactor()/100f;
+		double vegetationBound = desertBound + WO.getVegetationFactor() / 100f;
+		double iceBound = vegetationBound + WO.getIceFactor()/100f;
 
 		if (iceBound > 1){
-			settlementBound /= iceBound;
 			vegetationBound /= iceBound;
 			desertBound /= iceBound;
 			iceBound = 1;
 		}
+		
 
-		if (fillingTypeNoise < settlementBound) {
-			Color settlementColor1 = new Color(105, 105, 105, 255);
-			Color settlementColor2 = new Color(169, 169, 169, 255);
-
-			c1 = interpolate(settlementColor1, settlementColor2, v1.getHeightNoise());
-			c2 = interpolate(settlementColor1, settlementColor2, v2.getHeightNoise());
-			c3 = interpolate(settlementColor1, settlementColor2, v3.getHeightNoise());
-
-		} else if (fillingTypeNoise < vegetationBound) {
-			Color vegColor1 = new Color(139, 69, 19, 255);
-			Color vegColor2 = new Color(160, 82, 45, 255);
-
-			c1 = interpolate(vegColor1, vegColor2, v1.getHeightNoise());
-			c2 = interpolate(vegColor1, vegColor2, v2.getHeightNoise());
-			c3 = interpolate(vegColor1, vegColor2, v3.getHeightNoise());
-
-		} else if (fillingTypeNoise < desertBound) {
-			Color desertColor1 = new Color(218, 165, 32, 255);
-			Color desertColor2 = new Color(184, 134, 11, 255);
-
-			c1 = interpolate(desertColor1, desertColor2, v1.getHeightNoise());
-			c2 = interpolate(desertColor1, desertColor2, v2.getHeightNoise());
-			c3 = interpolate(desertColor1, desertColor2, v3.getHeightNoise());
-
-		} else if (fillingTypeNoise < iceBound) {
+		
+		
+		if (avgHeight() > (1f - WO.getIceFactor() / 100f) && isAboveSea()) {
+			//ice
 			Color iceColor1 = new Color(176, 196, 222, 255);
 			Color iceColor2 = new Color(230, 230, 250, 255);
 
@@ -78,7 +85,39 @@ class Triangle {
 			c2 = interpolate(iceColor1, iceColor2, v2.getHeightNoise());
 			c3 = interpolate(iceColor1, iceColor2, v3.getHeightNoise());
 
-		} else {
+		} else if (isSettlement()) {
+			//settlement
+			Color settlementColor1 = new Color(105, 105, 105, 255);
+			Color settlementColor2 = new Color(169, 169, 169, 255);
+
+			c1 = interpolate(settlementColor1, settlementColor2, v1.getClimateNoise());
+			c2 = interpolate(settlementColor1, settlementColor2, v2.getClimateNoise());
+			c3 = interpolate(settlementColor1, settlementColor2, v3.getClimateNoise());
+
+            if (models == null) {
+                models = getmidnormal();
+
+            }
+            
+		} else if (fillingTypeNoise < desertBound && isAboveSea()) {
+			//desert
+			Color desertColor1 = new Color(218, 165, 32, 255);
+			Color desertColor2 = new Color(184, 134, 11, 255);
+
+			c1 = interpolate(desertColor1, desertColor2, v1.getClimateNoise());
+			c2 = interpolate(desertColor1, desertColor2, v2.getClimateNoise());
+			c3 = interpolate(desertColor1, desertColor2, v3.getClimateNoise());
+
+		} else if (fillingTypeNoise > 1 - (WO.getVegetationFactor() / 100f) && isAboveSea()) {
+			//vegetation
+			Color vegColor1 = new Color(0, 139, 25, 255);
+			Color vegColor2 = new Color(119, 160, 14, 255);
+
+			c1 = interpolate(vegColor1, vegColor2, v1.getClimateNoise());
+			c2 = interpolate(vegColor1, vegColor2, v2.getClimateNoise());
+			c3 = interpolate(vegColor1, vegColor2, v3.getClimateNoise());
+
+		} else  {
 			c1 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v1.getHeightNoise());
 			c2 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v2.getHeightNoise());
 			c3 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v3.getHeightNoise());
@@ -86,6 +125,7 @@ class Triangle {
 		}
 
 	}
+
 
 	public void assignCloud(WorldOptions WO){
 		v1.updateHeight(WO, 1.5f);
@@ -113,7 +153,29 @@ class Triangle {
 		c3 = new Color(c3.getRed(), c3.getBlue(), c3.getGreen(), 160);
 
 	}
+	
+	private float[] getmidnormal(){
+		float[] result = new float[6];
+		result[0] = (v1.getX() + v2.getX() + v3.getX()) / 3f;
+		result[1] = (v1.getY() + v2.getY() + v3.getY()) / 3f;
+		result[2] = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
+		
+		result[3] = ((v2.getY()- v1.getY()) * (v3.getZ() - v1.getZ()) - (v2.getZ() - v1.getZ()) * (v3.getY() - v1.getY()));
+		result[4] = ((v2.getZ()- v1.getZ()) * (v3.getX() - v1.getX()) - (v2.getX() - v1.getX()) * (v3.getZ() - v1.getZ()));
+		result[5] = ((v2.getX()- v1.getX()) * (v3.getY() - v1.getY()) - (v2.getY() - v1.getY()) * (v3.getX() - v1.getX()));
+		
+		double length12 = Math.sqrt( (v2.getX() - v1.getX()) * (v2.getX() - v1.getX()) + (v2.getY() - v1.getY()) * (v2.getY() - v1.getY()) + (v2.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
+		double length13 = Math.sqrt( (v3.getX() - v1.getX()) * (v3.getX() - v1.getX()) + (v3.getY() - v1.getY()) * (v3.getY() - v1.getY()) + (v3.getZ() - v1.getZ()) * (v2.getZ() - v1.getZ()));
+		
+		double multiplier = 1d / Math.sqrt(length12 * length13);
 
+		result[3] *= multiplier;
+		result[4] *= multiplier;
+		result[5] *= multiplier;
+		
+		return result;
+	}
+	
 	public Triangle(Vertex V1, Vertex V2, Vertex V3){
 		v1 = V1;
 		v2 = V2;
@@ -124,6 +186,7 @@ class Triangle {
 		float avgZ = (v1.getZ() + v2.getZ() + v3.getZ()) / 3f;
 
 		fillingTypeNoise = Noise.noise(avgX, avgY, avgZ, TIME , (int) WorldOptions.getInstance().getSeed() + Seeds.FillingTypeSeed);
+		fillingSettlementNoise = Noise.noise(avgX, avgY, avgZ, TIME , (int) WorldOptions.getInstance().getSeed() + Seeds.FillingSettlementSeed);
 	}
 
 	public Vertex getV1() {

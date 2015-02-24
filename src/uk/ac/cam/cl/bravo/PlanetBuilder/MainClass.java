@@ -4,7 +4,6 @@ package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 
 import com.jogamp.opengl.util.*;
-import sun.applet.Main;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
@@ -19,7 +18,7 @@ public class MainClass {
 
     public static JFrame window;
 
-    public static int windowWidth = 1466;
+    public static int windowWidth = 1366;
     public static int windowHeight = 768;
 
     public static int controlWidth = 200;
@@ -62,11 +61,13 @@ public class MainClass {
         window.setResizable(false);
         window.getContentPane().add(canvas, BorderLayout.CENTER);
         window.getContentPane().add(controls, BorderLayout.EAST);
+        window.pack();
         window.setVisible(true);
 
         MainWindow mainWindow = new MainWindow();
 
 		KeyInput.setWindow(mainWindow);
+        Leap.setWindow(mainWindow);
         canvas.addKeyListener(new KeyInput());
 
         canvas.addGLEventListener(mainWindow);
