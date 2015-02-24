@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
+import com.hackoeur.jglm.*;
 
 class Triangle {
 
@@ -95,8 +96,40 @@ class Triangle {
 			c3 = interpolate(settlementColor1, settlementColor2, v3.getClimateNoise());
 
             if (models == null) {
-                models = getmidnormal();
+                float[] modelsPos = getmidnormal();
 
+                Vec3 pos = new Vec3(modelsPos[0], modelsPos[1], modelsPos[2]);
+                Vec3 dir = new Vec3(modelsPos[3], modelsPos[4], modelsPos[5]);
+
+                Vec3 rotationDir = dir.cross(new Vec3(0,1,0));
+                float angle = dir.angleInRadians(new Vec3(0,1,0));
+
+                Mat4 rotationMat = Matrices.rotate(angle, rotationDir);
+                Mat4 translationMat = rotationMat.translate(pos);
+
+                int vertexCount = StructureModel.getVertexArray().length / 3;
+                models = new float[StructureModel.getVertexArray().length];
+
+                for (int i = 0; i < vertexCount; i++) {
+                    float x = StructureModel.getVertexArray()[i*3 + 0];
+                    float y = StructureModel.getVertexArray()[i*3 + 1];
+                    float z = StructureModel.getVertexArray()[i*3 + 2];
+                    float w = 1f;
+
+                    Vec4 col0 = translationMat.getColumn(0);
+                    Vec4 col1 = translationMat.getColumn(1);
+                    Vec4 col2 = translationMat.getColumn(2);
+                    Vec4 col3 = translationMat.getColumn(3);
+
+                    float newW = col0.getW()*x + col1.getW()*y + col2.getW()*z + col3.getW()*w;
+                    float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w)/newW;
+                    float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w)/newW;
+                    float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w)/newW;
+
+                    models[i*3 + 0] = newX;
+                    models[i*3 + 1] = newY;
+                    models[i*3 + 2] = newZ;
+                }
             }
             
 		} else if (fillingTypeNoise < desertBound && isAboveSea()) {

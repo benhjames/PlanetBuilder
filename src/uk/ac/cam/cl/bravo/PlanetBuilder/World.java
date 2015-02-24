@@ -53,7 +53,7 @@ class World{
         seaColorArray = GenerateColorArray(SeaTriangles);
         cloudColorArray = GenerateColorArray(CloudTriangles);
 
-        modelArray = generateArray(initialmodelArray);
+        modelVertexArray = generateArray(initialmodelArray);
     }
 
     private float[] generateArray(ArrayList<float[]> floatArrayList) {
@@ -132,7 +132,7 @@ class World{
     private float[] seaColorArray = null;
     private float[] cloudColorArray = null;
     
-    private float[] modelArray = null;
+    private float[] modelVertexArray = null;
     
     public float[] getSurfaceVertexArray() {
     	return surfaceVertexArray;
@@ -159,7 +159,7 @@ class World{
 	}
 	
 	public float[] getModelArray() {
-		return modelArray;
+		return modelVertexArray;
 	}
     
 }
