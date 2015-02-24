@@ -36,6 +36,7 @@ public class MainWindow implements GLEventListener {
     private int cloudVertexCount;
 	private int skyboxVertexCount;
 	private int ringVertexCount;
+    private int modelsVertexCount;
 
 	private int modelMatrix;
 	private int cameraMatrix;
@@ -57,6 +58,7 @@ public class MainWindow implements GLEventListener {
 	static private final int RING_IDX = 5;
     static private final int CLOUD_VERTICES_IDX = 6;
     static private final int CLOUD_COLORS_IDX = 7;
+    static private final int MODELS_VERTICES_IDX = 8;
 
 	private Camera camera = new Camera();
 
@@ -68,8 +70,8 @@ public class MainWindow implements GLEventListener {
 
 		loadShaders(drawable);
 
-		vboHandles = new int[8];
-		gl.glGenBuffers(8, vboHandles, 0);
+		vboHandles = new int[9];
+		gl.glGenBuffers(9, vboHandles, 0);
 
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
@@ -187,6 +189,7 @@ public class MainWindow implements GLEventListener {
 		float[] waterColors = World.getInstance().getSeaColorArray();
         float[] cloudVertices = World.getInstance().getCloudVertexArray();
         float[] cloudColors = World.getInstance().getCloudColorArray();
+        float[] modelsVertices = World.getInstance().getModelArray();
 
 		FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[VERTICES_IDX]);
@@ -224,11 +227,18 @@ public class MainWindow implements GLEventListener {
         numBytes = cloudColors.length * 4;
         gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, cloudColorBuffer, GL.GL_STATIC_DRAW);
 
+        FloatBuffer modelsVertexBuffer = Buffers.newDirectFloatBuffer(modelsVertices);
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[MODELS_VERTICES_IDX]);
+
+        numBytes = modelsVertices.length * 4;
+        gl.glBufferData(GL.GL_ARRAY_BUFFER, numBytes, modelsVertexBuffer, GL.GL_STATIC_DRAW);
+
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
 
 		planetVertexCount = vertices.length / 3;
 		waterVertexCount = waterVertices.length / 3;
         cloudVertexCount = cloudVertices.length / 3;
+        modelsVertexCount = modelsVertices.length / 3;
 
 		planetNeedsUpdate = false;
 	}
@@ -331,6 +341,12 @@ public class MainWindow implements GLEventListener {
 		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, planetVertexCount);
+
+        gl.glEnableVertexAttribArray(0);
+        gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[MODELS_VERTICES_IDX]);
+        gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
+
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, modelsVertexCount);
 
 		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glEnable(gl.GL_BLEND);

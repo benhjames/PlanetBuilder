@@ -1,6 +1,8 @@
 package uk.ac.cam.cl.bravo.PlanetBuilder;
 
 import java.awt.Color;
+import java.util.Random;
+
 import com.hackoeur.jglm.*;
 
 class Triangle {
@@ -98,33 +100,48 @@ class Triangle {
             if (models == null) {
                 float[] modelsPos = getmidnormal();
 
-                Vec3 pos = new Vec3(modelsPos[0], modelsPos[1], modelsPos[2]);
+                Vec4 pos = new Vec4(modelsPos[0], modelsPos[1], modelsPos[2], 1.0f);
                 Vec3 dir = new Vec3(modelsPos[3], modelsPos[4], modelsPos[5]);
 
-                Vec3 rotationDir = dir.cross(new Vec3(0,1,0));
-                float angle = dir.angleInRadians(new Vec3(0,1,0));
+                Vec3 rotationDir = dir.cross(new Vec3(0,1,0)).getUnitVector();
+                float angle = -dir.angleInRadians(new Vec3(0,1,0));
+                float rndAngle = (float)((new Random()).nextInt(90) * 0.0174532925);
 
                 Mat4 rotationMat = Matrices.rotate(angle, rotationDir);
-                Mat4 translationMat = rotationMat.translate(pos);
+                Mat4 rotationMat2 = Matrices.rotate(rndAngle, dir);
+                rotationMat = rotationMat.multiply(rotationMat2);
+                Mat4 translationMat = new Mat4((Vec4)rotationMat.getColumn(0), (Vec4)rotationMat.getColumn(1), (Vec4)rotationMat.getColumn(2), pos);
 
                 int vertexCount = StructureModel.getVertexArray().length / 3;
                 models = new float[StructureModel.getVertexArray().length];
 
+                float scale = 0.02f;
+
                 for (int i = 0; i < vertexCount; i++) {
-                    float x = StructureModel.getVertexArray()[i*3 + 0];
-                    float y = StructureModel.getVertexArray()[i*3 + 1];
-                    float z = StructureModel.getVertexArray()[i*3 + 2];
+                    float x = StructureModel.getVertexArray()[i*3 + 0] * scale;
+                    float y = StructureModel.getVertexArray()[i*3 + 1] * scale;
+                    float z = StructureModel.getVertexArray()[i*3 + 2] * scale;
                     float w = 1f;
+
+                    Vec4 rotcol0 = rotationMat.getColumn(0);
+                    Vec4 rotcol1 = rotationMat.getColumn(1);
+                    Vec4 rotcol2 = rotationMat.getColumn(2);
+                    Vec4 rotcol3 = rotationMat.getColumn(3);
+
+                    float rotnewX = (rotcol0.getX()*x + rotcol1.getX()*y + rotcol2.getX()*z + rotcol3.getX()*w);
+                    float rotnewY = (rotcol0.getY()*x + rotcol1.getY()*y + rotcol2.getY()*z + rotcol3.getY()*w);
+                    float rotnewZ = (rotcol0.getZ()*x + rotcol1.getZ()*y + rotcol2.getZ()*z + rotcol3.getZ()*w);
+                    float rotnewW = rotcol0.getW()*x + rotcol1.getW()*y + rotcol2.getW()*z + rotcol3.getW()*w;
 
                     Vec4 col0 = translationMat.getColumn(0);
                     Vec4 col1 = translationMat.getColumn(1);
                     Vec4 col2 = translationMat.getColumn(2);
                     Vec4 col3 = translationMat.getColumn(3);
 
+                    float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w);
+                    float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w);
+                    float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w);
                     float newW = col0.getW()*x + col1.getW()*y + col2.getW()*z + col3.getW()*w;
-                    float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w)/newW;
-                    float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w)/newW;
-                    float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w)/newW;
 
                     models[i*3 + 0] = newX;
                     models[i*3 + 1] = newY;
@@ -197,7 +214,7 @@ class Triangle {
 		result[4] = ((v2.getZ()- v1.getZ()) * (v3.getX() - v1.getX()) - (v2.getX() - v1.getX()) * (v3.getZ() - v1.getZ()));
 		result[5] = ((v2.getX()- v1.getX()) * (v3.getY() - v1.getY()) - (v2.getY() - v1.getY()) * (v3.getX() - v1.getX()));
 
-		double multiplier = 1d / Math.sqrt(result[3] * result[3] + result[4] * result[4] + result[5] * result[5]);
+		double multiplier = -1d / Math.sqrt(result[3] * result[3] + result[4] * result[4] + result[5] * result[5]);
 
 		result[3] *= multiplier;
 		result[4] *= multiplier;
