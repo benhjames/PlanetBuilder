@@ -20,7 +20,7 @@ public class MainClass {
     public static int windowWidth = 1366;
     public static int windowHeight = 768;
 
-    public static int controlWidth = 200;
+    public static int controlWidth = 217;
     public static int controlHeight = windowHeight;
 
 	public static int canvasWidth = windowWidth - controlWidth;
