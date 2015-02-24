@@ -113,7 +113,7 @@ class Triangle {
 
                 Mat4 rotationMat = Matrices.rotate(angle, rotationDir);
                 Mat4 rotationMat2 = Matrices.rotate(rndAngle, dir);
-                rotationMat = rotationMat.multiply(rotationMat2);
+                rotationMat = rotationMat2.multiply(rotationMat);
                 Mat4 translationMat = new Mat4((Vec4)rotationMat.getColumn(0), (Vec4)rotationMat.getColumn(1), (Vec4)rotationMat.getColumn(2), pos);
 
                 int vertexCount = StructureModel.getVertexArray().length / 3;
@@ -122,6 +122,7 @@ class Triangle {
 
                 float scale = 1f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
                 float heightScale = 1.0f + (new Random()).nextFloat();
+                float rndColor = (new Random()).nextFloat() * 15f / 100f;
 
                 for (int i = 0; i < vertexCount; i++) {
                     float x = StructureModel.getVertexArray()[i*3 + 0] * scale;
@@ -142,9 +143,9 @@ class Triangle {
                     models[i*3 + 1] = newY;
                     models[i*3 + 2] = newZ;
 
-                    modelsColors[i*4 + 0] = 0.65f;
-                    modelsColors[i*4 + 1] = 0.65f;
-                    modelsColors[i*4 + 2] = 0.65f;
+                    modelsColors[i*4 + 0] = 0.5f + rndColor;
+                    modelsColors[i*4 + 1] = 0.5f + rndColor;
+                    modelsColors[i*4 + 2] = 0.5f + rndColor;
                     modelsColors[i*4 + 3] = 1.0f;
                 }
             }
@@ -169,7 +170,57 @@ class Triangle {
 			c2 = interpolate(vegColor1, vegColor2, v2.getClimateNoise());
 			c3 = interpolate(vegColor1, vegColor2, v3.getClimateNoise());
 
-            models = null;
+
+
+            if (models == null) {
+                float[] modelsPos = getmidnormal();
+
+                Vec4 pos = new Vec4(modelsPos[0], modelsPos[1], modelsPos[2], 1.0f);
+                Vec3 dir = new Vec3(modelsPos[3], modelsPos[4], modelsPos[5]);
+
+                Vec3 rotationDir = dir.cross(new Vec3(0,1,0)).getUnitVector();
+                float angle = -dir.angleInRadians(new Vec3(0,1,0));
+                float rndAngle = (float)((new Random()).nextInt(90) * 0.0174532925);
+
+                Mat4 rotationMat = Matrices.rotate(angle, rotationDir);
+                Mat4 rotationMat2 = Matrices.rotate(rndAngle, dir);
+                rotationMat = rotationMat2.multiply(rotationMat);
+                Mat4 translationMat = new Mat4((Vec4)rotationMat.getColumn(0), (Vec4)rotationMat.getColumn(1), (Vec4)rotationMat.getColumn(2), pos);
+
+                int vertexCount = VegetationModel.getVertexArray().length / 3;
+                models = new float[vertexCount * 3];
+                modelsColors = new float[vertexCount * 4];
+
+                float scale = 2f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
+                float heightScale = 1.0f + ((new Random()).nextFloat() / 5f);
+
+                float rndColor = (new Random()).nextFloat() * 12f / 100f;
+
+                for (int i = 0; i < vertexCount; i++) {
+                    float x = VegetationModel.getVertexArray()[i*3 + 0] * scale;
+                    float y = VegetationModel.getVertexArray()[i*3 + 1] * scale * heightScale;
+                    float z = VegetationModel.getVertexArray()[i*3 + 2] * scale;
+                    float w = 1f;
+
+                    Vec4 col0 = translationMat.getColumn(0);
+                    Vec4 col1 = translationMat.getColumn(1);
+                    Vec4 col2 = translationMat.getColumn(2);
+                    Vec4 col3 = translationMat.getColumn(3);
+
+                    float newX = (col0.getX()*x + col1.getX()*y + col2.getX()*z + col3.getX()*w);
+                    float newY = (col0.getY()*x + col1.getY()*y + col2.getY()*z + col3.getY()*w);
+                    float newZ = (col0.getZ()*x + col1.getZ()*y + col2.getZ()*z + col3.getZ()*w);
+
+                    models[i*3 + 0] = newX;
+                    models[i*3 + 1] = newY;
+                    models[i*3 + 2] = newZ;
+
+                    modelsColors[i*4 + 0] = 0.32f + rndColor;
+                    modelsColors[i*4 + 1] = 0.57f + rndColor;
+                    modelsColors[i*4 + 2] = 0.11f + rndColor;
+                    modelsColors[i*4 + 3] = 1.0f;
+                }
+            }
 
 		} else  {
 			c1 = interpolate(WO.getGroundStart(), WO.getGroundEnd(), v1.getHeightNoise());
