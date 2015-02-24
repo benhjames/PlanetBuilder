@@ -121,10 +121,11 @@ class Triangle {
                 modelsColors = new float[vertexCount * 4];
 
                 float scale = 1f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
+                float heightScale = 1.0f + (new Random()).nextFloat();
 
                 for (int i = 0; i < vertexCount; i++) {
                     float x = StructureModel.getVertexArray()[i*3 + 0] * scale;
-                    float y = StructureModel.getVertexArray()[i*3 + 1] * scale;
+                    float y = StructureModel.getVertexArray()[i*3 + 1] * scale * heightScale;
                     float z = StructureModel.getVertexArray()[i*3 + 2] * scale;
                     float w = 1f;
 
