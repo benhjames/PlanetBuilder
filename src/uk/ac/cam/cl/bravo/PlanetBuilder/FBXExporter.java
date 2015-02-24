@@ -167,11 +167,6 @@ public class FBXExporter {
 				             "\t\tVertices: "
 		);
 
-		/*writer.write("1.000000,1.000000,-1.000000,1.000000,-1.000000,-1.000000,-1.000000,-1.000000,-1.000000,-1.000000,1.000000,-1.000000,1.000000,0.999999,1.000000,0.999999,-1.000001,1.000000,-1.000000,-1.000000,1.000000" +
-				             ",-1.000000,1.000000,1.000000\n");
-		writer.write("\t\tPolygonVertexIndex: ");
-		writer.write("0,1,2,-4,4,7,6,-6,0,4,5,-2,1,5,6,-3,2,6,7,-4,4,0,3,-8");*/
-
 		float[] vertices = World.getInstance().getSurfaceVertexArray();
 		for(int vertex = 0; vertex < vertices.length - 1; vertex++) {
 			writer.write(String.valueOf(vertices[vertex]) + ",");
@@ -199,18 +194,12 @@ public class FBXExporter {
 				             "\t\t\tReferenceInformationType: \"Direct\"\n" +
 				             "\t\t\tNormals: ");
 
-		/*writer.write("0.577349185943604,0.577349185943604,-0.577349185943604,0.577349185943604,-0.577349185943604,-0.577349185943604" +
-				             ",-0.577349185943604,-0.577349185943604,-0.577349185943604,-0.577349185943604,0.577349185943604,-0.577349185943604" +
-				             ",0.577349185943604,0.577349185943604,0.577349185943604,0.577349185943604,-0.577349185943604,0.577349185943604" +
-				             ",-0.577349185943604,-0.577349185943604,0.577349185943604,-0.577349185943604,0.577349185943604,0.577349185943604\n");
-*/
 		for(int vertex = 0; vertex < vertices.length - 3; vertex += 3) {
 			float vertexX = vertices[vertex];
 			float vertexY = vertices[vertex + 1];
 			float vertexZ = vertices[vertex + 2];
 			Vec3 vec = new Vec3(vertexX, vertexY, vertexZ);
 			vec = vec.getUnitVector();
-			//String vertexXFormatted = String.format("%-17s", String.valueOf(vertices)).replace(' ', '0');
 			writer.write(String.valueOf(vec.getX()) + "," + vec.getY() + "," + vec.getZ() + ",");
 		}
 
@@ -218,7 +207,7 @@ public class FBXExporter {
 		float vertexY = vertices[vertices.length - 2];
 		float vertexZ = vertices[vertices.length - 1];
 		Vec3 vec = new Vec3(vertexX, vertexY, vertexZ);
-		vec = vec.getUnitVector();
+		vec = vec.getUnitVector().multiply(-1.0f);
 		writer.write(String.valueOf(vec.getX()) + "," + vec.getY() + "," + vec.getZ() + "\n");
 
 		writer.write("\t\t}\n" +
@@ -228,12 +217,6 @@ public class FBXExporter {
 				             "\t\t\tMappingInformationType: \"ByPolygonVertex\"\n" +
 				             "\t\t\tReferenceInformationType: \"Direct\"\n" +
 				             "\t\t\tColors: ");
-
-		/*writer.write("1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1" +
-				             ",1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1" +
-				             ",1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1" +
-				             ",1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1,1.0000,1.0000,1.0000,1\n");
-		writer.write("ColorIndex: 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23\n");*/
 
 		float[] colors = World.getInstance().getSurfaceColorArray();
 		for(int color = 0; color < colors.length - 1; color++) {
@@ -292,7 +275,7 @@ public class FBXExporter {
 				             "\t\t}\n" +
 				             "\t\tNbPoseNodes: 1\n" +
 				             "\t\tPoseNode:  {\n" +
-				             "\t\t\tNode: \"Model::Cube\"\n" +
+				             "\t\t\tNode: \"Model::Planet\"\n" +
 				             "\t\t\tMatrix: 1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000\n" +
 				             "\t\t}\n" +
 				             "\t}\n" +
@@ -314,7 +297,7 @@ public class FBXExporter {
 				             ";------------------------------------------------------------------\n" +
 				             "\n" +
 				             "Relations:  {\n" +
-				             "\tModel: \"Model::Cube\", \"Mesh\" {\n" +
+				             "\tModel: \"Model::Planet\", \"Mesh\" {\n" +
 				             "\t}\n" +
 				             "\tModel: \"Model::Producer Perspective\", \"Camera\" {\n" +
 				             "\t}\n" +

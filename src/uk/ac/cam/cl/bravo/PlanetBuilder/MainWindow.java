@@ -330,11 +330,12 @@ public class MainWindow implements GLEventListener {
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[COLORS_IDX]);
 		gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
+		gl.glEnable(GL.GL_CULL_FACE);
+
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, planetVertexCount);
 
 		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glEnable(gl.GL_BLEND);
-		gl.glEnable(GL.GL_CULL_FACE);
 
 		gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[WATER_VERTICES_IDX]);
 		gl.glVertexAttribPointer(0, 3, GL3.GL_FLOAT, false, 0, 0);
