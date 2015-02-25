@@ -48,6 +48,7 @@ public class MainClass {
         }
 
         JPanel controls = new CommandAndControl();
+        controlWidth = controls.getWidth() + 10;
 
         window = new JFrame("PlanetBuilder");
         window.addWindowListener(new WindowAdapter() {
