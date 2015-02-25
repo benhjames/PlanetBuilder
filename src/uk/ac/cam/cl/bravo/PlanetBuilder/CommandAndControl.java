@@ -31,9 +31,9 @@ public class CommandAndControl extends JPanel {
     private JLabel settlementLabel;
     private static JSlider settlementSlider;
     private JLabel iterLabel;
-    private JSlider iterSlider;
+    private static JSlider iterSlider;
     private JLabel persLabel;
-    private JSlider persSlider;
+    private static JSlider persSlider;
     private JLabel ringsLabel;
     private static JCheckBox ringsCheck;
     private JLabel inhabitedLabel;
@@ -64,6 +64,8 @@ public class CommandAndControl extends JPanel {
         settlementSlider.setValue((int) WorldOptions.getInstance().getSettlementLevel());
         ringsCheck.setSelected(WorldOptions.getInstance().isPlanetRings());
         inhabitedCheck.setSelected(WorldOptions.getInstance().isInhabitants());
+        iterSlider.setValue(WorldOptions.getInstance().getIterations());
+        persSlider.setValue((int) (WorldOptions.getInstance().getPersistence() * 100));
     }
 
     private void drawInitialUI() {
