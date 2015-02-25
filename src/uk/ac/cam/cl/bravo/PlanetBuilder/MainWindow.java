@@ -384,6 +384,6 @@ public class MainWindow implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-
+		camera.setViewportAspectRatio((float)width / height);
 	}
 }

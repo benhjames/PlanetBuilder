@@ -20,7 +20,7 @@ public class MainClass {
     public static int windowWidth = 1366;
     public static int windowHeight = 768;
 
-    public static int controlWidth = 217;
+    public static int controlWidth = 250;
     public static int controlHeight = windowHeight;
 
 	public static int canvasWidth = windowWidth - controlWidth;
@@ -71,13 +71,17 @@ public class MainClass {
                                         }
                                     });
 
-                MainWindow mainWindow = new MainWindow();
+	    MainWindow mainWindow = new MainWindow();
 
 		KeyInput.setWindow(mainWindow);
         Leap.setWindow(mainWindow);
         canvas.addKeyListener(new KeyInput());
 
         canvas.addGLEventListener(mainWindow);
+
+	    while(!canvas.areAllGLEventListenerInitialized()) {
+			//Have to wait to initialise animator otherwise blank screens!
+	    }
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();
