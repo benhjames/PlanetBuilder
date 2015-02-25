@@ -59,13 +59,13 @@ public class MainClass {
                 System.exit(0);
             }
         });
-        window.setSize(windowWidth, windowHeight);
         window.getContentPane().add(canvas, BorderLayout.CENTER);
         window.getContentPane().add(controls, BorderLayout.EAST);
-        window.pack();
         controlWidth = controls.getWidth();
         window.setResizable(true);
         window.setVisible(true);
+        window.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        window.pack();
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
