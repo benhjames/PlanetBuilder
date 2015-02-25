@@ -20,7 +20,7 @@ public class MainClass {
     public static int windowWidth = 1366;
     public static int windowHeight = 768;
 
-    public static int controlWidth = 250;
+    public static int controlWidth = 200;
     public static int controlHeight = windowHeight;
 
 	public static int canvasWidth = windowWidth - controlWidth;
@@ -48,7 +48,7 @@ public class MainClass {
         }
 
         JPanel controls = new CommandAndControl();
-        controlWidth = controls.getWidth() + 10;
+
 
         window = new JFrame("PlanetBuilder");
         window.addWindowListener(new WindowAdapter() {
@@ -62,6 +62,7 @@ public class MainClass {
         window.getContentPane().add(canvas, BorderLayout.CENTER);
         window.getContentPane().add(controls, BorderLayout.EAST);
         window.pack();
+        controlWidth = controls.getWidth();
         window.setVisible(true);
         window.addComponentListener(new ComponentAdapter() {
                                         @Override
