@@ -26,6 +26,7 @@ public class Shader {
 
 		// Make the shader strings compatible with OpenGL 3 core if needed
 		if (gl.isGL3core()) {
+			System.out.println("GL3 core detected: explicit add #version 150 to shader");
 			shaderSource = "#version 150\n" + shaderSource;
 		}
 
