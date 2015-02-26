@@ -320,11 +320,11 @@ public class MainWindow implements GLEventListener {
         gl.glBindBuffer(GL.GL_ARRAY_BUFFER, vboHandles[MODELS_COLORS_IDX]);
         gl.glVertexAttribPointer(1, 4, GL3.GL_FLOAT, false, 0, 0);
 
-        gl.glDisable(GL.GL_CULL_FACE);
+        //gl.glDisable(GL.GL_CULL_FACE);
 
 		gl.glDrawArrays(GL3.GL_TRIANGLES, 0, modelsVertexCount);
 
-        gl.glEnable(GL.GL_CULL_FACE);
+        //gl.glEnable(GL.GL_CULL_FACE);
 		gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glEnable(gl.GL_BLEND);
 

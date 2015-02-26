@@ -200,7 +200,7 @@ class Triangle {
             models = new float[vertexCount * 3];
             modelsColors = new float[vertexCount * 4];
 
-            float scale = 1.5f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
+            float scale = 1f/(float)Math.pow(2f, GlobalOptions.getInstance().getDetailLevel() + 2f);
             float heightScale = 1.0f + ((new Random()).nextFloat() / 5f);
 
             float rndColor = (new Random()).nextFloat() * 12f / 100f;
