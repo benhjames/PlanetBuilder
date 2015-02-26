@@ -371,7 +371,7 @@ public class MainWindow implements GLEventListener {
 
 		if(WorldOptions.getInstance().isPlanetRings()) {
 			gl.glEnable(gl.GL_BLEND);
-			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC1_ALPHA);
+			gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
 			gl.glUseProgram(ringShaderProgram.getShaderProgramLocation());
 
 			ringShaderProgram.updateUniformMatrix4fv(drawable, "uniform_Camera", 1, false,
