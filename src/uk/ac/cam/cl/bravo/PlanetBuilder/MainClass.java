@@ -29,6 +29,7 @@ public class MainClass {
 
     public static void main(String[] args) {
         System.out.println("Planet Builder launched");
+        changeScreenResValues(args);
         //Prevents Linux locking crashes
         GLProfile.initSingleton();
         GLProfile glp = GLProfile.get(GLProfile.GL3);
@@ -61,7 +62,7 @@ public class MainClass {
         window.setResizable(false);
         window.getContentPane().add(canvas, BorderLayout.CENTER);
         window.getContentPane().add(controls, BorderLayout.EAST);
-        window.pack();
+        //window.pack();
         window.setVisible(true);
 
         MainWindow mainWindow = new MainWindow();
@@ -74,6 +75,17 @@ public class MainClass {
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 60);
 	    animator.start();
+    }
+
+    private static void changeScreenResValues(String[] args) {
+        if (args.length == 2) {
+            try {
+                windowWidth = Integer.parseInt(args[0]);
+                windowHeight = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                System.out.println("Resolution must be two integers");
+            }
+        }
     }
 
 }
