@@ -11,8 +11,6 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.awt.GLJPanel;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -35,7 +33,7 @@ public class MainClass {
         GLProfile.initSingleton();
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glc = new GLCapabilities(glp);
-        final GLCanvas canvas = new GLCanvas(glc);
+        GLCanvas canvas = new GLCanvas(glc);
         canvas.setSize(canvasWidth, canvasHeight);
 
         try {
@@ -59,31 +57,18 @@ public class MainClass {
                 System.exit(0);
             }
         });
+        window.setSize(windowWidth, windowHeight);
+        window.setResizable(false);
         window.getContentPane().add(canvas, BorderLayout.CENTER);
         window.getContentPane().add(controls, BorderLayout.EAST);
-        controlWidth = controls.getWidth();
-        window.setResizable(true);
-        window.setVisible(true);
-        window.setPreferredSize(new Dimension(windowWidth, windowHeight));
         window.pack();
-        window.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                int newWidth = window.getWidth();
-                canvas.setSize(newWidth - controlWidth, window.getHeight());
-            }
-        });
+        window.setVisible(true);
 
         MainWindow mainWindow = new MainWindow();
 
 		KeyInput.setWindow(mainWindow);
         Leap.setWindow(mainWindow);
         canvas.addKeyListener(new KeyInput());
-
-        while(!canvas.areAllGLEventListenerInitialized()) {
-            			//Have to wait to initialise animator otherwise blank screens!
-                    	    }
 
         canvas.addGLEventListener(mainWindow);
 
