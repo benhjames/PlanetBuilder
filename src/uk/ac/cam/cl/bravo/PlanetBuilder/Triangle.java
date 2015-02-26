@@ -245,15 +245,20 @@ class Triangle {
 
 
 	public void assignCloud(WorldOptions WO){
-		v1.updateHeight(WO, 1.5f);
-		v2.updateHeight(WO, 1.5f);
-		v3.updateHeight(WO, 1.5f);
+		v1.updateHeight(WO, 1.25f);
+		v2.updateHeight(WO, 1.25f);
+		v3.updateHeight(WO, 1.25f);
 
-		Color cloudColor = new Color(224, 255, 255, 127);
-		Color transparent = new Color(0, 0, 0, 0);
-		c1 = interpolate(cloudColor, transparent, v1.getClimateNoise() * CLIMATEFACTOR);
-		c2 = interpolate(cloudColor, transparent, v2.getClimateNoise() * CLIMATEFACTOR);
-		c3 = interpolate(cloudColor, transparent, v3.getClimateNoise() * CLIMATEFACTOR);
+        double n = 0.125 + (v1.getClimateNoise() + v2.getClimateNoise() + v3.getClimateNoise()) / 3 - 0.5;
+        if (n < 0) {
+            c1 = new Color(255, 255, 255, 127);
+            c2 = new Color(255, 255, 255, 127);
+            c3 = new Color(255, 255, 255, 127);
+        } else {
+            c1 = new Color(0, 0, 0, 0);
+            c2 = new Color(0, 0, 0, 0);
+            c3 = new Color(0, 0, 0, 0);
+        }
 	}
 
 	public void assignSea(WorldOptions WO){
