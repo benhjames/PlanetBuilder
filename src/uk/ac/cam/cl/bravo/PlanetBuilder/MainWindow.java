@@ -338,7 +338,7 @@ public class MainWindow implements GLEventListener {
 		waterShaderProgram.updateUniformMatrix4fv(drawable, "uniform_Camera", 1, false,
 				                                         planetMatrix.getBuffer().array(), 0);
 
-		time = time + (float)(currTime - prevTime) * 0.001f;
+		time = time + (float)(currTime - prevTime) * 0.0001f;
 		time = time % (float)(2.0f * Math.PI);
 		waterShaderProgram.updateUniform1f(drawable, "uniform_Time", time);
 
