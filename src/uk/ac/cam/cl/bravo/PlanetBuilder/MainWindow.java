@@ -356,7 +356,7 @@ public class MainWindow implements GLEventListener {
 
 		gl.glDisable(GL.GL_DEPTH_TEST);
 
-        //gl.glDrawArrays(GL3.GL_TRIANGLES, 0, cloudVertexCount);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, cloudVertexCount);
 
 		gl.glDisable(gl.GL_BLEND);
         gl.glEnable(GL.GL_DEPTH_TEST);
