@@ -47,7 +47,7 @@ public class CommandAndControl extends JPanel {
     private JButton exportWorld;
 
     public CommandAndControl() {
-        setSize(200, 768);
+        setSize(210, 768);
         drawInitialUI();
         refreshValues();
     }
