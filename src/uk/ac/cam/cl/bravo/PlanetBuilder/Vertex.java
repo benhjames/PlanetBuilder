@@ -12,9 +12,9 @@ class Vertex {
     private float x,y,z;
     private final float originalX, originalY, originalZ; 
 
-    private final double heightNoise;
+    private double heightNoise;
 
-    private final double climateNoise;
+    private double climateNoise;
 
     public Vertex(float x1, float y1, float z1) {
     	
@@ -53,6 +53,8 @@ class Vertex {
     }
 
     public void updateHeight(WorldOptions WO) {
+	    redoNoise();
+
     	float maxDifference = SURFACEVARIATION * WO.getTerrainFactor() / 100f;
         float newDistance = (float) ( maxDifference * heightNoise + (1f - maxDifference / 2f)) ;
 
@@ -71,6 +73,13 @@ class Vertex {
         z = originalZ * newDistance;
         
     }
+
+	public void redoNoise() {
+		heightNoise = Noise.fractal_noise(WorldOptions.getInstance().getPersistence(), WorldOptions.getInstance().getIterations(),
+				                                 originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.HeightSeed);
+		climateNoise = Noise.fractal_noise(WorldOptions.getInstance().getPersistence(), WorldOptions.getInstance().getIterations(),
+				                                  originalX, originalY, originalZ, TIME, WorldOptions.getInstance().getSeed() + Seeds.ClimateSeed);
+	}
 
 	public float getX() {
 		return x;

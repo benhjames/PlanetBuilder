@@ -34,7 +34,7 @@ public class WorldOptions implements Serializable {
 
     public void setIterations(int iterations) {
         this.iterations = iterations;
-        World.getInstance().initializeGlobal();
+        //World.getInstance().initializeGlobal();
         World.getInstance().finalizeWorld();
         MainWindow.updatePlanet();
     }
@@ -46,7 +46,7 @@ public class WorldOptions implements Serializable {
     public void setPersistence(double persistence) {
         if(persistence >= 0.0 && persistence <= 1.0)
             this.persistence = persistence;
-        World.getInstance().initializeGlobal();
+        //World.getInstance().initializeGlobal();
         World.getInstance().finalizeWorld();
         MainWindow.updatePlanet();
     }

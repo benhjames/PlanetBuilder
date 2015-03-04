@@ -354,9 +354,7 @@ public class CommandAndControl extends JPanel {
         iterSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
-                if (!iterSlider.getValueIsAdjusting()) {
-                    WorldOptions.getInstance().setIterations(iterSlider.getValue());
-                }
+                WorldOptions.getInstance().setIterations(iterSlider.getValue());
             }
         });
         c = new GridBagConstraints();
@@ -384,9 +382,7 @@ public class CommandAndControl extends JPanel {
         persSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
-                if(!persSlider.getValueIsAdjusting()) {
-                    WorldOptions.getInstance().setPersistence(persSlider.getValue() / 100.0);
-                }
+	            WorldOptions.getInstance().setPersistence(persSlider.getValue() / 100.0);
             }
         });
         c = new GridBagConstraints();
